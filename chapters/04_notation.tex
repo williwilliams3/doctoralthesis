@@ -1,0 +1,45 @@
+\chapter*{Notation}
+\addcontentsline{toc}{chapter}{Notation}
+This page collects the most important notation organized by topic. 
+
+\paragraph{Geometric Bayesian inference}
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{0.28\textwidth}p{0.68\textwidth}}
+$\boldsymbol{x}\in\mathbb{R}^{D}$, $p(\boldsymbol{x})$, $\ell(\boldsymbol{x})$ & Variable of interest, target density, and log-target density. \\
+$\hat{\boldsymbol{x}}$ & Mode or MAP estimate of the target. \\
+$\mathbf{G}(\boldsymbol{x})$ & Riemannian metric tensor. \\
+$\operatorname{Exp}_{\boldsymbol{x}}$, $\operatorname{Log}_{\boldsymbol{x}}$ & Exponential and logarithm maps induced by the metric. \\
+$\gamma_{\boldsymbol{x}, \boldsymbol{v}}(t)$ & Geodesic at time $t$ with initial conditions $\boldsymbol{x}, \boldsymbol{v}$ \\
+$p_{\mathcal{H}}(\boldsymbol{x})$ & Hausdorff density associated with the Riemannian volume. \\
+$\Gamma^k_{ij}(\boldsymbol{x})$ & Christoffel symbols of the second kind. \\
+\end{tabular}
+\end{center}
+
+\paragraph{Gaussian Processes}
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{0.28\textwidth}p{0.68\textwidth}}
+$\mathbf{f}(\cdot)\sim\mathcal{GP}(\mathbf{0},K_{\theta})$ & Latent Gaussian process prior with zero mean and kernel $K_{\theta}$. \\
+$\boldsymbol{\mu}_*$, $\boldsymbol{\Sigma}_*$ &  predictive mean, and predictive covariance in the GP model for point $\boldsymbol{x}_*$. \\
+$\sigma^2$ & Latent Gaussian noise variance. \\
+\end{tabular}
+\end{center}
+
+\newpage
+\paragraph{Latent constructions}
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{0.28\textwidth}p{0.68\textwidth}}
+$K$, $D:=K-1$ & Number of categories and corresponding latent dimension. \\
+$c_i, \boldsymbol{x}_i, \boldsymbol{z}_i$, $\boldsymbol{r}_i$ & Class label $c_i\in \{1,..,K\}$, point in open simplex, point in Euclidean space and regressor. \\
+$\Delta^{D}$, $\mathring{\Delta}^{D}$ & Closed simplex and open simplex. \\
+$\varphi$, $\varphi^{-1}$ & Bijection between the open simplex and Euclidean latent space. \\
+$\langle\cdot,\cdot\rangle_A$, $d_A(\cdot,\cdot)$ & Aitchison inner product and Aitchison distance on the simplex. \\
+$\mathcal{R}_k$ & Strict $\arg\max$ region associated with category $k$. \\
+$\boldsymbol{\pi}$, $\hat{\boldsymbol{\pi}}$ & True and estimated categorical probabilities. \\
+$\lambda$, $\alpha$ & Interpolation weight and Dirichlet noise parameter. \\
+$\boldsymbol{\mu}^{(k)}$, $\boldsymbol{m}^{(k)}=\varphi(\boldsymbol{\mu}^{(k)})$ & Simplex and latent Euclidean representatives of class $k$. \\
+$p_0,p_1,p_t$, $\boldsymbol{u}_t$, $\boldsymbol{v}_t^{\theta}$ & Base, data, and intermediate distributions; the target and learned velocity fields in flow matching. \\
+\end{tabular}
+\end{center}

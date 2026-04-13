@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+._*
+
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.fmt
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.xdv
+
+# LaTeXmk and bibliography extras
+*.dvi
+*.ps
+
+# Editor-specific LaTeX temporary files
+*.synctex(busy)

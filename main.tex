@@ -1,0 +1,129 @@
+\documentclass[officiallayout]{tktla} 
+%\documentclass[officiallayout,a4frame]{tktla}
+\usepackage[latin1]{inputenc}
+\usepackage{latexsym}
+\usepackage{graphicx}
+
+% my packages
+\usepackage{natbib}
+\usepackage{bibentry}
+\nobibliography*  
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{physics}
+\usepackage{cancel}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{dsfont}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{arydshln}
+\usepackage{tikz}[angles, quotes]
+\usetikzlibrary{shapes.geometric}
+\usepackage[most]{tcolorbox}
+\usepackage{empheq}
+
+\input{commands.tex}
+
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{observation}{Observation}
+ 
+
+
+\tcbset{
+  thesisstatement/.style={
+    colback=gray!10,     % background color
+      colframe=black!60,   % border color
+      arc=4pt,             % rounded corners
+      boxrule=0.8pt,       % border thickness
+      left=6pt, right=6pt, top=6pt, bottom=6pt
+  }
+}
+
+
+
+\tcolorboxenvironment{theorem}{thesisstatement}
+\tcolorboxenvironment{proposition}{thesisstatement}
+\tcolorboxenvironment{observation}{thesisstatement}
+\tcolorboxenvironment{lemma}{thesisstatement}
+
+
+\definecolor{mycolor}{RGB}{180, 40, 40}
+
+
+
+\title{Geometric Methods for Bayesian Inference and Modeling Discrete Data}
+\author{Bernardo Williams}
+\authorcontact{bernardo.williamsmoreno@helsinki.fi
+% \par http://cs.helsinki.fi/John.Smith/
+}
+\pubtime{August}{2026}
+\reportno{0}
+\isbnpaperback{000-00-0000-0}
+\isbnpdf{000-00-0000-0}
+\issn{1238-8645}
+\issnonline{2814-4031}
+\printhouse{Unigrafia}
+\pubpages{7} % --- remember to update this! 
+% For monographs, the number of the last page of the list of references
+% For article-based theses, the number of the last page of the list of
+% references of the preamble part + the total number of the pages of
+% the original articles and interleaf pages.
+\supervisorlist{Arto Klami and Marcelo Hartmann, University of Helsinki, Finland}
+\preexaminera{Eva Johnson, University of Edinburgh, United Kingdom}
+\preexaminerb{Matti Suomalainen, University of Turku, Finland}
+\opponent{John Smithe, University of Amsterdam, The Netherlands}
+\custos{Arto Klami, University of Helsinki, Finland}
+\generalterms{Machine learning, Bayesian inference, generative models}
+\additionalkeywords{Laplace approximation, Markov chain Monte Carlo, flow models, Gaussian process}
+% Computing Reviews 1998 style
+%\crcshort{A.0, C.0.0}
+%\crclong{
+%\item[A.0] Example Category
+%\item[C.0.0] Another Example
+%}
+% Computing Reviews 2012 style
+\crclong{
+\item Mathematics of computing $\rightarrow$ Probability and statistics $\rightarrow$ Probabilistic inference problems $\rightarrow$ Bayesian computation
+\item Computing methodologies $\rightarrow$ Machine learning $\rightarrow$ Learning paradigms $\rightarrow$ Supervised learning
+}
+
+\permissionnotice{
+  Doctoral dissertation, to be presented for public examination with 
+  the permission of the Faculty of Science of the University of
+  Helsinki in \ldots{} on \ldots{} at XX o'clock. Fill in the examination
+  venue, date and time into the previous sentence.
+}
+
+
+
+\begin{document}
+
+\frontmatter
+
+\maketitle
+
+\input{chapters/00_abstract.tex}
+\input{chapters/01_acknowledgements.tex}
+
+\tableofcontents
+
+\mainmatter
+
+\input{chapters/02_publications.tex}
+\input{chapters/03_introduction.tex}
+\input{chapters/04_notation.tex}
+\input{chapters/05_background.tex}
+\input{chapters/06_geometric_bayesian_inference.tex}
+\input{chapters/07_geometric_modeling_discrete_data.tex}
+\input{chapters/08_conclusion.tex}
+
+\bibliographystyle{plainnat}
+\bibliography{bibtex}
+
+\end{document}

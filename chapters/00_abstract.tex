@@ -1,0 +1,11 @@
+\begin{abstract}
+  
+This thesis studies how geometry can be used to improve methods for approximate Bayesian inference and for modeling discrete data. In both cases the statistical object is naturally non-Euclidean, but many practical methods assume a flat space structure. This thesis asks when geometry-aware modeling leads to more accurate, and in some cases, simpler methods. It also explores what computational tradeoffs such approaches might introduce. 
+
+The first part studies Bayesian inference. We consider Riemannian Laplace approximation and geometric Markov chain Monte Carlo methods for posterior distributions with strong curvature and multimodality. The results show that geometry-aware sampling improves the sample quality, but the metric that defines the geometry, must be chosen carefully. Metrics that better capture the geometry of the target space tend to be more accurate, while computationally efficient alternatives improve scalability at the cost of reduced accuracy. 
+
+The second part studies discrete data modeling, through inference of distributions on the probability simplex. We develop methodologies that rely on simplex-to-Euclidean bijections and stochastic interpolations. These bijections map the discrete data to continuous unbounded latent representations, while the interpolations allow for faithful recovery of the original categories. This construction allows the use of Euclidean modeling tools for generation and classification. In particular we develop simplex-to-Euclidean flow matching for discrete data generation and a multiclass Gaussian Process classifier that has exact latent inference. 
+
+Throughout the thesis the main finding is that geometry-aware modeling can improve statistical performance. In Bayesian inference it gives accurate samples in curved and multimodal distributions, and in discrete data modeling, it simplifies the methodology by connecting to latent continuous representations.   
+
+\end{abstract}

@@ -1,0 +1,40 @@
+\chapter{Introduction}
+This thesis studies geometric methods for two core tasks in modern machine learning: Bayesian inference and modeling of discrete data.  In both cases we start with a probabilistic model whose unknown parameters are estimated in a principled way. In Bayesian inference \citep{gelman1995bayesian}, knowledge is given as a prior distribution, which  is updated with the observed data, resulting in a posterior distribution through Bayes' rule. In a few special cases the posterior distribution is analytically tractable, that is, the model is conjugate, and inference of the parameters reduces to drawing samples from this distribution. In most models, however, the distribution is intractable and we rely on approximate inference techniques to estimate the parameters. 
+
+At the same time, modern machine learning places emphasis on generative modeling, where the objective is to use the available data  to estimate the unknown parameters and then draw new  samples from the fitted model. A common technique is modeling the transport map from a simple base distribution (e.g. Gaussian) to the data distribution \citep{Lipman2023,Albergo2023, liu2023flow}. The task of generation becomes drawing samples from the simple base and transporting them to the approximate data distribution with the inferred model. This strategy is naturally defined for continuous data, but it can also be applied to discrete data through continuous relaxations, provided we have a reliable way to map generated points back to discrete outcomes.
+
+
+This thesis studies a common theme between these settings: geometry \citep{Lee2018,amari2000methods}. Many methods assume Euclidean geometry even when the statistical object is naturally non-Euclidean \citep{Girolami2011}. Posterior distributions can have strong local curvature or multiple separated modes \citep{Lan2014}. Discrete probability vectors lie on the simplex, which has its own intrinsic geometry \citep{Aitchison1986}. Ignoring this structure often leads to methods that are simple but inaccurate.
+
+Riemannian geometry \citep{Lee2018} provides tools to encode local structure through a metric and to build algorithms that adhere to it. The metric choice introduces a tradeoff: richer geometry can improve statistical behavior while increasing computational cost. For practical methods, geometry must therefore be chosen not only for faithfulness to the target distribution, but also for computational efficiency and tractability. 
+
+In Bayesian inference, let us consider the problem of sampling from curved unimodal posterior distributions. \citet{Girolami2011} propose adapting to the posterior geometry by using the Fisher information metric. The problem is that the metric is expensive to compute, it differs from one problem to another, and it is intractable for some distributions. Alternatively, metrics based on the geometry of the posterior graph \citep{Hartmann2022, hartmann:2023} can be computationally cheaper but are not completely faithful to the underlying geometry. Paper~I studies the balance between these two metric choices. An adjacent problem is multimodal sampling. While geometry-aware samplers can improve exploration of strongly curved targets, their application to multimodal targets is less developed than tempering and diffusion based variants \citep{Lan2014, Latuszynski2025}. Paper~II offers a new sampling strategy and metric choice for curved and multimodal targets. In general non-Euclidean metrics lead to methods with higher computational complexity. In Bayesian inference, the choice of metric is a modeling decision (curved and/or multimodal) and a computational one. 
+
+In modeling discrete data, geometry naturally arises \citep{fisher1925theory, Aitchison1986}. The simplex is a compact convex subset of $\mathbb{R}^{K}$  defined by non-negative components that sum up to one. This space can be given the Fisher information geometry of the categorical distribution, but this approach implicitly models distributions on a compact space. Since much work has been done on Euclidean space, a bijection that respects the geometry of the simplex and connects to Euclidean space eases modeling. The log-ratio geometry between the elements is known as Aitchison geometry and provides simplex-to-Euclidean bijections. These maps allow for generative modeling and classification in the simplex via a latent Euclidean representation. The log-ratios are defined in the interior of the simplex, so we develop stochastic interpolations that convert discrete data to open simplex distributions. In Bayesian classification the posterior distribution is usually intractable, but the Aitchison geometry makes it possible to fit a conjugate model in the latent space. Papers~III and~IV focus on generative modeling and classification respectively. 
+
+
+The following questions summarize the high level themes of the dissertation:
+\begin{enumerate}
+    \item How can the geometric structure of the target density be used to improve approximate Bayesian inference?
+    \item How can geometry-aware sampling methods better handle targets with both strong curvature and multimodality?
+    \item How can the simplex geometry be connected to Euclidean representations for modeling discrete data?
+    \item Can the Aitchison geometry enable simpler and exact inference procedures in multiclass-classification?
+\end{enumerate}
+
+
+The aim of the thesis is to advance geometric methods both in the context of approximate Bayesian inference and modeling discrete data, by developing methods that use geometry in novel ways. Concretely, the Bayesian inference part studies geometry-aware posterior approximation and sampling through Riemannian Laplace approximation (Paper I) and geodesic slice sampling (Paper~II). The discrete-modeling part studies simplex-to-Euclidean bijections and stochastic interpolations for discrete generation (Paper~III) and conjugate multiclass Gaussian process classification (Paper IV).
+
+
+The dissertation is organized as follows. Chapter~\ref{ch:background} provides the background that is necessary for our contributions. The core content is then divided into two main blocks. 
+The first block (Chapter~\ref{ch:mcmc}) focuses on Bayesian inference, studying geometric improvements for posterior approximation and sampling. The second block (Chapter~\ref{ch:simplex}) focuses on modeling discrete data, using the simplex geometry to build methods that connect naturally to Euclidean tools. Across both parts, the main objective is the same: efficient geometric modeling that improves statistical performance.
+
+
+\section{Summary of the contributions} 
+This thesis makes the following methodological contributions:
+\begin{itemize}
+    \item The thesis proposes modifying the choice of the Riemannian metric tensor in two Bayesian inference methods: Riemannian Laplace approximation ({Paper I}) and geodesic slice sampler ({Paper II}).
+    \item  The Riemannian Laplace approximation with the Monge metric has an inherent bias on Gaussian targets, {Paper I} proposes two techniques to correct the bias: (i) using the logarithm map, and (ii) using the Fisher information as the metric tensor.
+    \item {Paper II} adapts the geodesic slice sampler, which was previously used for manifolds with closed form geodesics, to target distributions defined on Euclidean space.  It also proposes new Riemannian metrics constructed from the target density for multimodal sampling. 
+    \item The thesis proposes using simplex-to-Euclidean bijections and stochastic interpolations for modeling discrete data in Euclidean space instead of the simplex. Two different problems are studied: discrete data generation ({Paper III}) and  Gaussian process classification ({Paper IV}).     
+    \item Based on the Euclidean representations, the thesis proposes using general purpose latent Euclidean models for discrete data, including flow-based generative models (Paper III) and Gaussian process regression models for classification (Paper IV).
+    \end{itemize}

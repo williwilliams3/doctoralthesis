@@ -6,7 +6,8 @@ This page collects the most important notation organized by topic.
 \begin{center}
 \renewcommand{\arraystretch}{1.15}
 \begin{tabular}{p{0.28\textwidth}p{0.68\textwidth}}
-$\boldsymbol{x}\in\mathbb{R}^{D}$, $p(\boldsymbol{x})$, $\ell(\boldsymbol{x})$ & Variable of interest, target density, and log-target density. \\
+$\boldsymbol{x}\in\mathbb{R}^{D}$, $p(\boldsymbol{x})$,  & Variable of interest and target density. \\
+$\ell(\boldsymbol{x}):=\log p(\boldsymbol{x})$ & Log-target density.\\
 $\hat{\boldsymbol{x}}$ & Mode or MAP estimate of the target. \\
 $\mathbf{G}(\boldsymbol{x})$ & Riemannian metric tensor. \\
 $\operatorname{Exp}_{\boldsymbol{x}}$, $\operatorname{Log}_{\boldsymbol{x}}$ & Exponential and logarithm maps induced by the metric. \\
@@ -40,6 +41,7 @@ $\mathcal{R}_k$ & Strict $\arg\max$ region associated with category $k$. \\
 $\boldsymbol{\pi}$, $\hat{\boldsymbol{\pi}}$ & True and estimated categorical probabilities. \\
 $\lambda$, $\alpha$ & Interpolation weight and Dirichlet noise parameter. \\
 $\boldsymbol{\mu}^{(k)}$, $\boldsymbol{m}^{(k)}=\varphi(\boldsymbol{\mu}^{(k)})$ & Simplex and latent Euclidean representatives of class $k$. \\
-$p_0,p_1,p_t$, $\boldsymbol{u}_t$, $\boldsymbol{v}_t^{\theta}$ & Base, data, and intermediate distributions; the target and learned velocity fields in flow matching. \\
+$p_0,p_1,p_t$ & Base distribution, data distribution, and marginal distribution at time $t$. \\
+$\boldsymbol{u}_t(\cdot|\boldsymbol{z})$, $\boldsymbol{v}_t^{\theta}(\cdot)$ & Target conditional velocity field and parametric velocity field.  
 \end{tabular}
 \end{center}

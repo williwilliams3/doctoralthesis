@@ -5,7 +5,7 @@ In this chapter we propose using the Aitchison geometry of the simplex space for
 We first introduce the Aitchison geometry and the simplex-to-Euclidean bijections that are used through the chapter. We then present stochastic interpolations that move discrete data from the boundary of the simplex to the interior, and provide theoretical guarantees for the recovery of the original discrete values. In the interior of the space we can use the bijections for modeling continuously in Euclidean coordinates, making the modeling compatible with Euclidean continuous methods. These ingredients are combined in two case studies: Simplex-to-Euclidean Flow Matching for generation of discrete data and Isometric Logratio Gaussian Processes for multiclass classification.
 
 
-\paragraph{Motivation} We find that the Aitchison geometry provides a simplex-aware representation that, combined with the stochastic interpolations, connects discrete modeling to known Euclidean solutions. This makes existing Euclidean methods applicable to these tasks (generation and classification), providing a unified modeling framework that is exact and compatible with state-of-the-art Euclidean models while respecting the geometry of log proportions.
+\paragraph{Motivation} We find that the Aitchison geometry provides for the  simplex, a geometry-aware representation that, combined with the stochastic interpolations, connects discrete modeling to known Euclidean methods. This makes existing Euclidean methods applicable to these tasks (generation and classification), providing a unified modeling framework that is exact and compatible with state-of-the-art Euclidean models while respecting the geometry of log proportions.
 
 \section{Simplex-to-Euclidean Bijections}
 
@@ -21,8 +21,8 @@ The simplex and the open simplex are defined as
     \Delta^{D}:=\{\boldsymbol{x}\in\mathbb{R}_{\ge 0}^{K}:\;\sum_{k=1}^{K}x_k=1\}, \quad 
     \mathring{\Delta}^{D}:=\{\boldsymbol{x}\in\mathbb{R}_{> 0}^{K}:\;\sum_{k=1}^{K}x_k=1\},
 \end{equation*}
-where only $D=K-1$ components are free, since one arbitrary component (for example the last one) is determined by the others $x_K = 1-\sum_{d=1}^D x_d$.
-The usual Euclidean operators are not closed on the simplex, for example the Euclidean sum of two vectors can fall outside the space. For this reason, \cite{Aitchison1986} defines perturbation (vector addition) and powering (scalar multiplication) that make the simplex a vector space. It is useful to define the normalization operation $\mathcal{C}(\boldsymbol{x}) := \boldsymbol{x}/\sum_{k=1}^{K} x_k$. Let $\boldsymbol{x}, \boldsymbol{y}\in\mathring\Delta^D$ and $\lambda\in \mathbb{R}$, define
+where only $D=K-1$ components are free, since one arbitrary component (for example the last one) is determined by the others as $x_K = 1-\sum_{d=1}^D x_d$.
+The usual Euclidean operators are not closed on the simplex, for example the Euclidean sum of two vectors can fall outside the space. For this reason, \cite{Aitchison1986} defines perturbation (vector addition) and powering (scalar multiplication) that make the simplex a vector space. Define the normalization operation $\mathcal{C}(\boldsymbol{x}) := \boldsymbol{x}/\sum_{k=1}^{K} x_k$. For $\boldsymbol{x}, \boldsymbol{y}\in\mathring\Delta^D$ and $\lambda\in \mathbb{R}$, define
 \begin{align*}
 \text{Perturbation} \quad
 &\boldsymbol{x} \oplus \boldsymbol{y}
@@ -34,7 +34,7 @@ The usual Euclidean operators are not closed on the simplex, for example the Euc
 Under these operations, $(\mathring\Delta^D, \oplus, \odot)$ is a vector space and the neutral element  is $\tfrac{1}{K}\boldsymbol{1}$ since $\boldsymbol x \oplus (\tfrac{1}{K}\boldsymbol{1}) = \boldsymbol x$. The vector space is an inner product space when given the Aitchison inner product defined as
 \begin{equation*}
 \langle \boldsymbol{x}, \boldsymbol{y} \rangle_A := \frac{1}{2K} \sum_{i,j=1}^{K} 
-\log\frac{x_i}{x_j}\log\frac{y_i}{y_j},
+\log\frac{x_i}{x_j}\log\frac{y_i}{y_j}.
 \end{equation*}
 The norm of a vector is $\|\boldsymbol{x}\|_A = \sqrt{\langle \boldsymbol{x}, \boldsymbol{x} \rangle_A}$. The distance between two compositions is 
 \begin{equation*}
@@ -152,8 +152,7 @@ y_k = z_k + \log\!\left(\frac{1}{K - k}\right).
 Unlike ILR, stick-breaking remains order-dependent and is not an isometry, but it is simple, numerically stable, and widely used in probabilistic modeling \citep{Carpenter2017}.
 
 \subsection{Simplex stochastic interpolations}
-The Aitchison geometry is defined  on the open simplex, but discrete observations lie on the boundary of the space. We therefore construct stochastic interpolations that move discrete labels into the interior during modeling while still allowing us to recover the original categories afterwards.
-
+The Aitchison geometry is defined  on the open simplex, but discrete observations lie on the boundary of the space. We therefore construct stochastic interpolations that move discrete labels into the interior during modeling while still allowing us to recover the original categories afterwards. Dirichlet based Gaussian process classification presented in Section~\ref{sec:gp}, use a deterministic interpolation in the simplex on the parameters of the Dirichlet distribution of the form $\lambda \boldsymbol{e}_k + (1-\lambda) \tfrac{1}{K}\boldsymbol 1$, for $\lambda\in (0,1)$. 
 
 \paragraph{Dirichlet interpolation}
 We first construct stochastic interpolations where the noise process is distributed in the simplex itself. Define the distinct $\arg\max$ regions
@@ -334,7 +333,7 @@ This experiment considers checkerboard data projected to the open simplex. The d
 
 \paragraph{Language generation}
 We consider the Text8 dataset \citep{Mahoney2011}, which consists of $K=27$ categories: $26$ letters and the space character, split into random chunks of size $256$. This task illustrates the full discrete-data setting, and we rely on Dirichlet interpolation to move the data to the open simplex, followed by a Euclidean flow model in latent coordinates. We use an auto-regressive model to evaluate the NLL and compute the entropy \citep{Wang2021}; the NLL should be low and the entropy over generated data should be close to the entropy of the test data.
-Table~\ref{tab:text8} shows the NLL, entropy, and difference in entropy. It shows that our method is the most competitive among the continuous approaches and improves over LinearFM and SFM. However, the best overall result is obtained by the discrete-state diffusion model SEDD \citep{Lou2024}. SEDD is a discrete diffusion model that operates directly in the discrete space. At the time of the development of our method there was still a gap between latent continuous models and discrete diffusion models. The result is that Simplex-to-Euclidean Flow Matching is a strong continuous baseline, even if it does not fully close the gap to the best discrete-state models.
+Table~\ref{tab:text8} shows the NLL, entropy, and difference in entropy. It shows that our method is the most competitive among the continuous approaches and improves over LinearFM and SFM. However, the best overall result is obtained by the discrete-state diffusion model SEDD \citep{Lou2024}. SEDD is a discrete diffusion model that operates directly in the discrete space. At the time of submission of our method there was still a gap between latent continuous models and discrete diffusion models, which has been closing recently \citep{lee2026one}. The outcome is that Simplex-to-Euclidean Flow Matching is a strong continuous baseline, even if it does not fully close the gap to the best discrete-state models.
 
 \begin{figure}
     \centering

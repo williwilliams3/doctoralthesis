@@ -30,3 +30,6 @@
 
 # Editor-specific LaTeX temporary files
 *.synctex(busy)
+
+# Output file
+main.pdf

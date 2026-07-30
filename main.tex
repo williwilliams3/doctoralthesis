@@ -6,6 +6,7 @@
 
 % my packages
 \usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
 \usepackage{bibentry}
 \nobibliography*  
 \usepackage{enumitem}
@@ -25,6 +26,10 @@
 \usepackage[most]{tcolorbox}
 \usepackage{empheq}
 \usepackage[export]{adjustbox}
+
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
 
 \input{commands.tex}
 
@@ -63,14 +68,14 @@
 \authorcontact{bernardo.williamsmoreno@helsinki.fi
 % \par http://cs.helsinki.fi/John.Smith/
 }
-\pubtime{August}{2026}
+\pubtime{September}{2026}
 \reportno{0}
 \isbnpaperback{000-00-0000-0}
 \isbnpdf{000-00-0000-0}
 \issn{1238-8645}
 \issnonline{2814-4031}
 \printhouse{Unigrafia}
-\pubpages{7} % --- remember to update this! 
+\pubpages{75 + 99} % --- remember to update this! 
 % For monographs, the number of the last page of the list of references
 % For article-based theses, the number of the last page of the list of
 % references of the preamble part + the total number of the pages of
@@ -81,13 +86,13 @@ $\hspace{1.0em}$ Marcelo Hartmann, University of Helsinki, Finland
 }
 
 
-\preexaminera{}
-\preexaminerb{}
-\opponent{}
-\custos{}
-%Arto Klami, University of Helsinki, Finland}
+\preexaminera{Martin Trapp, KTH Royal Institute of Technology, Sweden}
+\preexaminerb{Alice Le Brigant, University Paris 1 Pantheon Sorbonne, France }
+\opponent{Martin Trapp, KTH Royal Institute of Technology, Sweden}
+\custos{Arto Klami, University of Helsinki, Finland}
 \generalterms{Machine learning, Bayesian inference, generative models}
 \additionalkeywords{Laplace approximation, Markov chain Monte Carlo, flow models, Gaussian process}
+
 
 \crclong{
 \item Mathematics of computing $\rightarrow$ Probability and statistics $\rightarrow$ Probabilistic inference problems $\rightarrow$ Bayesian computation
@@ -97,8 +102,7 @@ $\hspace{1.0em}$ Marcelo Hartmann, University of Helsinki, Finland
 \permissionnotice{
   Doctoral dissertation, to be presented for public examination with 
   the permission of the Faculty of Science of the University of
-  Helsinki in \ldots{} on \ldots{} at XX o'clock. Fill in the examination
-  venue, date and time into the previous sentence.
+  Helsinki in \ldots{} on September 18 at 13 o'clock. 
 }
 
 
@@ -114,11 +118,12 @@ $\hspace{1.0em}$ Marcelo Hartmann, University of Helsinki, Finland
 
 \tableofcontents
 
+\input{chapters/02_publications.tex}
+\input{chapters/03_notation.tex}
+
 \mainmatter
 
-\input{chapters/02_publications.tex}
-\input{chapters/03_introduction.tex}
-\input{chapters/04_notation.tex}
+\input{chapters/04_introduction.tex}
 \input{chapters/05_background.tex}
 \input{chapters/06_geometric_bayesian_inference.tex}
 \input{chapters/07_geometric_modeling_discrete_data.tex}

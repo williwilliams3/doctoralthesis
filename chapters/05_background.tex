@@ -5,21 +5,21 @@
 This chapter introduces the background needed for the methods developed in Chapters~\ref{ch:mcmc} and \ref{ch:simplex}.  We start by giving a brief introduction to Riemannian geometry, then introducing methods for approximate Bayesian inference and finally approaches for modeling discrete data. 
 
 \section{Basic notions in Riemannian Geometry} \label{sec:riemannian_background}
-For a formal and rigorous introduction to Riemannian geometry we refer the reader to \citet{do1992riemannian,Lee2018}. Here we introduce the only the concepts needed later in the thesis, under simplified settings that cover our examples. We consider manifolds that admit a global chart, or are  smooth embedded submanifolds of Euclidean space. This allows us to write the coordinates globally, and avoid dealing with local coordinates patches. When the space has a boundary (e.g. the simplex) we consider the differential geometric objects only on the interior of the space. 
+For a formal and rigorous introduction to Riemannian geometry we refer the reader to \citet{do1992riemannian,Lee2018}. Here we introduce the only the concepts needed later in the thesis, under simplified settings that cover our examples. We consider manifolds that admit a global chart, a subset of which are  smooth embedded submanifolds of Euclidean space. This allows us to write the coordinates globally, and avoid dealing with local coordinates patches. When the space has a boundary (e.g. the simplex) we consider the differential geometric objects only on the interior of the space. 
 
 \subsection{Riemannian manifolds}
 
 \paragraph{Manifolds and tangent spaces}
 A smooth $D$-dimensional manifold $\mathcal{M}$ is a topological space that is
-locally diffeomorphic to $\mathbb{R}^D$. For simplicity, we assume that
+locally diffeomorphic to $\mathbb{R}^D$. For the manifolds we consider, we assume that
 $\mathcal{M}$ admits a global chart $\varphi:\mathcal{M}\to U\subseteq\mathbb{R}^D$
 with inverse $\psi=\varphi^{-1}$. For $\boldsymbol{x} \in \mathcal{M}$, we denote its coordinates by
 $\boldsymbol{z} =  \varphi(\boldsymbol{x}) \in U$, where $z^j:\mathcal{M}\to\mathbb{R}$
 denotes the $j$-th coordinate function, i.e.\ $\varphi(\boldsymbol{x}) = (z^1(\boldsymbol{x}),\dots,z^D(\boldsymbol{x}))$.
 The tangent space $T_{\boldsymbol{x}}\mathcal{M}$ is the vector space of velocities
 of smooth curves that pass through $\boldsymbol{x}$. If
-$\gamma:(-\varepsilon,\varepsilon)\to \mathcal{M}$ is a smooth curve with
-$\gamma(0)=\boldsymbol{x}$, let $\boldsymbol z(t)=\varphi(\gamma(t))$. Then
+$\gamma:(-\varepsilon,\varepsilon)\to \mathcal{M}$, for some $\varepsilon>0$, is a smooth curve with
+$\gamma(0)=\boldsymbol{x}$, define $\boldsymbol z(t):=\varphi(\gamma(t))$. Then
 $\gamma(t)=\psi(\boldsymbol z(t))$, and by the chain rule
 \[
 \dot\gamma(0)
@@ -37,11 +37,11 @@ where $\frac{\partial}{\partial z^i}
 =\frac{\partial z^j  }{\partial z^i} 
 =\delta_i^j,
 \]
-which implies linear independence, so they form a basis of $T_{\boldsymbol x}\mathcal M$.
+which implies linear independence, so $\left\{\frac{\partial}{\partial z^i}\right\}_{i=1}^D$ form a basis of $T_{\boldsymbol x}\mathcal M$.
 
 
 \paragraph{Riemannian metric}
-If two tangent vectors  $\boldsymbol{u},\boldsymbol{v}\in T_{\boldsymbol{x}}\mathcal{M}$, we write $\boldsymbol{u}=\sum_{i=1}^D u^i \frac{\partial}{\partial z^i},
+For two tangent vectors  $\boldsymbol{u},\boldsymbol{v}\in T_{\boldsymbol{x}}\mathcal{M}$, we write $\boldsymbol{u}=\sum_{i=1}^D u^i \frac{\partial}{\partial z^i},
 \boldsymbol{v}=\sum_{i=1}^D v^i \frac{\partial}{\partial z^i}.$
 The Riemannian metric defines for each $\boldsymbol{x}\in\mathcal{M}$ an inner product on the tangent space $g:T_{\boldsymbol{x}}\mathcal{M} \times T_{\boldsymbol{x}}\mathcal{M} \to \mathbb{R}$.
 We represent it with a symmetric positive define matrix $\mathbf{G}(\boldsymbol{x})$ 
@@ -58,7 +58,7 @@ $\boldsymbol{v}=(v^1,\dots,v^D)^\top$ denote the vector components.
 This metric defines lengths of tangent vectors, lengths of curves, angles, and geodesic distance. A manifold endowed with a metric tensor is called a \emph{Riemannian manifold} and denoted by $(\mathcal{M}, g)$.
 
 \paragraph{Embedded manifolds and the pullback metric}
-Some of the manifolds we consider are smooth embedded submanifolds of  $\mathbb{R}^K$. Let $\psi:U\subseteq\mathbb{R}^D\to \mathbb{R}^K$ be a smooth embedding and let $\mathcal{M}=\psi(U)$
+Some of the mani-folds we consider are smooth embedded submanifolds of  $\mathbb{R}^K$, where $K\geq D$. Let $\psi:U\subseteq\mathbb{R}^D\to \mathbb{R}^K$ be a smooth embedding and let $\mathcal{M}=\psi(U)$.
 Then, for $\boldsymbol{x} = \psi(\boldsymbol{z})\in \mathcal{M}$, the tangent space is
 \begin{equation*}
 T_{\boldsymbol{x}}\mathcal{M}
@@ -83,7 +83,7 @@ In coordinates $\boldsymbol{z}\in U$, this induced metric is represented by the 
 =
 \mathbf{J}_{\psi}(\boldsymbol{z})^\top \mathbf{J}_{\psi}(\boldsymbol{z}).
 \end{equation*}
-Let us consider a classic example. The graph of a smooth function $f:\mathbb{R}^D\to\mathbb{R}$ is:
+Let us consider a classic example. The graph of a smooth function $f:\mathbb{R}^D\to\mathbb{R}$ is
 \begin{equation*}
 \mathcal{G}_f
 :=
@@ -165,7 +165,7 @@ We use the notation $\partial_i := \partial/\partial z^i$. If $\boldsymbol{V}=\s
 \sum_{i,j=1}^D \Gamma_{ij}^{k} u^i V^j
 \right)\partial_k,
 \end{equation*}
-where the Christoffel symbols of the second kind 
+where $\Gamma^k_{ij}$ are the Christoffel symbols of the second kind 
 \begin{equation} \label{eq:christoffel_symbols}
 \Gamma^k_{ij}(\boldsymbol{x})
 =
@@ -180,7 +180,7 @@ where the Christoffel symbols of the second kind
 
 
 \paragraph{Exponential map} 
-A geodesic $\gamma$ has vanishing covariant acceleration, $\nabla^{\mathbf{G}}_{\dot{\gamma}(t)}\dot{\gamma}(t)=0$, this condition gives the following differential equation:
+A geodesic $\gamma$ has vanishing covariant acceleration, $\nabla^{\mathbf{G}}_{\dot{\gamma}(t)}\dot{\gamma}(t)=0$, this condition gives the following differential equation
 \begin{equation}
 \ddot{\gamma}^{k}(t)
 +
@@ -196,7 +196,7 @@ For $\boldsymbol{x}\in\mathcal{M}$ and $\boldsymbol{v}\in T_{\boldsymbol{x}}\mat
 \begin{equation*}
  \operatorname{Exp}_{\boldsymbol{x}}(t\boldsymbol{v}) = \gamma_{\boldsymbol{x}, \boldsymbol{v}}(t).
 \end{equation*}
-If the system does not have analytical solution, the  exponential map is computed with numerical integration using standard ordinary differential equation solvers, such as Euler, or Dormand-Prince's method \citep{kidger2022neural}.
+If the system does not have an analytical solution, the  exponential map is computed with numerical integration using standard ordinary differential equation solvers, such as Euler, or Dormand-Prince's method \citep{kidger2022neural}.
 
 \paragraph{Logarithm map}
 The logarithm map is the inverse of the exponential map, given two close enough positions $\boldsymbol{x}_0, \boldsymbol{x}_1 \in \mathcal{M}$ that the inverse is well defined, then  velocity that generates the geodesic connecting them. This a boundary value problem whose solution gives 
@@ -245,7 +245,7 @@ The Riemannian Hessian is defined as the covariant derivative of the Riemannian 
 :=
 \nabla^{\mathbf{G}}_{\boldsymbol{v}} \nabla_{\mathbf{G}} f.
 \end{equation*}
-This expression can be viewed as the vector with components:
+This expression can be viewed as the vector with components
 \begin{equation*}
 \bigl(\mathrm{Hess}_{\mathbf{G}} f(\boldsymbol{x})[\boldsymbol{v}]\bigr)^i
 =
@@ -282,13 +282,13 @@ and the marginal likelihood or model evidence is
 \begin{equation*}
     p_{\mathcal{Y}}(\boldsymbol{y})=\int_{\mathbb{R}^D} p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})p_{\mathcal{X}}(\boldsymbol{x})\,d\boldsymbol{x}.
 \end{equation*}
-When the posterior falls on the same parametric family as the prior, the model is called conjugate and we do not need to rely on approximations. For example, we can compute expectations and credible intervals directly from this distribution. In most cases, however, $p_{\mathcal{Y}}(\boldsymbol{y})$ is intractable and  we therefore work with the unnormalized target density
+When the posterior falls on the same parametric family as the prior, the model is called conjugate and we do not need to rely on approximations. For example, we can compute expectations and credible intervals directly from this distribution. In most cases, however, $p_{\mathcal{Y}}(\boldsymbol{y})$ is intractable and we therefore work with the joint distribution $p_{\mathcal{X},\mathcal{Y}}(\boldsymbol{x},\boldsymbol{y})$. During posterior inference, $\boldsymbol{y}$ denotes observed data and is fixed. We work with the unnormalized target density
 \begin{equation}
     p(\boldsymbol{x}) := p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})\,p_{\mathcal{X}}(\boldsymbol{x}).
 \end{equation}
 Approximate Bayesian inference then relies on $p(\boldsymbol{x})$ or on its log-density $\ell(\boldsymbol{x}) := \log p(\boldsymbol{x})$ to form approximations of the posterior \eqref{eq:posterior}.
 
-In this thesis, the practical objective is to draw samples from the posterior distribution. Since the target density is proportional to the posterior, sampling from either yields the same distribution. Given a set of samples we can estimate posterior quantities by Monte Carlo, for example,  if $\{\boldsymbol{x}^{(s)}\}_{s=1}^S$ are samples distributed according to the target distribution, then for a measurable function $h$ we can estimate expectations by
+In this thesis, the practical objective is to draw samples from the posterior distribution. Since the target density is proportional to the posterior up to a constant, sampling from either yields the same distribution. Given a set of samples we can estimate posterior quantities by Monte Carlo, for example,  if $\{\boldsymbol{x}^{(s)}\}_{s=1}^S$ are samples distributed according to the target distribution, then for a measurable function $h$ we can estimate expectations by
 \begin{equation}
     \mathbb{E}\!\left[h(\mathcal{X})\right] \approx \frac{1}{S}\sum_{s=1}^{S} h\!\left(\boldsymbol{x}^{(s)}\right).
 \end{equation}
@@ -299,7 +299,7 @@ This thesis focuses on two major families of approximate inference methods. The 
 Distributional approximations replace $p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})$ with a tractable distributional family $q_{\boldsymbol{\theta}}(\boldsymbol{x})$.
 
 \paragraph{Laplace approximation}
-The idea behind  Laplace approximation is to approximate the log-target distribution around its mode \citep{mackay2003information}. 
+The idea behind the Laplace approximation is to approximate the log-target distribution around its mode \citep{mackay2003information}. 
 Assume that the target density has its mode at value $\hat{\boldsymbol{x}}$ and take $\ell(\boldsymbol{x})= \log p(\boldsymbol{x})$, then a second order Taylor expansion of $\ell(\boldsymbol{x})$ at the mode gives
 \begin{equation}
 \boxed{
@@ -318,73 +318,93 @@ At the mode $\nabla\ell(\hat{\boldsymbol{x}})=0$ and the
     -\frac{1}{2} \norm{\boldsymbol{x}-\hat{\boldsymbol{x}} }^2_{\mathbf{\Sigma}^{-1}}   
     \right),
 \end{equation}
-where $\mathbf{\Sigma}^{-1} = -\nabla^2 \ell(\hat{\boldsymbol{x}})$ and the notation means $\|\boldsymbol{x}\|^2_{ \mathbf{\Sigma}^{-1}} = \boldsymbol{x}^\top \mathbf{\Sigma}^{-1} \boldsymbol{x}$.
-This is the kernel of the Gaussian distribution $\mathcal{N}(\hat{\boldsymbol{x}}, \mathbf{\Sigma})$.
-Approximate samples are drawn from $q(\boldsymbol{x})$. This approximation is exact for Gaussian distributions. If  $\mathcal{X}\sim\mathcal{N}(\boldsymbol{\mu},\mathbf{\Sigma})$, then the mode of the density $p_\mathcal{X}(\boldsymbol{x})$ is $\boldsymbol{\mu}$ and the Hessian of the log density is $\nabla^2\log p_\mathcal{X}(\boldsymbol{x}) = -\mathbf{\Sigma}^{-1}$, which coincides with Laplace approximation. 
+where $\mathbf{\Sigma}^{-1} = -\nabla^2 \ell(\hat{\boldsymbol{x}})$ and $\|\boldsymbol{x}\|^2_{ \mathbf{\Sigma}^{-1}} = \boldsymbol{x}^\top \mathbf{\Sigma}^{-1} \boldsymbol{x}$.
+This is the kernel of the Gaussian distribution $q(\boldsymbol{x}) = \mathcal{N}(\boldsymbol{x}|\boldsymbol{\mu}, \mathbf{\Sigma})$.
+Approximate samples are drawn from $q(\boldsymbol{x})$. This approximation is exact for Gaussian distributions. If  $\mathcal{X}\mid \mathcal{Y} \sim\mathcal{N}(\boldsymbol{\mu},\mathbf{\Sigma})$, then the mode of the density $p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})$ is $\boldsymbol{\mu}$ and the Hessian of the log density is $\nabla^2\log p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y}) = -\mathbf{\Sigma}^{-1}$, which coincides with the Laplace approximation. 
 
 \paragraph{Variational inference}
-Variational inference approximates the target $p(\boldsymbol{x})$ with a parametric family $q_{\boldsymbol{\theta}}(\boldsymbol{x})$ 
+Variational inference approximates the posterior distribution $p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})$ with a parametric family $q_{\boldsymbol{\theta}}(\boldsymbol{x})$ 
 according to a measure of divergence between the distributions \citep{blei2017variational}.
 Let us consider a common choice, Kullback-Leibler (KL) divergence, defined as 
 \begin{equation*}
-    \mathrm{KL}(p(\boldsymbol{x})\|q(\boldsymbol{x})):= \mathbb{E}_{\boldsymbol{x}\sim p}\!\left[\log\frac{p(\boldsymbol{x})}{q(\boldsymbol{x})}\right],
+\begin{aligned}
+    \mathrm{KL}(p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})\|q_{\boldsymbol{\theta}}(\boldsymbol{x}))&:= \mathbb{E}_{\boldsymbol{x}\sim p_{\mathcal{X}\mid \mathcal{Y}}(\cdot\mid \boldsymbol{y})}\!\left[\log\frac{p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})}{q_{\boldsymbol{\theta}}(\boldsymbol{x})}\right],    \\
+    &\approx \frac{1}{S}\sum_{i=1}^{S}
+    \left[
+    -\log q_{\boldsymbol{\theta}}\!\left(\boldsymbol{x}^{(i)}\right)    
+\right] + \text{const},
+\end{aligned}
 \end{equation*}
-which is not symmetric in its arguments, and $q$ must  be non-zero on the support of $p$.
-When only the target is available we can resort to reverse KL 
+which is not symmetric in its arguments, and $q_{\boldsymbol{\theta}}$ must  be non-zero on the support of $p_{\mathcal{X}\mid \mathcal{Y}}$.
+If samples from the posterior are available $\boldsymbol{x}^{(i)}\sim p_{\mathcal{X}\mid \mathcal{Y}}(\cdot\mid \boldsymbol{y})$, we use them to estimate the expectation by Monte Carlo. The parameters of the variational distribution are optimized to minimize the Monte Carlo estimate. If we do not have access to samples from the posterior and we can sample from the variational distribution $\boldsymbol{x}^{(i)}\sim q_{\boldsymbol{\theta}}(\boldsymbol{x})$, we can use the reverse KL divergence
 \begin{equation*}
 \begin{aligned}
-\mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p(\boldsymbol{x})\right)
-&= \mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}\!\left[
-\log q_{\boldsymbol{\theta}}(\boldsymbol{x}) - \log p(\boldsymbol{x})
-\right] \\
-&\approx \frac{1}{N}\sum_{i=1}^{N}
+\mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})\right)
+&= \mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}
+\!\left[\log\frac{q_{\boldsymbol{\theta}}(\boldsymbol{x})}{p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})}\right]
+\\
+&\approx \frac{1}{S}\sum_{i=1}^{S}
 \left[
 \log q_{\boldsymbol{\theta}}\!\left(\boldsymbol{x}^{(i)}\right)
--\log p\!\left(\boldsymbol{x}^{(i)}\right)
+-\log p_{\mathcal{X}\mid \mathcal{Y}}\!\left(\boldsymbol{x}^{(i)}\mid \boldsymbol{y}\right)
 \right].
 \end{aligned}
 \end{equation*}
-The reverse KL objective is approximated  by Monte Carlo  samples drawn as $\boldsymbol{x}^{(i)}\sim q_{\boldsymbol{\theta}}(\boldsymbol{x})$. The parameters $\boldsymbol{\theta}$ are optimized to minimize this objective. The second term $\log p\!\left(\boldsymbol{x}^{(i)}\right)$ does not vanish under derivative computation with respect to $\boldsymbol{\theta}$ since the generation of  samples $\boldsymbol{x}^{(i)}$ depends on the parameters $\boldsymbol{\theta}$. 
-A common method for reducing variance is reparameterization, if the distributional family $q_{\boldsymbol{\theta}}\!\left(\boldsymbol{x}^{(i)}\right)$ allows for $\boldsymbol{x}=\varphi_{\boldsymbol{\theta}}(\boldsymbol{z})$ with $\boldsymbol{z}\sim q_{\mathcal{Z}}$ independent of $\boldsymbol{\theta}$, the objective can be rewritten as
+The parameters $\boldsymbol{\theta}$ are optimized to minimize this objective. The second term $\log p_{\mathcal{X}\mid \mathcal{Y}}\!\left(\boldsymbol{x}^{(i)}\mid \boldsymbol{y}\right)$ does not vanish under derivative computation with respect to $\boldsymbol{\theta}$ since the generation of  samples $\boldsymbol{x}^{(i)}$ depends on the parameters $\boldsymbol{\theta}$. 
+A common method for reducing variance is reparameterization, if the distributional family $q_{\boldsymbol{\theta}}\!\left(\boldsymbol{x}\right)$ allows the transformation $\boldsymbol{x}=\varphi_{\boldsymbol{\theta}}(\boldsymbol{z})$ with $\boldsymbol{z}\sim q_{\mathcal{Z}}$ independent of $\boldsymbol{\theta}$, the objective can be rewritten as
 \begin{equation}    
-       \mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p(\boldsymbol{x})\right)
-    = \mathbb{E}_{\boldsymbol{z}\sim q_{\mathcal{Z}}} \!\left[\log q_{\boldsymbol{\theta}}\left(\varphi_{\boldsymbol{\theta}}(\boldsymbol{z})\right) - \log p(\varphi_{\boldsymbol{\theta}}(\boldsymbol{z}))\right].
+       \mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}\mid \mathcal{Y}}\!\left(\boldsymbol{x}\mid \boldsymbol{y}\right)\right)
+    = \mathbb{E}_{\boldsymbol{z}\sim q_{\mathcal{Z}}} \!\left[\log q_{\boldsymbol{\theta}}\left(\varphi_{\boldsymbol{\theta}}(\boldsymbol{z})\right) - \log p_{\mathcal{X}\mid \mathcal{Y}}\!\left(\varphi_{\boldsymbol{\theta}}(\boldsymbol{z})\mid \boldsymbol{y}\right)\right].
 \end{equation}
-A choice for the approximation is the mean field variational family which reduces the number of parameters by assuming decomposition over the dimensions
+A choice for the variational distribution is the mean field variational family. It reduces the number of parameters while losing modeling flexibility. Assuming decomposition over the dimensions such that $\boldsymbol{\theta} = (\boldsymbol{\theta}_1,\dots, \boldsymbol{\theta}_D)$
 \begin{equation*}
-    q_{\boldsymbol{\theta}}(\boldsymbol{x})=\prod_{j=1}^{D} q_{\boldsymbol{\theta}_j}(x_j),
+    q_{\boldsymbol{\theta}}(\boldsymbol{x})=\prod_{j=1}^{D} q_{\boldsymbol{\theta}_j}(x_j).
 \end{equation*}
-such that $\boldsymbol{\theta} = (\boldsymbol{\theta}_1,\dots, \boldsymbol{\theta}_D)$. This reduces the number of parameters but loses modeling flexibility. 
 
-Let us again consider a Bayesian model where the posterior density is $p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})$ (Eq.~\ref{eq:posterior}). In this case minimizing the  KL divergence between $q_{\boldsymbol{\theta}}$ and $p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})$ is equivalent to maximizing a lower bound of the marginal log likelihood (evidence),
+\paragraph{Evidence Lower Bound} 
+Minimizing the  KL divergence between $q_{\boldsymbol{\theta}}$ and $p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})$ is equivalent to maximizing a lower bound of the marginal log likelihood (evidence),
 \begin{align*}
-    \mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})\right)
-    &=
-    \mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}\!\left[
-    \log q_{\boldsymbol{\theta}}(\boldsymbol{x})
-    -\log p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})
-    \right]\\
-    &=
-    \mathbb{E}_{q_{\boldsymbol{\theta}}}\!\left[
-    \log q_{\boldsymbol{\theta}}(\boldsymbol{x})
-    -\log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})
-    -\log p_{\mathcal{X}}(\boldsymbol{x})
-    +\log p_{\mathcal{Y}}(\boldsymbol{y})
-    \right] \\
-    &=
-    \log p_{\mathcal{Y}}(\boldsymbol{y})
-    -
-    \left(
-    \mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}\!\left[\log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})\right]
-    -
-    \mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}}(\boldsymbol{x})\right)
-    \right).   
+\MoveEqLeft
+\mathrm{KL}\!\left(
+q_{\boldsymbol{\theta}}(\boldsymbol{x})
+\middle\|
+p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})
+\right)
+\\
+&=
+\mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}\!\left[
+\log q_{\boldsymbol{\theta}}(\boldsymbol{x})
+-\log p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})
+\right]
+\\
+&=
+\mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}\!\left[
+\log q_{\boldsymbol{\theta}}(\boldsymbol{x})
+-\log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})
+-\log p_{\mathcal{X}}(\boldsymbol{x})
++\log p_{\mathcal{Y}}(\boldsymbol{y})
+\right]
+\\
+&=
+\log p_{\mathcal{Y}}(\boldsymbol{y})
+-
+\Bigl(
+\mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}\!\left[
+\log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})
+\right]
+-
+\mathrm{KL}\!\left(
+q_{\boldsymbol{\theta}}(\boldsymbol{x})
+\middle\|
+p_{\mathcal{X}}(\boldsymbol{x})
+\right)
+\Bigr).
 \end{align*}
-Since $\mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})\right) \geq 0$ the following inequality holds:
+Since $\mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x}\mid\boldsymbol{y})\right) \geq 0$ the following inequality holds
 \begin{equation*}
     \log p_{\mathcal{Y}}(\boldsymbol{y}) \geq \mathbb{E}_{\boldsymbol{x}\sim q_{\boldsymbol{\theta}}}\!\left[\log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})\right]
     -
-    \mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}}(\boldsymbol{x})\right),
+    \mathrm{KL}\!\left(q_{\boldsymbol{\theta}}(\boldsymbol{x})\|p_{\mathcal{X}}(\boldsymbol{x})\right).
 \end{equation*}
     The right hand side is called the evidence lower bound (ELBO), and minimizing the KL is equivalent to maximizing the ELBO 
 \begin{equation}
@@ -404,20 +424,20 @@ Markov chain Monte Carlo (MCMC) methods construct a chain of dependent samples t
 A Markov chain is specified by an initial distribution $p^{(0)}(\boldsymbol{x})$ and evolves as
 \begin{equation*}
     \pi^{(t+1)}(\boldsymbol{x}')
-    = \int_{\mathbb{R}^D} \pi^{(t)}(\boldsymbol{x})\,T(\boldsymbol{x},\boldsymbol{x}')\,d\boldsymbol{x}.
+    = \int_{\mathbb{R}^D} \pi^{(t)}(\boldsymbol{x})\,T(\boldsymbol{x},\boldsymbol{x}')\,d\boldsymbol{x}, \quad \pi^{(0)}(\boldsymbol{x})=p^{(0)}(\boldsymbol{x}).
 \end{equation*}
 A Markov chain is constructed to satisfy two properties \citep{mackay2003information}:
 \begin{enumerate}
     \item \textbf{Stationary:}  the distribution $\pi$  remains unchanged after a transition, that is,
     \begin{equation*}
     \pi(\boldsymbol{x}')
-    = \int_{\mathbb{R}^D}\pi(\boldsymbol{x})\,T(\boldsymbol{x},\boldsymbol{x}')\,d\boldsymbol{x}    
+    = \int_{\mathbb{R}^D}\pi(\boldsymbol{x})\,T(\boldsymbol{x},\boldsymbol{x}')\,d\boldsymbol{x}.    
     \end{equation*}    
-    \item \textbf{Ergodic:} meaning the chain converges to $\pi$ in total variation from any initial distribution, $\pi^{(t)}(\boldsymbol{x})\to \pi(\boldsymbol{x})$ as $t\to\infty$ for any $\pi^{(0)}(\boldsymbol{x})$
+    \item \textbf{Ergodic:} meaning the chain converges to $\pi$ in total variation from any initial distribution, $\pi^{(t)}(\boldsymbol{x})\to \pi(\boldsymbol{x})$ as $t\to\infty$ for any $\pi^{(0)}(\boldsymbol{x})$.
 \end{enumerate}
 The chain is Ergodic if it is Harris positive recurrent and aperiodic, see \citet[Chapter~7]{meyn2012markov}.
 
-The sampling methods we present satisfy the detailed balance condition. Detailed balance is a sufficient condition for the target distribution to be stationary. It states that the probability of being in state $\boldsymbol{x}$ and transitioning to state $\boldsymbol{x}'$ is the same a being in state $\boldsymbol{x}'$ and transitioning to state $\boldsymbol{x}$ and is defined as: 
+The sampling methods we present satisfy the detailed balance condition. Detailed balance is a sufficient condition for the target distribution to be stationary. It states that the probability of being in state $\boldsymbol{x}$ and transitioning to state $\boldsymbol{x}'$ is the same a being in state $\boldsymbol{x}'$ and transitioning to state $\boldsymbol{x}$ and is defined as
 \begin{equation*}
     \pi(\boldsymbol{x})\,T(\boldsymbol{x},\boldsymbol{x}')
     =
@@ -427,27 +447,26 @@ Next we describe the standard MCMC methods that are later extended, and briefly 
 
 
 \subsection{Slice sampling} \label{sec:slice_sampling}
-\citet{Neal2003} introduces slice sampling as a method that targets uniform sampling from the region under the graph of the probability density
+\citet{Neal2003} introduced slice sampling as a method that targets uniform sampling from the region under the graph of the probability density
 \begin{equation}
     \{(\boldsymbol{x},s)\in \mathbb{R}^{D}\times\mathbb{R}_{+} : 0 < s < p(\boldsymbol{x})\} \subset \mathbb{R}^{D+1}.
 \end{equation}
-Uniform sampling from this set can be carried out by alternating between  sampling  $\boldsymbol{x}$ and $s$, and this procedure targets the correct distribution \citep{Neal2003}. For a fixed level $s$, define the slice $L_{\boldsymbol{x}}(s) := \{ \boldsymbol{x}\in \mathbb{R}^D : p(\boldsymbol{x}) > s \}$, one idealized iteration is:
+Uniform sampling from this set can be carried out by alternating between  sampling  $\boldsymbol{x}$ and $s$, and this procedure targets the correct distribution \citep{Neal2003}. For a fixed level $s$, define the slice $L_{\boldsymbol{x}}(s) := \{ \boldsymbol{x}\in \mathbb{R}^D : p(\boldsymbol{x}) > s \}$, one idealized iteration is
 \begin{enumerate}
     \item Sample $s \sim \mathrm{Unif}(0, p(\boldsymbol{x}))$.
     \item Sample $\boldsymbol{x} \sim \mathrm{Unif}( L_{\boldsymbol{x}}(s) )$.
 \end{enumerate}
 Computing $L_{\boldsymbol{x}}(s)$ is possible, for example, in settings where the the distribution is log-concave or rotationally invariant, in general we approximate the slice set with  step-out and shrinkage procedures. We first describe the one-dimensional case and later the hit-and-run extension to higher dimensions.  Assume the current state is $x\in\mathbb{R}$ and a value of $s$ is drawn from $\mathrm{Unif}(0, p({x}))$ and define $\gamma_x(t) = x + t$. 
 
-
 \paragraph{Step-out procedure}
 This procedure computes an open interval by expanding to the sides of the current position. 
-Given two hyperparameters $w\in\mathbb{R}$ the expansion width and $m\geq0$ the maximum number of expansions.
-Initialize   for $u\sim \mathrm{Unif}(0,w)$ $\ell = - u$ and $r = \ell + w$. Sample $\iota \sim \mathrm{Unif}(\{1, \dots, m\})$.
+Given the expansion width $w\in\mathbb{R}$ and the maximum number of expansions $m\geq0$, initialize $\ell = -u$ and $r = \ell + w$ for $u\sim \mathrm{Unif}(0,w)$. Then sample $\iota \sim \mathrm{Unif}(\{1, \dots, m\})$ and expand the interval as follows:
 \begin{itemize}
     \item Right side: At most $\iota$ times expand as $r = r + w$ until the condition $p(\gamma_x(r )) < s$ is met.
     \item Left side: At most $m+1-\iota$ times expand $\ell = \ell - w$ until the condition $p(\gamma_x(\ell )) < s$ is met.
 \end{itemize}
 The interval $(x+\ell, x+r)$ is an wide approximation of $L_{\boldsymbol{x}}(s)$. A visualization of the step-out procedure is provided in Figure~\ref{fig:stepout}.
+
 
 \begin{figure}
     \centering
@@ -525,40 +544,43 @@ The interval $(x+\ell, x+r)$ is an wide approximation of $L_{\boldsymbol{x}}(s)$
 \end{figure}
 
 
+
 \paragraph{Shrinkage procedure} 
-Given the interval $(l,r)$ the shrinkage procedure draws a valid proposal by iteratively reducing the interval until a proposal falls in the intersection with the slice $L_{\boldsymbol{x}}(s)$. We follow the presentation of \citet{durmus2026geodesic} which differs slightly from the original formulation of \citet{Neal2003}. The procedure works as follows. Let $J = (\ell,r)$ and sample $a\sim \mathrm{Unif}(J)$, if $\gamma_x(a)\in L_{\boldsymbol{x}}(s)$ the proposal is $\gamma_x(a) = x+a$. Sample  $b\sim \mathrm{Unif}(J)$, if $\gamma_x(b)\in L_{\boldsymbol{x}}(s)$ the proposal is $\gamma_x(b) = x+b$. Otherwise shrink the interval $J$ by:
+Given the interval $(l,r)$ the shrinkage procedure draws a valid proposal by iteratively reducing the interval until a proposal falls in the intersection with the slice $L_{\boldsymbol{x}}(s)$. We follow the presentation of \citet{durmus2026geodesic} which differs slightly from the original formulation of \citet{Neal2003}. The procedure works as follows. Let $J = (\ell,r)$ and sample $a\sim \mathrm{Unif}(J)$, if $\gamma_x(a)\in L_{\boldsymbol{x}}(s)$ the proposal is $\gamma_x(a) = x+a$. If not, sample  $b\sim \mathrm{Unif}(J)$, if $\gamma_x(b)\in L_{\boldsymbol{x}}(s)$ the proposal is $\gamma_x(b) = x+b$. Otherwise shrink the interval $J$ by
 \begin{itemize}    
-    \item Update $J$
+    \item Update $J$ as
     \begin{equation*}
         J =
         \begin{cases} 
-        J\cap(a \wedge b, a \vee b), & \text{if } 0 \in J, \\
-        J \setminus (a \wedge b, a\vee b), & \text{if } 0 \notin J.
+        % J\cap(a \wedge b, a \vee b), & \text{if } 0 \in J, \\
+        % J \setminus (a \wedge b, a\vee b), & \text{if } 0 \notin J.
+        J \cap \bigl(\min(a,b), \max(a,b)\bigr), & \text{if } 0 \in J, \\
+        J \setminus \bigl(\min(a,b), \max(a,b)\bigr), & \text{if } 0 \notin J.
         \end{cases}        
     \end{equation*}    
     \item Set $a\gets b$ and  sample $b\sim \mathrm{Unif}(J)$.  
     \item Repeat until $\gamma_x(b) \in L_{\boldsymbol{x}}(s)$.
 \end{itemize}
 
+
+\paragraph{Hit-and-Run slice sampling} 
+There are multiple ways of extending slice sampling to multivariate distributions \citep{Neal2003, Murray2010}. Here we consider the Hit-and-Run \citep{Belisle1993} extension which is relevant for our method. Denote the unit sphere by $\mathbb{S}^{D-1} := \{\boldsymbol{v} \in \mathbb{R}^D : \norm{\boldsymbol{v}}^2 =1\}$. Given current position $\boldsymbol{x}\in \mathbb{R}^{D}$:
+\begin{itemize}
+    \item Sample direction $\boldsymbol{v}\sim \mathrm{Unif}(\mathbb{S}^{D-1}(\boldsymbol{x}))$.
+    \item Define $\gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)  = \boldsymbol{x} + t \boldsymbol{v}$ and apply one dimensional slice sampling on $t \mapsto \gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)$.
+\end{itemize}
+Since the straight line $\gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)$ defines a univariate distribution, slice sampling is directly applicable. Concretely, one transition of hit-and-run slice sampling consist of the following steps: Sample $s\sim \mathrm{Unif}(0, p(\boldsymbol{x}))$, then the step-out procedure returns the interval 
+$$\ell,r = \text{Step-out}_{w,m}(s, \gamma_{(\boldsymbol{x},\boldsymbol{v})}),$$
+and the shrinkage procedure gives the proposal
+$$t^* = \text{Shrink}_{\ell,r}(s, \gamma_{(\boldsymbol{x},\boldsymbol{v})}).$$ 
+Finally the new sample after one step of the algorithm is $\boldsymbol{x}' = \gamma_{(\boldsymbol{x},\boldsymbol{v})}(t^*)$. This allows sampling from target distributions defined on $\mathbb{R}^D$. See Figure~\ref{fig:hitandrun} for a visualization of the hit-and-run procedure.
 \begin{figure}
     \centering
     \includegraphics[width=0.49\linewidth]{figs/paper2/hitandrun/geodesic_balls_euclidean_hitandrun.png}
     \includegraphics[width=0.49\linewidth]{figs/paper2/hitandrun/geodesic_balls_monge_hitandrun.png}
-    \caption{Visualization of the hit-and-run procedure. Left:  A velocity uniformly sampled uniformly on $\mathbb{S}^{D-1}$ and the resulting straight line. Right:  A velocity sampled uniformly from $\|\boldsymbol{v}: \|\boldsymbol{v}\|\|^2_{\mathbf{G}(\boldsymbol{x})}$ and the geodesic capture better the geometry of the target.}
+    \caption{Visualization of the hit-and-run procedure. Left:  A velocity uniformly sampled uniformly on $\mathbb{S}^{D-1}$ (blue) and the resulting straight line (dotted red line). Right:  A velocity sampled uniformly from $\{\boldsymbol{v}: \|\boldsymbol{v}\|^2_{\mathbf{G}(\boldsymbol{x})} =1\}$ and the geodesic captures better the geometry of the target (dotted red line).}
     \label{fig:hitandrun}
 \end{figure}
-
-\paragraph{Hit-and-Run slice sampling} 
-There are multiple ways of extending slice sampling to multivariate distributions \citep{Neal2003, Murray2010}. Here we consider the Hit-and-Run \citep{Belisle1993} extension which is relevant for our method. Denote the unit sphere by $\mathbb{S}^{D-1} := \{\boldsymbol{v} \in \mathbb{R}^D : \norm{\boldsymbol{v}}^2 =1\}$ (See Fig.~\ref{fig:hitandrun}). Given current position $\boldsymbol{x}\in \mathbb{R}^{D}$
-\begin{itemize}
-    \item Sample direction $\boldsymbol{v}\sim \mathrm{Unif}(\mathbb{S}^{D-1}(\boldsymbol{x}))$
-    \item Define $\gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)  = \boldsymbol{x} + t \boldsymbol{v}$ and apply one dimensional slice sampling on $t \mapsto \gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)$
-\end{itemize}
-Since the straight line $\gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)$ defines a univariate distribution, slice sampling is directly applicable. Concretely, one transition of slice sampling consist of the following steps: Sample $s\sim \mathrm{Unif}(0, p(\boldsymbol{x}))$, the step-out procedure returns the interval 
-$$\ell,r = \text{Step-out}_{w,m}(s, \gamma_{(\boldsymbol{x},\boldsymbol{v})}),$$
-the shrinkage procedure gives the proposal
-$$t^* = \text{Shrink}_{\ell,r}(s, \gamma_{(\boldsymbol{x},\boldsymbol{v})}).$$ 
-Finally the new sample after one step of the algorithm is $\boldsymbol{x}' = \gamma_{(\boldsymbol{x},\boldsymbol{v})}(t^*)$. This allows sampling from target distributions defined on $\mathbb{R}^D$.
 
 \subsection{Geometric MCMC}
 By geometric MCMC we refer to MCMC methods that incorporate a Riemannian tensor in the sampling method.
@@ -571,7 +593,7 @@ is the matrix  that holds the components of a metric tensor (See Section~\ref{se
 Next we describe some geometric MCMC methods and their computational cost.
 
 \paragraph{Riemannian manifold Hamiltonian Monte Carlo (RMHMC) }
-The seminal work of \citet{Girolami2011} extends two gradient-based sampling methods,  Metropolis-adjusted Langevin algorithm (MALA) and Hamiltonian Monte Carlo (HMC) from Euclidean space to a Riemannian setting. Here we only describe the HMC extension. Both HMC and RMHMC introduce an auxiliary momentum $\boldsymbol{p}\in\mathbb{R}^D$ and model a system of ordinary differential equations (ODEs). The goal is that the solution to the ODEs generates samples that are further away from the initial state reducing sample correlation. The Hamiltonian equation is
+The seminal work of \citet{Girolami2011} extended two gradient-based sampling methods,  Metropolis-adjusted Langevin algorithm (MALA) and Hamiltonian Monte Carlo (HMC) from Euclidean space to a Riemannian setting. Here we only describe the HMC extension. Both HMC and RMHMC introduce an auxiliary momentum $\boldsymbol{p}\in\mathbb{R}^D$ and model a system of ordinary differential equations (ODEs). The goal is that the solution to the ODEs generates samples that are further away from the initial state reducing sample correlation. The Hamiltonian equation is
 \begin{equation*}
     \mathcal{H}(\boldsymbol{x},\boldsymbol{p})
     =
@@ -589,7 +611,7 @@ where $\phi(\boldsymbol{x})=-\ell(\boldsymbol{x})+ \frac{1}{2}\log\det \mathbf{G
 The numerical integration of Eq.~\ref{eq:rmhmc} relies on fixed point iteration \citep{Girolami2011}. Each step iterates until a specified tolerance is reached to generate a proposal, increasing the runtime. With a full rank metric tensor the resulting computations are of order $\mathcal{O}(D^3)$ at each iteration,  which limits its scalability to high dimensional problems.
 
 \paragraph{Lagrangian dynamical Monte Carlo (LMC) }
-\citet{Lan2015} expresses the Hamiltonian equations in terms of velocity instead of momentum through a change of variables  $\boldsymbol{v}=\mathbf{G}(\boldsymbol{x})^{-1}\boldsymbol{p}$, and the system dynamics become
+\citet{Lan2015} expressed the Hamiltonian equations in terms of velocity instead of momentum through a change of variables  $\boldsymbol{v}=\mathbf{G}(\boldsymbol{x})^{-1}\boldsymbol{p}$, and the system dynamics become
 \begin{equation}
     \dot{\boldsymbol{x}} = \boldsymbol{v},
     \quad
@@ -597,7 +619,7 @@ The numerical integration of Eq.~\ref{eq:rmhmc} relies on fixed point iteration 
     \label{eqsLMC}
 \end{equation}
 where $[\boldsymbol{\eta}(\boldsymbol{x},\boldsymbol{v})]_k=\sum_{i,j}\Gamma^k_{ij}(\boldsymbol{x})\,v_i v_j$, and the Christoffel symbols  $\Gamma_{ij}^k$ (see Eq.~\ref{eq:christoffel_symbols}). 
-The authors propose a numerical integrator that is explicit and does not rely on fixed point iterations improving the running time over RMHMC. Each step still computes inverses of the metric tensor and is $\mathcal{O}(D^3)$ in complexity which again limits its scalability to higher dimensions. One way of reducing the complexity of the numerical integrators are metrics with closed form inverse and determinant \citep{Hartmann2022}. Some metric choices are presented in Chapter~\ref{ch:mcmc}.
+The authors proposed a numerical integrator that is explicit and does not rely on fixed point iterations, improving the running time over RMHMC. Each step still computes inverses of the metric tensor and is $\mathcal{O}(D^3)$ in complexity which again limits its scalability to higher dimensions. One way of reducing the complexity of the numerical integrators are metrics with closed form inverse and determinant \citep{Hartmann2022}. Some metric choices are presented in Chapter~\ref{ch:mcmc}.
 Additionally, the numerical integrator introduces two hyperparameters, the step-size and the number of steps, with several strategies available for selecting a value. \citet{williams2024geometric} discuss the choice of metric, numerical integrator, and hyperparameter adaptation in RMHMC and LMC. 
 
 \section{Modeling discrete data} \label{sec:discrete_data}
@@ -608,10 +630,10 @@ We first review flow-based models and a Riemannian flow matching approach used f
 \subsection{Discrete data generation}
 
 
-We first two continuous generative modes that are building blocks: conditional flow matching which operates in the Euclidean space, then  Riemannian flow matching which operates on  manifolds. Then we present a method for discrete data generation which operates on the simplex and used the Fisher geometry. 
+We first two discuss continuous generative modes that are building blocks: conditional flow matching which operates in the Euclidean space, then  Riemannian flow matching which operates on  manifolds. Then we present a method for discrete data generation which operates on the simplex and uses the Fisher geometry. 
 
 \paragraph{Conditional flow matching (CFM)}
-Conditional flow matching is a generative model for continuous data in the Euclidean space \citep{Lipman2023, Albergo2023, liu2023flow}. 
+Conditional flow matching is a generative model for continuous data in the Euclidean space \citep{Albergo2023,Lipman2023,liu2023flow}. 
 For $\boldsymbol{x}\in \mathbb{R}^D$, the model defines a vector field
 $\boldsymbol{u}_t:\mathbb{R}^D\times[0,1]\to\mathbb{R}^D$,
 which evolves data according to 
@@ -629,7 +651,7 @@ In practice $\boldsymbol{u}_t$ is not available, instead a parametric model (usu
 = \mathbb{E}_{\substack{t\sim \mathrm{Unif}(0,1) \\ \boldsymbol{x}_0,\boldsymbol{x}_1\sim\pi(\boldsymbol{x}_0,\boldsymbol{x}_1)}}
   \left\| \boldsymbol{v}^\theta_t\big(\boldsymbol{x}_t\big) - \boldsymbol{u}_t(\boldsymbol{x}_t|\boldsymbol{x}_0,\boldsymbol{x}_1) \right\|_2^2, \label{eq:cfm_loss}
 \end{equation}
- where $\pi$ is any coupling with marginals $p_0$ and $p_1$. \citet{Lipman2023} shows that this conditional objective equals up to a constant, the objective for estimating $\boldsymbol{u}_t(\boldsymbol{x}_t)$ directly. Therefore, $\boldsymbol{v}^\theta_t\big(\boldsymbol{x}_t\big)$ is used in  Equation~\ref{eq:cfm_ode} to generate new data. The velocity field depends on the interpolation path between $\boldsymbol{x}_0$ and $\boldsymbol{x}_1$.  A common choice is the linear interpolation $\boldsymbol{x}_t=(1-t)\boldsymbol{x}_0+t\boldsymbol{x}_1$
+ where $\pi$ is any coupling with marginals $p_0$ and $p_1$. \citet{Lipman2023} show that this conditional objective equals up to a constant, the objective for estimating $\boldsymbol{u}_t(\boldsymbol{x}_t)$ directly. Therefore, $\boldsymbol{v}^\theta_t\big(\boldsymbol{x}_t\big)$ is used in  Equation~\ref{eq:cfm_ode} to generate new data. The velocity field depends on the interpolation path between $\boldsymbol{x}_0$ and $\boldsymbol{x}_1$.  A common choice is the linear interpolation $\boldsymbol{x}_t=(1-t)\boldsymbol{x}_0+t\boldsymbol{x}_1$
 which yields the constant conditional velocity
 \[
 \boldsymbol{u}_t(\boldsymbol{x}_t\mid\boldsymbol{x}_0,\boldsymbol{x}_1)=\dot{\boldsymbol{x}}_t=\boldsymbol{x}_1-\boldsymbol{x}_0.
@@ -665,9 +687,9 @@ If the manifold does not have closed form geodesics and logarithm map, then trai
 
 
 \paragraph{Discrete data generation with the Fisher geometry}
-\citet{Cheng2024} and \citet{Davis2024} introduce Categorical Flow Matching on Statistical Manifolds (SFM), a special case of Riemannian flow matching for discrete data. In this model the manifold is the simplex and the metric is the Fisher information metric. In practice, the flow could be modeled directly on the simplex, but computations become unstable near the boundaries, where discrete observations lie. SFM therefore models  Riemannian flow matching on the sphere instead. We first introduce the simplex geometry with the Fisher metric, then establish the isomorphism with the sphere, and finally specify the training and sampling procedures. 
+\citet{Cheng2024} and \citet{Davis2024} introduced Categorical Flow Matching on Statistical Manifolds (SFM), a special case of Riemannian flow matching for discrete data. In this model the manifold is the simplex and the metric is the Fisher information metric. In practice, the flow could be modeled directly on the simplex, but computations become unstable near the boundaries, where discrete observations lie. SFM therefore models  Riemannian flow matching on the sphere instead. We first introduce the simplex geometry with the Fisher metric, then establish the isomorphism with the sphere, and finally specify the training and sampling procedures. 
 
-Let $K$ be the number of categories and $D:=K-1$ the latent dimension. Consider the simplex $\Delta^{D}:=\{\boldsymbol{x}\in\mathbb{R}_{\ge 0}^{K}:\;\sum_{k=1}^{K}x_k=1\}$, and endow the space with the Fisher information metric of the categorical distribution \citep{Miyamoto2024}:
+Let $K$ be the number of categories and $D:=K-1$ the latent dimension. Consider the simplex $\Delta^{D}:=\{\boldsymbol{x}\in\mathbb{R}_{\ge 0}^{K}:\;\sum_{k=1}^{K}x_k=1\}$, and endow the space with the Fisher information metric of the categorical distribution \citep{Miyamoto2024}
 \begin{equation*}
  \mathbf{G}_F(\boldsymbol{x}) = \mathrm{diag}\left(\frac{1}{\boldsymbol{x}_{1:D}}\right) + \frac{1}{x_K} \mathbf{1}\mathbf{1}^\top.
 \end{equation*}
@@ -675,6 +697,34 @@ Under the Fisher metric, the space has the inner product for $\boldsymbol{u},\bo
 \begin{align*}
     \inp{\boldsymbol{u}}{\boldsymbol{v}}_{G_F(\boldsymbol{x})} = \sum_{i=1}^D \frac{u_iv_i}{x_i} + \frac{( \sum_{i=1}^D u_i)( \sum_{i=1}^D v_i)}{x_K}  = \sum_{i=1}^K \frac{u_i v_i}{x_i}.
 \end{align*}
+The last equality uses the tangent space constraint in the ambient space $T_{\boldsymbol{x}}\Delta^D = \{\boldsymbol{u}\in\mathbb{R}^K: \sum_{i=1}^K u_i = 0\}$ so $u_K = -\sum_{i=1}^D u_i $.
+Note that the inner product is only defined on $\mathring{\Delta}^D$, since it is undefined on the boundary. The following bijection connects the simplex to the positive orthant of the sphere
+\begin{equation}
+\begin{aligned}
+\varphi: \Delta^{D} \to \mathbb{S}_+^{D}, \quad
+&\boldsymbol{x}\mapsto \boldsymbol{z} = \sqrt{\boldsymbol{x}}, \\
+\varphi^{-1}: \mathbb{S}_+^{D} \to \Delta^{D}, \quad
+&\boldsymbol{z} \mapsto \boldsymbol{x} = \boldsymbol{z}^2.
+\end{aligned}
+\label{eq:bij_sfm}
+\end{equation}
+where $\mathbb{S}_{+}^{D} := \{ \boldsymbol{z} \in \mathbb{R}_{\ge 0}^{K} : \sum_{k=1}^{K} z_k^2 = 1 \}$. 
+This bijection (illustrated in Fig.~\ref{fig:simplex-sphere-map}) is in fact an isomorphism between $(\Delta^D  , \mathbf{G}_F)$ and $(\mathbb{S}_{+}^{D}, \mathbf{G})$, where $\mathbf{G}$ is the canonical metric on the sphere \citep{Miyamoto2024}. The sphere is embedded in $\mathbb{R}^K$, and it inherits the ambient space inner product restricted to the tangent space, for $\boldsymbol{u},\boldsymbol{v}\in T_{\boldsymbol{z}} \mathbb{S}_{+}^{D}$,
+\begin{equation*}
+    \inp{\boldsymbol{u}}{\boldsymbol{v}}_G = \inp{\boldsymbol{u}}{\boldsymbol{v}}_2 = \sum_{i=1}^K u_i v_i.
+\end{equation*} 
+The geodesics in the sphere are the outer rings, the exponential and  logarithm map are
+\begin{equation}
+\begin{aligned}
+\operatorname{Exp}_{\boldsymbol{z}}( t \boldsymbol{v}) 
+&= \cos\!\bigl(t\|\boldsymbol{v}\|_2\bigr)\boldsymbol{z}
++ \sin\!\bigl(t\|\boldsymbol{v}\|_2\bigr)\frac{\boldsymbol{v}}{\|\boldsymbol{v}\|_2}, \\
+\operatorname{Log}_{\boldsymbol{z}}(\boldsymbol{z}')
+&= \frac{\theta}{\sin\theta}\Bigl(\boldsymbol{z}' - \cos(\theta)\boldsymbol{z}\Bigr), \qquad
+\theta = \arccos\!\bigl(\inp{\boldsymbol{z}}{\boldsymbol{z}'}\bigr).
+\end{aligned}
+\label{eq:geo_sphere}
+\end{equation}
 \begin{figure}
   \centering
 \begin{tikzpicture}
@@ -695,7 +745,7 @@ Under the Fisher metric, the space has the inner product for $\boldsymbol{u},\bo
     \draw[->] (O) -- ({-1.15*\r/sqrt(10)}, {-1.15*\r/sqrt(10)}) node[below] {$x_1$};
     \draw[->] (O) -- ({1.15*\r}, 0) node[right] {$x_2$};
     \draw[->] (O) -- (0, {1.15*\r}) node[above] {$x_3$};
-    \node[anchor=north west] at (-1.5, 2.5) {\Large $\mathbb{R}^2$};
+    \node[anchor=north west] at (-1.5, 2.5) {\Large $\Delta^2$};
 
     \node[
       star,
@@ -718,7 +768,7 @@ Under the Fisher metric, the space has the inner product for $\boldsymbol{u},\bo
     \draw[->] (0,0) -- ({-1.15*\r/sqrt(10)}, {-1.15*\r/sqrt(10)}) node[below] {$z_1$};
     \draw[->] (0,0) -- ({1.15*\r}, 0) node[right] {$z_2$};
     \draw[->] (0,0) -- (0, {1.15*\r}) node[above] {$z_3$};
-    \node[anchor=north west] at (-1.5, 2.5) {\Large $\Delta^2$};
+    \node[anchor=north west] at (-1.5, 2.5) {\Large $\mathbb{S}_+^2$};
 
     % Arcs for the spherical section
     \draw[line width=1.4pt] (\r, 0) arc [start angle=0, end angle=90, x radius=\r, y radius=\r];
@@ -740,35 +790,6 @@ Under the Fisher metric, the space has the inner product for $\boldsymbol{u},\bo
   \caption{Visual illustration of the simplex-to-sphere map.}
   \label{fig:simplex-sphere-map}
 \end{figure}
-
-The last equality uses the tangent space constraint in the ambient space $T_{\boldsymbol{x}}\Delta^D = \{\boldsymbol{u}\in\mathbb{R}^K: \sum_{i=1}^K u_i = 0\}$ so $u_K = -\sum_{i=1}^D u_i $.
-Note that the inner product is only defined on $\mathring{\Delta}^D$, since it is undefined on the boundary. The following bijection connects the simplex to the positive orthant of the sphere:
-\begin{equation}
-\begin{aligned}
-\varphi: \Delta^{D} \to \mathbb{S}_+^{D}, \quad
-&\boldsymbol{x}\mapsto \boldsymbol{z} = \sqrt{\boldsymbol{x}}, \\
-\varphi^{-1}: \mathbb{S}_+^{D} \to \Delta^{D}, \quad
-&\boldsymbol{z} \mapsto \boldsymbol{x} = \boldsymbol{z}^2.
-\end{aligned}
-\label{eq:bij_sfm}
-\end{equation}
-where $\mathbb{S}_{+}^{D} := \{ \boldsymbol{z} \in \mathbb{R}_{\ge 0}^{K} : \sum_{k=1}^{K} z_k^2 = 1 \}$. 
-This bijection (illustrated in Fig.~\ref{fig:simplex-sphere-map}) is in fact an isomorphism between $(\Delta^D  , \mathbf{G}_F)$ and $(\mathbb{S}_{+}^{D}, \mathbf{G})$, where $\mathbf{G}$ is the canonical metric on the sphere \citep{Miyamoto2024}. The sphere is embedded in $\mathbb{R}^K$, and it inherits the ambient space inner product restricted to the tangent space, for $\boldsymbol{u},\boldsymbol{v}\in T_{\boldsymbol{z}} \mathbb{S}_{+}^{D}$,
-\begin{equation*}
-    \inp{\boldsymbol{u}}{\boldsymbol{v}}_G = \inp{\boldsymbol{u}}{\boldsymbol{v}}_2 = \sum_{i=1}^K u_i v_i.
-\end{equation*} 
-The geodesics in the sphere are the outer rings, the exponential and  logarithm map are:
-\begin{equation}
-\begin{aligned}
-\operatorname{Exp}_{\boldsymbol{z}}( t \boldsymbol{v}) 
-&= \cos\!\bigl(t\|\boldsymbol{v}\|_2\bigr)\boldsymbol{z}
-+ \sin\!\bigl(t\|\boldsymbol{v}\|_2\bigr)\frac{\boldsymbol{v}}{\|\boldsymbol{v}\|_2}, \\
-\operatorname{Log}_{\boldsymbol{z}}(\boldsymbol{z}')
-&= \frac{\theta}{\sin\theta}\Bigl(\boldsymbol{z}' - \cos(\theta)\boldsymbol{z}\Bigr), \qquad
-\theta = \arccos\!\bigl(\inp{\boldsymbol{z}}{\boldsymbol{z}'}\bigr).
-\end{aligned}
-\label{eq:geo_sphere}
-\end{equation}
 
 
 \begin{proposition}[Isometry, \citep{amari2000methods, Miyamoto2024}]
@@ -825,7 +846,7 @@ coupling $\pi$ (indep. or minibatch OT)
   \State $\boldsymbol{z}_t\!\gets\!\operatorname{Exp}_{\boldsymbol{z}_0}( t \operatorname{Log}_{\boldsymbol{z}_0}(\boldsymbol{z}_1))$, \;
          $\boldsymbol{u}_t\!\gets\!{\operatorname{Log}_{\boldsymbol{z}_t}(\boldsymbol{z}_1)}/({1-t})$
   \State Update $\theta$ by 
-  $\min \|\boldsymbol{v}_\theta(\boldsymbol{z}_t,t)-\boldsymbol{u}_t\|_{\mathbf{G}(\boldsymbol{z}_t)}^2$ \; 
+  $\min \|\boldsymbol{v}_t^\theta(\boldsymbol{z}_t)-\boldsymbol{u}_t\|_{\mathbf{G}(\boldsymbol{z}_t)}^2$ \; 
 \EndFor
 \end{algorithmic}
 \end{algorithm}
@@ -844,8 +865,7 @@ $\tfrac{d\boldsymbol{z}_t}{dt} = \boldsymbol{v}_\theta(\boldsymbol{z}_t,t), \; t
 
 \subsection{Gaussian processes for classification} \label{sec:gp}
 
-We briefly introduce Gaussian processes and present two alternatives for adapting Gaussian processes for classification as background for Paper~IV. 
-
+We first briefly introduce Gaussian processes.  We then describe two sparse formulations based on inducing points. Finally we present Dirichlet-based Gaussian process classification, which uses label smoothing and a distributional approximation to turn classification into Gaussian process regression in the latent space. These topics provide together the background for Paper~IV.
 
 \paragraph{Gaussian process}
 
@@ -870,7 +890,7 @@ Given a  GP prior assume the noisy Gaussian likelihood
  \[
 \boldsymbol z_n\mid \mathbf f(\boldsymbol{x}_n) \sim \mathcal N\!\bigl(\mathbf f(\boldsymbol{x}_n),\,\sigma^2\mathbf I_D\bigr).
 \]
-Let $\boldsymbol{x}_*\in\mathbb{R}^P$ be a test input and denote the vector of responses $\boldsymbol{z}^{(d)} := \bigl(z_1^{(d)},\ldots,z_N^{(d)}\bigr)^\top \in \mathbb{R}^N$ for $d=1,..,D$. The joint distribution of $\boldsymbol{z}^{(d)}$ and $f^{(d)}(\boldsymbol{x}_*)$ is:
+Let $\boldsymbol{x}_*\in\mathbb{R}^P$ be a test input and denote the vector of responses $\boldsymbol{z}^{(d)} := \bigl(z_1^{(d)},\ldots,z_N^{(d)}\bigr)^\top \in \mathbb{R}^N$ for $d=1,..,D$. The joint distribution of $\boldsymbol{z}^{(d)}$ and $f^{(d)}(\boldsymbol{x}_*)$ is
 \begin{equation*}
 \begin{bmatrix}
 \boldsymbol{z}^{(d)} \\
@@ -945,7 +965,7 @@ For the Gaussian approximation, the expected log likelihood factorizes over the 
 \end{equation*}
 This is the \emph{uncollapsed} bound. Since the first term is additive over the data it is possible to use stochastic optimization giving a complexity of $\mathcal{O}(BM^2 + M^3)$ for a batch size $B$. The variational parameters $\{\mathbf m^{(d)},\mathbf S^{(d)}\}_{d=1}^D$ and the inducing points are optimized together.
 
-The \emph{collapsed} bound is obtained observing, following \citet{titsias2009variational}, that the variational parameters $\{\mathbf m^{(d)},\mathbf S^{(d)}\}_{d=1}^D$ can be optimized analytically. This leads to a bound that only depends on the inducing point locations and is not additive over the input data
+The \emph{collapsed} bound is obtained by observing that the variational parameters $\{\mathbf m^{(d)},\mathbf S^{(d)}\}_{d=1}^D$ can be optimized analytically \citep{titsias2009variational}. This leads to a bound that only depends on the inducing point locations and is not additive over the input data
 \begin{equation}
 \log p(\mathbf z)
 \;\ge\;
@@ -962,7 +982,7 @@ The \emph{collapsed} bound is obtained observing, following \citet{titsias2009va
 \right),
 \label{eq:lower_bound_collapsed}
 \end{equation}
-where $\mathbf Q_{N} = \mathbf K_{NM}\mathbf K_{M}^{-1}\mathbf K_{MN}$ and $\mathbf K_{NM}$ denotes the covariance between training and inducing inputs. The first term is the log-likelihood under the Nystr\"om approximation $\mathbf{Q}_N$, while the second term measures the discrepancy between $\mathbf K_{N}$ and $\mathbf Q_{N}$, the complexity of the collapsed method is $\mathcal{O}(NM^2)$.  If the inducing points are the training points then $\mathbf{K}_N = \mathbf{Q}_N$ and the objective is exact and coincides with the marginal log-likelihood. 
+where $\mathbf Q_{N} = \mathbf K_{NM}\mathbf K_{M}^{-1}\mathbf K_{MN}$ is the low rank covariance matrix given by the inducing points, and $\mathbf K_{NM}$ denotes the covariance between training and inducing inputs. The first term is the log-likelihood of a Gaussian proceses with $\mathbf{Q}_N$ replacing $\mathbf{K}_N$, while the second term penalizes the discrepancy between $\mathbf K_{N}$ and $\mathbf Q_{N}$. The complexity of the collapsed method is $\mathcal{O}(NM^2)$. If the inducing points are the training points then $\mathbf{K}_N = \mathbf{Q}_N$ and the objective is exact and coincides with the marginal log-likelihood. 
 
 The predictions over a new data point $\boldsymbol{x}_*$ are obtained by the predictive distribution given by the inducing variables
 \begin{equation*}

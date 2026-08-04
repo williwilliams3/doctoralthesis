@@ -5,7 +5,7 @@
 This chapter introduces the background needed for the methods developed in Chapters~\ref{ch:mcmc} and \ref{ch:simplex}.  We start by giving a brief introduction to Riemannian geometry, then introducing methods for approximate Bayesian inference and finally approaches for modeling discrete data. 
 
 \section{Basic notions in Riemannian Geometry} \label{sec:riemannian_background}
-For a formal and rigorous introduction to Riemannian geometry we refer the reader to \citet{do1992riemannian,Lee2018}. Here we introduce the only the concepts needed later in the thesis, under simplified settings that cover our examples. We consider manifolds that admit a global chart, a subset of which are  smooth embedded submanifolds of Euclidean space. This allows us to write the coordinates globally, and avoid dealing with local coordinates patches. When the space has a boundary (e.g. the simplex) we consider the differential geometric objects only on the interior of the space. 
+For a formal and rigorous introduction to Riemannian geometry we refer the reader to \citet{do1992riemannian} and \citet{Lee2018}. Here we introduce the only the concepts needed later in the thesis, under simplified settings that cover our examples. We consider manifolds that admit a global chart, a subset of which are  smooth embedded submanifolds of Euclidean space. This allows us to write the coordinates globally, and avoid dealing with local coordinates patches. When the space has a boundary (e.g. the simplex) we consider the differential geometric objects only on the interior of the space. 
 
 \subsection{Riemannian manifolds}
 
@@ -101,12 +101,12 @@ the embedding is $\psi(\boldsymbol{z})=(\boldsymbol{z},f(\boldsymbol{z}))$, so t
 \end{equation*}
 If $f(\boldsymbol{z})=\alpha \ell(\boldsymbol{z})$ for a log density $\ell$ and
 tempering parameter $\alpha\geq 0$, this is the Monge metric (see Chapter~\ref{ch:mcmc}).
-The different manifolds considered in this thesis are summarized in Table~\ref{tab:manifolds}
+The different manifolds considered in this thesis are summarized in Table~\ref{tab:manifolds}.
 \begin{table}[t]
 \centering
 \footnotesize
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{p{0.14\linewidth}p{0.52\linewidth}cc}
+\begin{tabular}{@{}p{0.14\linewidth}p{0.52\linewidth}cc@{}}
 \toprule
 \textbf{Name} & \textbf{Definition} & \textbf{Embedded} & \textbf{Metric} \\
 \midrule
@@ -128,7 +128,7 @@ $\Theta:=\{\boldsymbol{x}\in\mathbb{R}^{D}:p_{\mathcal{Y}\mid\mathcal{X}}(\bolds
 Custom \\
 \bottomrule
 \end{tabular}
-\caption{Summary of the manifolds considered in the thesis. In the case of the simplex and statistical manifolds we equip the space with custom choices metric tensors presented in Chapter~\ref{ch:mcmc} and Chapter~\ref{ch:simplex}. }
+\caption{Summary of the manifolds considered in the thesis. In the case of the simplex and statistical manifolds we equip the space with custom choices metric tensors presented in Chapters~\ref{ch:mcmc} and~\ref{ch:simplex}. }
 \label{tab:manifolds}
 \end{table}
 
@@ -204,13 +204,13 @@ The logarithm map is the inverse of the exponential map, given two close enough 
     \boldsymbol{v} =\operatorname{Log}_{\boldsymbol{x}_0}(\boldsymbol{x}_1)\in T_{\boldsymbol{x}_0}\mathcal{M},
 \end{equation*}
 such that $\operatorname{Exp}_{\boldsymbol{x}_0}(\boldsymbol{v})=\boldsymbol{x}_1$.
-If the solution is not computable analytically, the problem can be solved numerically by standard boundary value solvers, such as \citet{2020SciPy-NMeth}. 
+If the solution is not computable analytically, the problem can be solved numerically by standard boundary value solvers, such as the solvers of \citet{2020SciPy-NMeth}. 
 
 The main computational bottleneck comes from the computation of the Christoffel symbols since they involve the inverse metric and derivatives of the metric. The choice of numerical solver affects accuracy and runtime: fixed or adaptive step-size, and low to higher order solvers introduce tradeoff between stability, numerical error and computational cost. 
 
 
 \subsection{Riemannian gradient and Hessian}
- The notions of gradients, Hessian  are modified such that they are consistent with the geometry introduced by  $\mathbf{G}(\boldsymbol{x})$, and are useful later in Chapter~\ref{ch:mcmc}. 
+The notions of gradients, Hessian  are modified such that they are consistent with the geometry introduced by  $\mathbf{G}(\boldsymbol{x})$. These quantities are introduced here and useful in Chapter~\ref{ch:mcmc}. 
 
 \paragraph{Riemannian gradient}
 Let $f:\mathcal{M}\to\mathbb{R}$ be a smooth function. The Riemannian gradient $\nabla_{\mathbf{G}}f(\boldsymbol{x})\in T_{\boldsymbol{x}}\mathcal{M}$ is tangent vector  which satisfies the identity
@@ -286,7 +286,7 @@ When the posterior falls on the same parametric family as the prior, the model i
 \begin{equation}
     p(\boldsymbol{x}) := p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})\,p_{\mathcal{X}}(\boldsymbol{x}).
 \end{equation}
-Approximate Bayesian inference then relies on $p(\boldsymbol{x})$ or on its log-density $\ell(\boldsymbol{x}) := \log p(\boldsymbol{x})$ to form approximations of the posterior \eqref{eq:posterior}.
+Approximate Bayesian inference then relies on $p(\boldsymbol{x})$ or on its log-density $\ell(\boldsymbol{x}) := \log p(\boldsymbol{x})$ to form approximations of the posterior in Equation \ref{eq:posterior}.
 
 In this thesis, the practical objective is to draw samples from the posterior distribution. Since the target density is proportional to the posterior up to a constant, sampling from either yields the same distribution. Given a set of samples we can estimate posterior quantities by Monte Carlo, for example,  if $\{\boldsymbol{x}^{(s)}\}_{s=1}^S$ are samples distributed according to the target distribution, then for a measurable function $h$ we can estimate expectations by
 \begin{equation}
@@ -328,7 +328,7 @@ according to a measure of divergence between the distributions \citep{blei2017va
 Let us consider a common choice, Kullback-Leibler (KL) divergence, defined as 
 \begin{equation*}
 \begin{aligned}
-    \mathrm{KL}(p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})\|q_{\boldsymbol{\theta}}(\boldsymbol{x}))&:= \mathbb{E}_{\boldsymbol{x}\sim p_{\mathcal{X}\mid \mathcal{Y}}(\cdot\mid \boldsymbol{y})}\!\left[\log\frac{p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})}{q_{\boldsymbol{\theta}}(\boldsymbol{x})}\right],    \\
+    \mathrm{KL}(p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})\|q_{\boldsymbol{\theta}}(\boldsymbol{x}))&:= \mathbb{E}_{\boldsymbol{x}\sim p_{\mathcal{X}\mid \mathcal{Y}}(\cdot\mid \boldsymbol{y})}\!\left[\log\frac{p_{\mathcal{X}\mid \mathcal{Y}}(\boldsymbol{x}\mid \boldsymbol{y})}{q_{\boldsymbol{\theta}}(\boldsymbol{x})}\right]    \\
     &\approx \frac{1}{S}\sum_{i=1}^{S}
     \left[
     -\log q_{\boldsymbol{\theta}}\!\left(\boldsymbol{x}^{(i)}\right)    
@@ -451,7 +451,7 @@ Next we describe the standard MCMC methods that are later extended, and briefly 
 \begin{equation}
     \{(\boldsymbol{x},s)\in \mathbb{R}^{D}\times\mathbb{R}_{+} : 0 < s < p(\boldsymbol{x})\} \subset \mathbb{R}^{D+1}.
 \end{equation}
-Uniform sampling from this set can be carried out by alternating between  sampling  $\boldsymbol{x}$ and $s$, and this procedure targets the correct distribution \citep{Neal2003}. For a fixed level $s$, define the slice $L_{\boldsymbol{x}}(s) := \{ \boldsymbol{x}\in \mathbb{R}^D : p(\boldsymbol{x}) > s \}$, one idealized iteration is
+Uniform sampling from this set can be carried out by alternating between  sampling  $\boldsymbol{x}$ and $s$, and this procedure targets the correct distribution \citep{Neal2003}. For a fixed level $s$, define the slice $L_{\boldsymbol{x}}(s) := \{ \boldsymbol{x}\in \mathbb{R}^D : p(\boldsymbol{x}) > s \}$, one idealized iteration consists of the following two steps
 \begin{enumerate}
     \item Sample $s \sim \mathrm{Unif}(0, p(\boldsymbol{x}))$.
     \item Sample $\boldsymbol{x} \sim \mathrm{Unif}( L_{\boldsymbol{x}}(s) )$.
@@ -589,7 +589,7 @@ Recall that
 \begin{equation*}
  \mathbf{G}(\cdot):\mathbb{R}^D\to \mathbb{R}^D\times \mathbb{R}^D   
 \end{equation*}
-is the matrix  that holds the components of a metric tensor (See Section~\ref{sec:riemannian_background}). 
+is the matrix  that holds the components of a metric tensor (see Section~\ref{sec:riemannian_background}). 
 Next we describe some geometric MCMC methods and their computational cost.
 
 \paragraph{Riemannian manifold Hamiltonian Monte Carlo (RMHMC) }
@@ -608,7 +608,7 @@ where $\phi(\boldsymbol{x})=-\ell(\boldsymbol{x})+ \frac{1}{2}\log\det \mathbf{G
     \dot{\boldsymbol{p}} = - \nabla_{\boldsymbol{x}} \mathcal{H}(\boldsymbol{x},\boldsymbol{p}),
     \label{eq:rmhmc}
 \end{equation}
-The numerical integration of Eq.~\ref{eq:rmhmc} relies on fixed point iteration \citep{Girolami2011}. Each step iterates until a specified tolerance is reached to generate a proposal, increasing the runtime. With a full rank metric tensor the resulting computations are of order $\mathcal{O}(D^3)$ at each iteration,  which limits its scalability to high dimensional problems.
+The numerical integration of Equation~\ref{eq:rmhmc} relies on fixed point iteration \citep{Girolami2011}. Each step iterates until a specified tolerance is reached to generate a proposal, increasing the runtime. With a full rank metric tensor the resulting computations are of order $\mathcal{O}(D^3)$ at each iteration,  which limits its scalability to high dimensional problems.
 
 \paragraph{Lagrangian dynamical Monte Carlo (LMC) }
 \citet{Lan2015} expressed the Hamiltonian equations in terms of velocity instead of momentum through a change of variables  $\boldsymbol{v}=\mathbf{G}(\boldsymbol{x})^{-1}\boldsymbol{p}$, and the system dynamics become
@@ -618,7 +618,7 @@ The numerical integration of Eq.~\ref{eq:rmhmc} relies on fixed point iteration 
     \dot{\boldsymbol{v}} = -\boldsymbol{\eta}(\boldsymbol{x},\boldsymbol{v}) - \mathbf{G}(\boldsymbol{x})^{-1}\nabla_{\boldsymbol{x}}\phi(\boldsymbol{x}),
     \label{eqsLMC}
 \end{equation}
-where $[\boldsymbol{\eta}(\boldsymbol{x},\boldsymbol{v})]_k=\sum_{i,j}\Gamma^k_{ij}(\boldsymbol{x})\,v_i v_j$, and the Christoffel symbols  $\Gamma_{ij}^k$ (see Eq.~\ref{eq:christoffel_symbols}). 
+where $[\boldsymbol{\eta}(\boldsymbol{x},\boldsymbol{v})]_k=\sum_{i,j}\Gamma^k_{ij}(\boldsymbol{x})\,v_i v_j$, and the Christoffel symbols  $\Gamma_{ij}^k$ (see Equation~\ref{eq:christoffel_symbols}). 
 The authors proposed a numerical integrator that is explicit and does not rely on fixed point iterations, improving the running time over RMHMC. Each step still computes inverses of the metric tensor and is $\mathcal{O}(D^3)$ in complexity which again limits its scalability to higher dimensions. One way of reducing the complexity of the numerical integrators are metrics with closed form inverse and determinant \citep{Hartmann2022}. Some metric choices are presented in Chapter~\ref{ch:mcmc}.
 Additionally, the numerical integrator introduces two hyperparameters, the step-size and the number of steps, with several strategies available for selecting a value. \citet{williams2024geometric} discuss the choice of metric, numerical integrator, and hyperparameter adaptation in RMHMC and LMC. 
 
@@ -664,7 +664,7 @@ The optimal transport coupling is approximated with mini-batch optimal transport
 Conditional flow matching can be extended from Euclidean space to a Riemannian manifold $(\mathcal{M}, \mathbf{G})$ \citep{Chen2024}. 
 Instead of a vector field in the Euclidean space $\mathbb{R}^D$, the vector field is defined on the tangent space of the manifold $\boldsymbol{u}_t(\boldsymbol{x})\in T_{\boldsymbol{x}}\mathcal{M}$. The resulting dynamics on the manifold are
 \[
-\frac{d\boldsymbol{x}_t}{dt} = \boldsymbol{u}_t(\boldsymbol{x}_t), \qquad \boldsymbol{x}_t\sim p_t.
+\frac{d\boldsymbol{x}_t}{dt} = \boldsymbol{u}_t(\boldsymbol{x}_t), \qquad \boldsymbol{x}_t\sim p_t,
 \]
 where the initial condition is a simple base distribution defined over $\mathcal{M}$.
 The marginal probability paths are generated from $\boldsymbol{u}_t$ by the Riemannian version of the instantaneous change of variables 
@@ -698,18 +698,18 @@ Under the Fisher metric, the space has the inner product for $\boldsymbol{u},\bo
     \inp{\boldsymbol{u}}{\boldsymbol{v}}_{G_F(\boldsymbol{x})} = \sum_{i=1}^D \frac{u_iv_i}{x_i} + \frac{( \sum_{i=1}^D u_i)( \sum_{i=1}^D v_i)}{x_K}  = \sum_{i=1}^K \frac{u_i v_i}{x_i}.
 \end{align*}
 The last equality uses the tangent space constraint in the ambient space $T_{\boldsymbol{x}}\Delta^D = \{\boldsymbol{u}\in\mathbb{R}^K: \sum_{i=1}^K u_i = 0\}$ so $u_K = -\sum_{i=1}^D u_i $.
-Note that the inner product is only defined on $\mathring{\Delta}^D$, since it is undefined on the boundary. The following bijection connects the simplex to the positive orthant of the sphere
+Note that the inner product is only defined on $\mathring{\Delta}^D$, since it is undefined on the boundary. The bijection between the simplex and the positive orthant of the sphere, together with its inverse, is given by
 \begin{equation}
 \begin{aligned}
 \varphi: \Delta^{D} \to \mathbb{S}_+^{D}, \quad
-&\boldsymbol{x}\mapsto \boldsymbol{z} = \sqrt{\boldsymbol{x}}, \\
+&\boldsymbol{x}\mapsto \boldsymbol{z} = \sqrt{\boldsymbol{x}},\quad \text{and}\\
 \varphi^{-1}: \mathbb{S}_+^{D} \to \Delta^{D}, \quad
 &\boldsymbol{z} \mapsto \boldsymbol{x} = \boldsymbol{z}^2.
 \end{aligned}
 \label{eq:bij_sfm}
 \end{equation}
-where $\mathbb{S}_{+}^{D} := \{ \boldsymbol{z} \in \mathbb{R}_{\ge 0}^{K} : \sum_{k=1}^{K} z_k^2 = 1 \}$. 
-This bijection (illustrated in Fig.~\ref{fig:simplex-sphere-map}) is in fact an isomorphism between $(\Delta^D  , \mathbf{G}_F)$ and $(\mathbb{S}_{+}^{D}, \mathbf{G})$, where $\mathbf{G}$ is the canonical metric on the sphere \citep{Miyamoto2024}. The sphere is embedded in $\mathbb{R}^K$, and it inherits the ambient space inner product restricted to the tangent space, for $\boldsymbol{u},\boldsymbol{v}\in T_{\boldsymbol{z}} \mathbb{S}_{+}^{D}$,
+$\mathbb{S}_{+}^{D} := \{ \boldsymbol{z} \in \mathbb{R}_{\ge 0}^{K} : \sum_{k=1}^{K} z_k^2 = 1 \}$, and the square root and squaring operations are applied component wise. 
+This bijection (illustrated in Figure~\ref{fig:simplex-sphere-map}) is in fact an isomorphism between $(\Delta^D  , \mathbf{G}_F)$ and $(\mathbb{S}_{+}^{D}, \mathbf{G})$, where $\mathbf{G}$ is the canonical metric on the sphere \citep{Miyamoto2024}. The sphere is embedded in $\mathbb{R}^K$, and it inherits the ambient space inner product restricted to the tangent space, for $\boldsymbol{u},\boldsymbol{v}\in T_{\boldsymbol{z}} \mathbb{S}_{+}^{D}$,
 \begin{equation*}
     \inp{\boldsymbol{u}}{\boldsymbol{v}}_G = \inp{\boldsymbol{u}}{\boldsymbol{v}}_2 = \sum_{i=1}^K u_i v_i.
 \end{equation*} 
@@ -718,9 +718,9 @@ The geodesics in the sphere are the outer rings, the exponential and  logarithm 
 \begin{aligned}
 \operatorname{Exp}_{\boldsymbol{z}}( t \boldsymbol{v}) 
 &= \cos\!\bigl(t\|\boldsymbol{v}\|_2\bigr)\boldsymbol{z}
-+ \sin\!\bigl(t\|\boldsymbol{v}\|_2\bigr)\frac{\boldsymbol{v}}{\|\boldsymbol{v}\|_2}, \\
++ \sin\!\bigl(t\|\boldsymbol{v}\|_2\bigr)\frac{\boldsymbol{v}}{\|\boldsymbol{v}\|_2}, \text{ and}\\
 \operatorname{Log}_{\boldsymbol{z}}(\boldsymbol{z}')
-&= \frac{\theta}{\sin\theta}\Bigl(\boldsymbol{z}' - \cos(\theta)\boldsymbol{z}\Bigr), \qquad
+&= \frac{\theta}{\sin\theta}\Bigl(\boldsymbol{z}' - \cos(\theta)\boldsymbol{z}\Bigr), \text{ where }
 \theta = \arccos\!\bigl(\inp{\boldsymbol{z}}{\boldsymbol{z}'}\bigr).
 \end{aligned}
 \label{eq:geo_sphere}
@@ -797,7 +797,7 @@ The geodesics in the sphere are the outer rings, the exponential and  logarithm 
 The diffeomorphism in Equation~\ref{eq:bij_sfm} is an isomorphism between $(\Delta^D  , \mathbf{G}_F)$  and $(\mathbb{S}_{+}^{D}, \mathbf{G})$ up to a factor of $\frac{1}{4}$.
 \end{proposition}
 \begin{proof}
-    The proof consists on showing that
+    The proof consists on showing
     $
     \frac{1}{4}\inp{\boldsymbol{u}}{\boldsymbol{v}}_{\mathbf{G}_F(\boldsymbol{x})}
     =
@@ -820,7 +820,7 @@ The diffeomorphism in Equation~\ref{eq:bij_sfm} is an isomorphism between $(\Del
         = \frac{1}{4}\inp{\boldsymbol{u}}{\boldsymbol{v}}_{\mathbf{G}_F(\boldsymbol{x})}.
     \end{align*}
 \end{proof}
-Based on the isomorphism (Prop.~\ref{prop:isomorphism_fisher}), the exponential map in $(\Delta^D  , \mathbf{G}_F)$ is 
+Based on the isomorphism (Proposition~\ref{prop:isomorphism_fisher}), the exponential map in $(\Delta^D  , \mathbf{G}_F)$ is 
 \begin{align*}
 \operatorname{Exp}_{\boldsymbol{x}}( t \boldsymbol{v})  &= \varphi^{-1}\big(\mathrm{Exp}_{\sqrt{x}}(d\varphi_x(v))\big) \\
 & = \left(
@@ -828,19 +828,19 @@ Based on the isomorphism (Prop.~\ref{prop:isomorphism_fisher}), the exponential 
 +
 \sin\!\left(\frac{t\|\boldsymbol{v}\|_{\mathbf{G}_F(\boldsymbol{x})}}{2}\right)
 \frac{\boldsymbol{v}}{\|\boldsymbol{v}\|_{\mathbf{G}_F(\boldsymbol{x})}\sqrt{\boldsymbol{x}}}
-\right)^2
+\right)^2.
 \label{eq:geo_simplex}
 \end{align*}
 Note that $\|\cdot \|_{\mathbf{G}_F}$ and $\tfrac{1}{\sqrt{\boldsymbol{x}}}$ explode when $\boldsymbol{x}$ approaches $\partial \Delta^D$ which makes it unstable, to address this  \citet{Cheng2024} and \cite{Davis2024} proposed modeling directly in the sphere. The approach first transforms the training data to the sphere with $\varphi$, and then fits the flow's parameters with RCFM on this space (Algorithm~\ref{alg:train_sfm}). New data is sampled by numerical integration of the learned velocity field, and the final point is mapped to the simplex with $\varphi^{-1}$ (Algorithm~\ref{alg:sample_sfm}).
 
 \begin{algorithm}
-\caption{Training of SFM}
+\caption{Training of SFM.}
 \label{alg:train_sfm}
 \begin{algorithmic}[1]
 \Require Data $\boldsymbol{x}\!\in\!\Delta^{D}$, bijection $\varphi$, base $p_0$ (e.g. $\varphi_\sharp \mathrm{Unif}(\Delta^D)$), 
 coupling $\pi$ (indep. or minibatch OT)
 \For{each mini-batch}    
-  \State $\boldsymbol{z}_1 \gets \varphi({\boldsymbol{x}})$ \Comment{To sphere}
+  \State $\boldsymbol{z}_1 \gets \varphi({\boldsymbol{x}})$ \Comment{Map to the sphere.}
   \State Sample $\boldsymbol{z}_0 \sim p_0$; pair $(\boldsymbol{z}_0,\boldsymbol{z}_1)$ via $\pi$
   \State Sample $t\sim \mathrm{Unif}(0,1)$
   \State $\boldsymbol{z}_t\!\gets\!\operatorname{Exp}_{\boldsymbol{z}_0}( t \operatorname{Log}_{\boldsymbol{z}_0}(\boldsymbol{z}_1))$, \;
@@ -852,7 +852,7 @@ coupling $\pi$ (indep. or minibatch OT)
 \end{algorithm}
 
 \begin{algorithm}[t]
-\caption{Sampling with SFM}
+\caption{Sampling with SFM.}
 \label{alg:sample_sfm}
 \begin{algorithmic}[1]
 \Require Learned $\boldsymbol{v}_\theta$, bijection $\varphi$, base $p_0$
@@ -913,7 +913,7 @@ $f^{(d)}(\boldsymbol{x}_*) \mid \boldsymbol{z}^{(d)}
 \mathcal{N}\!\bigl(\mu_*^{(d)},\,\sigma_*^2\bigr)$ with mean and covariance
 \begin{equation}
 \begin{aligned}
-\mu_*^{(d)} &:=\mathbf k_*^\top(\mathbf{K}_{N}+\sigma^2\mathbf I_N)^{-1}\boldsymbol z^{(d)},\\
+\mu_*^{(d)} &:=\mathbf k_*^\top(\mathbf{K}_{N}+\sigma^2\mathbf I_N)^{-1}\boldsymbol z^{(d)}, \text{ and}\\
 \sigma_*^2 &:= k_{**}-\mathbf k_*^\top(\mathbf{K}_{N}+\sigma^2\mathbf I_N)^{-1}\mathbf k_*.
 \end{aligned}
 \label{eq:gp_posterior}

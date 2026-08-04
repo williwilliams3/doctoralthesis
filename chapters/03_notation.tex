@@ -5,7 +5,7 @@ These tables collect the most important notation and are organized by topic.
 \paragraph{Geometric Bayesian inference}
 \begin{center}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{p{0.28\textwidth}p{0.68\textwidth}}
+\begin{tabular}{@{}p{0.28\textwidth}p{0.68\textwidth}@{}}
 $\boldsymbol{x}\in\mathbb{R}^{D}$, $p(\boldsymbol{x})$,  & Variable of interest and target density. \\
 $\ell(\boldsymbol{x}):=\log p(\boldsymbol{x})$ & Log-target density.\\
 $\hat{\boldsymbol{x}}$ & Mode or MAP estimate of the target. \\
@@ -20,7 +20,7 @@ $\Gamma^k_{ij}(\boldsymbol{x})$ & Christoffel symbols of the second kind. \\
 \paragraph{Gaussian Processes}
 \begin{center}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{p{0.28\textwidth}p{0.68\textwidth}}
+\begin{tabular}{@{}p{0.28\textwidth}p{0.68\textwidth}@{}}
 $\mathbf{f}(\cdot)\sim\mathcal{GP}(\mathbf{0},K_{\theta})$ & Latent Gaussian process prior with zero mean and kernel $K_{\theta}$. \\
 $\boldsymbol{\mu}_*$, $\boldsymbol{\Sigma}_*$ &  predictive mean, and predictive covariance in the GP model for point $\boldsymbol{x}_*$. \\
 $\sigma^2$ & Latent Gaussian noise variance. \\
@@ -31,7 +31,7 @@ $\sigma^2$ & Latent Gaussian noise variance. \\
 \paragraph{Latent constructions}
 \begin{center}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{p{0.28\textwidth}p{0.68\textwidth}}
+\begin{tabular}{@{}p{0.28\textwidth}p{0.68\textwidth}@{}}
 $K$, $D:=K-1$ & Number of categories and corresponding latent dimension. \\
 $c_i, \boldsymbol{x}_i, \boldsymbol{z}_i$, $\boldsymbol{r}_i$ & Class label $c_i\in \{1,..,K\}$, point in open simplex, point in Euclidean space and regressor. \\
 $\Delta^{D}$, $\mathring{\Delta}^{D}$ & Closed simplex and open simplex. \\
@@ -45,4 +45,3 @@ $p_0,p_1,p_t$ & Base distribution, data distribution, and marginal distribution 
 $\boldsymbol{u}_t(\cdot|\boldsymbol{z})$, $\boldsymbol{v}_t^{\theta}(\cdot)$ & Target conditional velocity field and parametric velocity field.  
 \end{tabular}
 \end{center}
-∑

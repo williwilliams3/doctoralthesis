@@ -152,7 +152,7 @@ Science]
     \clearpage
     \thispagestyle{empty}
     {\raggedright\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}
-      {\bf Supervisor} \par
+      {\bf Supervisors} \par
       \quad \hangindent=1em \tktla@supervisorlist\par
       \quad\par
       {\bf Pre-examiners} \par

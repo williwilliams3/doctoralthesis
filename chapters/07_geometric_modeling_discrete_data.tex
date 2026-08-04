@@ -9,8 +9,9 @@ We first introduce the Aitchison geometry and the simplex-to-Euclidean bijection
 
 \section{Simplex-to-Euclidean Bijections}
 
+We presented in Section~\ref{sec:discrete_data} the Fisher information geometry in the simplex, which is isomorphic to the positive orthant of the sphere. In this section and through the chapter, we instead use the Aitchison geometry of the simplex, because it provides a direct connection between the open simplex and Euclidean coordinates. We now introduce compositional data analysis which provides the building blocks for the Simplex-to-Euclidean bijections.
+
 \subsection{Compositional Data Analysis}
-We presented in Section~\ref{sec:discrete_data} the Fisher information geometry in the simplex, which is isomorphic to the positive orthant of the sphere. In this chapter we instead use the Aitchison geometry of the simplex, because it provides a direct connection between the open simplex and Euclidean coordinates. 
 
 \citet{Aitchison1981, Aitchison1982} introduced a geometry for the simplex that is not the Fisher information metric. This geometry is defined only on the interior of the simplex and the central idea is that information is carried by  the log-ratios of the components. Similarly to how the sigmoid function is a link function from binary classification to $\mathbb{R}$, the Aitchison geometry gives different choices of link functions from the open simplex to $\mathbb{R}^D$. The bijections make Euclidean modeling compatible with the simplex.
 
@@ -24,10 +25,10 @@ The simplex and the open simplex are defined as
 where only $D=K-1$ components are free, since one arbitrary component (for example the last one) is determined by the others as $x_K = 1-\sum_{d=1}^D x_d$.
 The usual Euclidean operators are not closed on the simplex, for example the Euclidean sum of two vectors may fall outside the space. For this reason, \cite{Aitchison1986} defines perturbation (vector addition) and powering (scalar multiplication) that make the simplex a vector space. Define the normalization operation $\mathcal{C}(\boldsymbol{x}) := \boldsymbol{x}/\sum_{k=1}^{K} x_k$. For $\boldsymbol{x}, \boldsymbol{y}\in\mathring\Delta^D$ and $\lambda\in \mathbb{R}$, define
 \begin{align*}
-\text{Perturbation} \quad
+\textbf{perturbation} \quad
 &\boldsymbol{x} \oplus \boldsymbol{y}
-:= \mathcal{C}(x_1 y_1,\ldots, x_K y_K), \\
-\text{Powering} \quad
+:= \mathcal{C}(x_1 y_1,\ldots, x_K y_K), \text{ and} \\
+\textbf{powering} \quad
 &\lambda \odot \boldsymbol{x}
 := \mathcal{C}(x_1^\lambda,\ldots, x_K^\lambda).
 \end{align*}
@@ -55,7 +56,7 @@ To give the open simplex a geometry, we use the center logratio map (CLR), which
 \begin{aligned}
     \operatorname{clr}: \mathring\Delta^D &\to \mathbb{H}^D, \quad
     \boldsymbol{x} \mapsto \boldsymbol{z}
-    = \log \boldsymbol{x} - \frac{1}{K}\sum_{k=1}^{K} \log x_k \,\boldsymbol{1}, \\
+    = \log \boldsymbol{x} - \frac{1}{K}\sum_{k=1}^{K} \log x_k \,\boldsymbol{1}, \text{ and} \\
     \operatorname{clr}^{-1}: \mathbb{H}^D &\to \mathring\Delta^D, \quad
     \boldsymbol{z} \mapsto \boldsymbol{x}
     = \mathcal{C} (\exp\boldsymbol{z}).
@@ -66,7 +67,7 @@ The image of the map lies in $\mathbb{H}^{D}$ because the components of $\operat
 \langle \boldsymbol{x}, \boldsymbol{y} \rangle_A &= 
 \langle \operatorname{clr}(\boldsymbol{x}), \operatorname{clr}(\boldsymbol{y}) \rangle_2 
 =\frac{1}{2K} \sum_{i,j=1}^{K} 
-\log\frac{x_i}{x_j}\log\frac{y_i}{y_j}, \\
+\log\frac{x_i}{x_j}\log\frac{y_i}{y_j}, \text{ and} \\
 d(x,y)_A &= 
 \| \operatorname{clr}(\boldsymbol{x})- \operatorname{clr}(\boldsymbol{y}) \|_2 
  = \sqrt{\frac{1}{2K}\sum_{i,j=1}^K
@@ -102,7 +103,7 @@ The Helmert matrix has the property that $\mathbf{H}\boldsymbol{1} = \boldsymbol
 The ILR map and its inverse are therefore
 \begin{equation} \label{eq:ilr}
     \begin{aligned}
-    \varphi: \mathring\Delta^{D} \to \mathbb{R}^{D},\quad  &\boldsymbol{x}\mapsto \boldsymbol{z}= \mathbf{H} \log \boldsymbol{x}, \\
+    \varphi: \mathring\Delta^{D} \to \mathbb{R}^{D},\quad  &\boldsymbol{x}\mapsto \boldsymbol{z}= \mathbf{H} \log \boldsymbol{x}, \text{ and} \\
     \varphi^{-1}:  \mathbb{R}^{D} \to \mathring\Delta^{D}, \quad &\boldsymbol{z}\mapsto \boldsymbol{x} = \mathcal{C}\left(\exp (\mathbf{H}^\top \boldsymbol{z} )\right).
     \end{aligned}
 \end{equation}
@@ -133,9 +134,8 @@ The Aitchison geodesic between $\boldsymbol{x}$ and $\boldsymbol{y}$ is computed
     \bigl((1-t)\odot \boldsymbol{x}\bigr) \oplus \bigl(t\odot \boldsymbol{y}\bigr).
 \end{equation*}
 
-\paragraph{Additional simplex-to-Euclidean bijections}
-
-\citet{Aitchison1980, Aitchison1982} also introduced other logratio maps from the open simplex to Euclidean space. Two classical bijections are the additive logratio (ALR) and the multiplicative log ratio (MLR), defined as
+\paragraph{Other simplex-to-Euclidean bijections}
+\citet{Aitchison1980} and \citet{Aitchison1982} also introduced other logratio maps from the open simplex to Euclidean space. Two classical bijections are the additive logratio (ALR) and the multiplicative log ratio (MLR), defined as
 \begin{align}
     \mathrm{alr}(\boldsymbol{x})_k &:=  \log\tfrac{x_k}{x_{K}}, \quad &\mathrm{alr}^{-1}(\boldsymbol{z}) =  \mathrm{softmax}([\boldsymbol{z},0]),\\
     \mathrm{mlr}(\boldsymbol{x})_k &:=  \log\tfrac{x_k}{1 - \sum_{i=1}^{k} x_{i}}, \quad
@@ -152,7 +152,9 @@ The stick-breaking (SB) fixes this by shifting the MLR map
 \begin{aligned}
 \varphi : \mathring{\Delta}^{D} &\to \mathbb{R}^{D}, \quad
 \boldsymbol{x} \mapsto \boldsymbol{z}, \quad
-z_k = \mathrm{mlr}(\boldsymbol{x})_k - \log\!\left(\frac{1}{K - k}\right), \\
+z_k = \mathrm{mlr}(\boldsymbol{x})_k - \log\!\left(\frac{1}{K - k}\right), 
+\text{ and}
+\\
 \varphi^{-1} : \mathbb{R}^{D} &\to \mathring{\Delta}^{D}, \quad
 \boldsymbol{z} \mapsto \boldsymbol{x}, \quad
 \boldsymbol{x} = \mathrm{mlr}^{-1}(\boldsymbol{y}), \quad
@@ -178,13 +180,13 @@ If the interpolated sample remains on the region $\mathcal{R}_k$ then the $\arg 
 }
 \end{equation}
 The parameter $\lambda$ controls how far the sample is moved away from the boundary. 
-Proposition~\ref{prop:interpolation} states that for $\lambda\geq 1/2$ the original category remains in $\mathcal{R}_k$ and is recovered via $c = \arg\max \boldsymbol{x}$ almost surely (See Fig.~\ref{fig:lambda}).
+Proposition~\ref{prop:interpolation} states that for $\lambda\geq 1/2$ the original category remains in $\mathcal{R}_k$ and is recovered via $c = \arg\max \boldsymbol{x}$ almost surely (see Figure~\ref{fig:lambda}).
 
-The noise process can be any distribution over the simplex, we choose the symmetric Dirichlet noise distribution $\mathrm{Dir}(\alpha\boldsymbol{1})$ because it has a simple covariance structure in ILR coordinates. The latent ILR covariance is the same independent of the number of categories $K$. Let $\boldsymbol{z} = \varphi(\boldsymbol{x})$ under the ILR map, then \citep{Aitchison1986}
+The noise process can be any distribution over the simplex, we choose the symmetric Dirichlet noise distribution $\mathrm{Dir}(\alpha\boldsymbol{1})$ because it has a simple covariance structure in ILR coordinates. The latent ILR covariance is the same independent of the number of categories $K$. Let $\boldsymbol{z} = \varphi(\boldsymbol{x})$ under the ILR map, then
 \begin{equation*}
 \operatorname{Cov}(\boldsymbol{z})=\psi'(\alpha)\,\mathbf{I}_{D},
 \end{equation*}
-where $\psi'$ is the trigamma function. This is convenient and justifies using the same value of $\alpha$ for any number of categories. In practice we use $\alpha>1$, which concentrates the interpolation's mass near the mean of the distribution and away from the boundary of the simplex.
+where $\psi'$ is the trigamma function \citep{Aitchison1986}. This is convenient and justifies using the same value of $\alpha$ for any number of categories. In practice we use $\alpha>1$, which concentrates the interpolation's mass near the mean of the distribution and away from the boundary of the simplex.
 
 \begin{proposition}[Proposition 1, Paper III] \label{prop:interpolation}
 \textbf{Dirichlet Interpolation:}
@@ -234,7 +236,7 @@ and map it to the latent mean vector $\boldsymbol{m}^{(k)} = \varphi(\boldsymbol
 \end{equation}
 
 The discrete labels are distributed as $c\sim\mathrm{Cat}(\pi_1,\dots,\pi_K)$, where the class-probability vector $\boldsymbol{\pi}\in\Delta^D$ is unknown.
-The distribution in latent space is a Gaussian mixture (see Fig.~\ref{fig:likelihood}) centered at $\boldsymbol m^{(k)}$. This can be seen by marginalizing over the classes,
+The distribution in latent space is a Gaussian mixture (see Figure~\ref{fig:likelihood}) centered at $\boldsymbol m^{(k)}$. This can be seen by marginalizing over the classes,
 \begin{equation*}
 \begin{aligned}
 p(\boldsymbol z) = \sum_{k=1}^K p(c=k)\, p(\boldsymbol z\mid c=k) = \sum_{k=1}^K \pi_k\,\mathcal N\!\bigl(\boldsymbol z\mid \boldsymbol m^{(k)},\,\sigma^2\mathbf I_D\bigr).
@@ -288,6 +290,34 @@ Unlike Statistical Flow Matching \citep{Cheng2024, Davis2024}, which uses the Fi
 Algorithm~\ref{alg:train} details the training procedure of our method. If the data is in the interior of the simplex then the bijection is enough, but if the data is discrete on the boundary, we first use the stochastic interpolation to move the data to the interior and then apply the bijection $\varphi$ and train the Euclidean flow. During sampling the $\arg\max$ converts the continuous process to discrete predictions.
 Sampling is done with the procedure specified in Algorithm~\ref{alg:sample_sfm} with an additional $\arg\max$ operator if the generated data is discrete. Any of the simplex-to-Euclidean bijections can be used within the method, and the accuracy is affected by this choice. These include additive logratio, multiplicative log ratio, stick-breaking, and isometric logratio.
 Note that using conditional flow matching is a design choice, the procedure is valid for any continuous Euclidean generative model, for example diffusion models \citep{song2021score, Karras2024}.
+
+\begin{algorithm}
+\caption{Training of Simplex-to-Euclidean Flow Matching.}
+\label{alg:train}
+\begin{algorithmic}[1]
+\Require Data $\boldsymbol{c}\!\in\!\Delta^{D}$, weight $\lambda\!\in\!(0,1)$, 
+Dirichlet $\alpha>0$, bijection $\varphi$, base $p_0$ (e.g. $\mathcal{N}(\boldsymbol{0},\boldsymbol{I})$), 
+coupling $\pi$ (indep. or minibatch OT), isDiscrete
+\For{each mini-batch}
+  \For{each $\boldsymbol{c}$ in batch}
+    \If{isDiscrete}
+      \State Sample $\boldsymbol{\varepsilon}\!\sim\!\mathrm{Dir}(\alpha,..,\alpha)$
+      \State ${\boldsymbol{x}} \gets \lambda \boldsymbol{c}+(1-\lambda)\boldsymbol{\varepsilon}$
+    \Else
+      \State ${\boldsymbol{x}} \gets \boldsymbol{c}$
+    \EndIf
+  \EndFor
+  \State $\boldsymbol{z}_1 \gets \varphi({\boldsymbol{x}})$ \Comment{Map to Euclidean space.}
+  \State Sample $\boldsymbol{z}_0 \sim p_0$; pair $(\boldsymbol{z}_0,\boldsymbol{z}_1)$ via $\pi$
+  \State Sample $t\sim \mathrm{Unif}(0,1)$
+  \State $\boldsymbol{z}_t\!\gets\!(1-t)\boldsymbol{z}_0+t \boldsymbol{z}_1$, \;
+         $\boldsymbol{u}_t\!\gets\!\boldsymbol{z}_1-\boldsymbol{z}_0$
+  \State Update $\theta$ by 
+  $\min \|\boldsymbol{v}_\theta(\boldsymbol{z}_t,t)-\boldsymbol{u}_t\|^2$ \; (Equation~\ref{eq:cfm_loss})
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
 Proposition~\ref{prop:cat_prob_tv} justifies the correctness of FM-$\mathring\Delta$ for categorical data, it states that if the learned flow model matches the distribution of the interpolated data with the stochastic interpolation, then the true unknown probabilities are recovered by the model's $\arg\max$ estimations. 
 
 
@@ -309,32 +339,6 @@ In particular, $\|\tilde q - q_\lambda\|_{1}\to 0$ implies $\hat{\boldsymbol{\pi
 
 
 
-\begin{algorithm}
-\caption{Training of Simplex-to-Euclidean Flow Matching}
-\label{alg:train}
-\begin{algorithmic}[1]
-\Require Data $\boldsymbol{c}\!\in\!\Delta^{D}$, weight $\lambda\!\in\!(0,1)$, 
-Dirichlet $\alpha>0$, bijection $\varphi$, base $p_0$ (e.g. $\mathcal{N}(\boldsymbol{0},\boldsymbol{I})$), 
-coupling $\pi$ (indep. or minibatch OT), isDiscrete
-\For{each mini-batch}
-  \For{each $\boldsymbol{c}$ in batch}
-    \If{isDiscrete}
-      \State Sample $\boldsymbol{\varepsilon}\!\sim\!\mathrm{Dir}(\alpha,..,\alpha)$
-      \State ${\boldsymbol{x}} \gets \lambda \boldsymbol{c}+(1-\lambda)\boldsymbol{\varepsilon}$
-    \Else
-      \State ${\boldsymbol{x}} \gets \boldsymbol{c}$
-    \EndIf
-  \EndFor
-  \State $\boldsymbol{z}_1 \gets \varphi({\boldsymbol{x}})$ \Comment{To Euclidean space}
-  \State Sample $\boldsymbol{z}_0 \sim p_0$; pair $(\boldsymbol{z}_0,\boldsymbol{z}_1)$ via $\pi$
-  \State Sample $t\sim \mathrm{Unif}(0,1)$
-  \State $\boldsymbol{z}_t\!\gets\!(1-t)\boldsymbol{z}_0+t \boldsymbol{z}_1$, \;
-         $\boldsymbol{u}_t\!\gets\!\boldsymbol{z}_1-\boldsymbol{z}_0$
-  \State Update $\theta$ by 
-  $\min \|\boldsymbol{v}_\theta(\boldsymbol{z}_t,t)-\boldsymbol{u}_t\|^2$ \; (Eq.~\eqref{eq:cfm_loss})
-\EndFor
-\end{algorithmic}
-\end{algorithm}
 
 
 
@@ -418,7 +422,7 @@ Denote the training data as $\{(\boldsymbol r_i,c_i)\}_{i=1}^N$, where $\boldsym
 \begin{align*}
 \boldsymbol\mu^{(k)}&=\lambda\,\boldsymbol e_k + (1-\lambda)\tfrac{1}{K}\boldsymbol 1, 
 \end{align*}
-and then mapped to Euclidean space with the ILR bijection (Eq.~\ref{eq:ilr}) $\varphi$ giving the latent $\boldsymbol m^{(k)}=\varphi(\boldsymbol\mu^{(k)})$. The latent Gaussian likelihood (Eq.~\ref{eq:lik}) together with the misclassification probability bound (Prop.~\ref{prop:sigma_bound}), turns classification into GP regression in $\mathbb{R}^D$. The model is
+and then mapped to Euclidean space with the ILR bijection (Equation~\ref{eq:ilr}) $\varphi$ giving the latent $\boldsymbol m^{(k)}=\varphi(\boldsymbol\mu^{(k)})$. The latent Gaussian likelihood (Equation~\ref{eq:lik}) together with the misclassification probability bound (Proposition~\ref{prop:sigma_bound}), turns classification into GP regression in $\mathbb{R}^D$. The model is
 \begin{equation}
 \boxed{
 \mathbf f(\cdot) \sim \mathcal{GP}(\mathbf 0, K_{\theta}),
@@ -437,7 +441,7 @@ For a new regressor $\boldsymbol{r}_*$, class-probability predictions are obtain
 \end{aligned}
 \label{eq:gpilr_pred}
 \end{equation}
-The method's cubic complexity in the size of the training data limits its scalability. For larger data sizes, Paper~IV studies two inducing-point sparse variants. \emph{Uncollapsed-ILR} is a sparse variational classifier that parametrizes the probabilities as $\boldsymbol{\pi} = \varphi^{-1}(\boldsymbol{z})$; the objective factorizes over observations, which allows for mini-batch optimization \citep{Hensman2015}. \emph{Collapsed-ILR} instead keeps the Gaussian process regression in latent space, which is specified with the Collapsed GP regression approximation (see Eq.~\ref{eq:lower_bound_collapsed}). The first variant models the probabilities directly while the second approximates the latent GP regression.
+The method's cubic complexity in the size of the training data limits its scalability. For larger data sizes, Paper~IV studies two inducing-point sparse variants. \emph{Uncollapsed-ILR} is a sparse variational classifier that parametrizes the probabilities as $\boldsymbol{\pi} = \varphi^{-1}(\boldsymbol{z})$; the objective factorizes over observations, which allows for mini-batch optimization \citep{Hensman2015}. \emph{Collapsed-ILR} instead keeps the Gaussian process regression in latent space, which is specified with the Collapsed GP regression approximation (see Equation~\ref{eq:lower_bound_collapsed}). The first variant models the probabilities directly while the second approximates the latent GP regression.
 
 \subsection*{Empirical evaluation}
 We highlight two experimental evaluations from Paper~IV. The objective of the experiments is to benchmark our work in terms of accuracy and calibration with respect to the existing literature. 

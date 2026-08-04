@@ -1,7 +1,7 @@
 \chapter{Advances in Geometric Bayesian Inference} \label{ch:mcmc}
 In this chapter we propose using the geometry of the log target density in two different inference methods for drawing samples. The first one (Paper I) is a distributional approximation to the target distribution using a generalization of the Laplace approximation. The second one (Paper II) uses MCMC and generalizes the hit-and-run slice-sampler to a particular Riemannian setting in which geodesics are not closed form. 
 
-The Chapter starts by introducing common elements between our contributions. These elements rely on the notions of Riemannian geometry presented in Chapter~\ref{ch:background}.
+This chapter starts by introducing common elements between our contributions. These elements rely on the notions of Riemannian geometry presented in Chapter~\ref{ch:background}.
 We introduce choices for the metric tensor, the volume, the Hausdorff density, and discuss the numerical computation of the exponential map. Then, we present the Riemannian Laplace approximation with the Fisher metric and the geodesic slice sampler for multimodal distributions with strong curvature. 
 
 \paragraph{Motivation}
@@ -23,7 +23,7 @@ Let us present Euclidean space using the same tools as more general cases. Eucli
 The Christoffel symbols vanish $\Gamma_{ij}^k=0$ for all $i,j,k=1,\ldots,D$ and the exponential and logarithm map are, for $\boldsymbol{x},\boldsymbol{y} \in \mathbb{R}^D$ and $\boldsymbol{v} \in T_{\boldsymbol{x}} \mathbb{R}^D \cong \mathbb{R}^D$,
 \begin{equation}\label{eq:Euclidean_exp_log}
 \begin{aligned}
-\operatorname{Exp}_{\boldsymbol{x}}(t\boldsymbol{v}) &= \boldsymbol{x} + t\boldsymbol{v}, \\
+\operatorname{Exp}_{\boldsymbol{x}}(t\boldsymbol{v}) &= \boldsymbol{x} + t\boldsymbol{v}, \text{ and}\\
 \operatorname{Log}_{\boldsymbol{x}}(\boldsymbol{y}) &= \boldsymbol{y} - \boldsymbol{x}
 \end{aligned}
 \end{equation}
@@ -55,9 +55,9 @@ $\mathbf{G}(\boldsymbol{x}) = \mathbb{E}_{\mathcal{Y}|\mathcal{X}}\left[ -\nabla
 Hence, the Fisher metric captures the local geometry of the likelihood under the KL-divergence.
 A remarkable property of the Fisher information is given by \v{C}encov's theorem \citep{vcencov1982statistical}. It states that the Fisher information metric is the unique Riemannian metric up to a rescaling constant that is invariant under sufficient statistical mappings. 
 
-Some downsides of the Fisher metric are computational. It depends on the probabilistic model and the expectation with respect to $\mathcal{Y}\mid\mathcal{X}$ might be intractable for some models, for example, if the likelihood is a Gaussian mixture. Another difficulty is that the metric is usually full-rank, meaning computation of the inverse $\mathbf{G}^{-1}(\boldsymbol{x})$ and the determinant have cubic complexity on $D$. If the exponential map computation requires numerical integration, then each integration step has cubic complexity because the Christoffel symbols (Eq.~\ref{eq:christoffel_symbols}) use the metrics inverse.
+Some downsides of the Fisher metric are computational. It depends on the probabilistic model and the expectation with respect to $\mathcal{Y}\mid\mathcal{X}$ might be intractable for some models, for example, if the likelihood is a Gaussian mixture. Another difficulty is that the metric is usually full-rank, meaning computation of the inverse $\mathbf{G}^{-1}(\boldsymbol{x})$ and the determinant have cubic complexity on $D$. If the exponential map computation requires numerical integration, then each integration step has cubic complexity because the Christoffel symbols (Equation~\ref{eq:christoffel_symbols}) use the metrics inverse.
 
-The Fisher information metric \eqref{eq:fisher_information_metric} is defined in terms of the likelihood. However, in Bayesian inference one is interested in the posterior distribution, which depends on both $p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})$ and the prior $p_{\mathcal{X}}(\boldsymbol{x})$. In this case, the Fisher information incorporates both terms, by adding the Hessian of the log-prior \citep{Girolami2011},
+The Fisher information metric (Equation \ref{eq:fisher_information_metric}) is defined in terms of the likelihood. However, in Bayesian inference one is interested in the posterior distribution, which depends on both $p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})$ and the prior $p_{\mathcal{X}}(\boldsymbol{x})$. In this case, the Fisher information incorporates both terms, by adding the Hessian of the log-prior \citep{Girolami2011},
 \begin{equation}
  \mathbf{G}(\boldsymbol{x}) = \mathbb{E}_{\mathcal{Y}|\mathcal{X}}\left[ \nabla_{\boldsymbol{x}} \log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})
  \nabla_{\boldsymbol{x}} \log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x}) ^\top
@@ -79,16 +79,16 @@ Recall $\ell(\boldsymbol{x}) = \log p(\boldsymbol{x})$ and consider the graph of
 \subset \mathbb{R}^{D+1},
 \qquad \alpha \geq 0.    
 \end{equation*}
-This is a $D$ dimensional manifold embedded in $\mathbb{R}^{D+1}$ (See Sec.~\ref{sec:riemannian_background}). The Monge metric is the Riemannian tensor on $\mathbb{R}^{D+1}$ given by this embedding \citep{Hartmann2022},
+This is a $D$ dimensional manifold embedded in $\mathbb{R}^{D+1}$ (see Section~\ref{sec:riemannian_background}). The Monge metric is the Riemannian tensor on $\mathbb{R}^{D+1}$ given by this embedding \citep{Hartmann2022},
 \begin{equation*}
     \mathbf{G}(\boldsymbol{x}) = \mathbf{I}_D + \alpha^2 \nabla \ell(\boldsymbol{x})\nabla \ell(\boldsymbol{x})^\top.
 \end{equation*}
-This metric is more efficient than the Fisher metric because the inverse, determinant and Christoffel symbols are computable and depend on first and second order derivatives of the log-density which are computed efficiently with automatic differentiation (hessian vector products) and enables the metric to be used in higher dimensional problems such as Bayesian neural networks \citep{yu2023scalable, Bergamin2024}
+This metric is more efficient than the Fisher metric because the inverse, determinant and Christoffel symbols are computable and depend on first and second order derivatives of the log-density which are computed efficiently with automatic differentiation (hessian vector products) and enables the metric to be used in higher dimensional problems such as Bayesian neural networks \citep{Bergamin2024, yu2023scalable}
 
 The inverse metric and square-root metric are obtained by the Sherman-Morrison lemma
 \begin{align*}
     \mathbf{G}^{-1}(\boldsymbol{x}) &= \mathbf{I}_D 
-    - \frac{\alpha^2}{1+\alpha^2 \|\nabla \ell(\boldsymbol{x})\|^2} \nabla \ell(\boldsymbol{x}) \nabla \ell(\boldsymbol{x})^\top,\\
+    - \frac{\alpha^2}{1+\alpha^2 \|\nabla \ell(\boldsymbol{x})\|^2} \nabla \ell(\boldsymbol{x}) \nabla \ell(\boldsymbol{x})^\top, \text{ and}\\
     \mathbf{G}^{1/2}(\boldsymbol{x})&= \mathbf{I}_D + \frac{\alpha^2}{\sqrt{1 + \alpha^2\|\nabla\ell(\boldsymbol{x})\|^2} + 1} \nabla\ell(\boldsymbol{x})\nabla\ell(\boldsymbol{x})^\top.
 \end{align*}
 The determinant is $\det \mathbf{G}(\boldsymbol{x}) = 1 + \alpha^2\|\nabla \ell(\boldsymbol{x})\|^2$ and the Christoffel symbols stacked into $D$ matrices, of shape $D\times D$ are
@@ -96,7 +96,7 @@ The determinant is $\det \mathbf{G}(\boldsymbol{x}) = 1 + \alpha^2\|\nabla \ell(
     \Gamma^{k}(\boldsymbol{x}) = \frac{\alpha^2 \partial_k \ell(\boldsymbol{x})}{1+\alpha^2\norm{\nabla\ell(\boldsymbol{x})}^2}\nabla^2\ell(\boldsymbol{x}). 
     \label{eq:christoffel_symbols_monge}
 \end{equation}
-The Monge metric has the property that it \emph{slows down} geodesics that start from a local mode: the Euclidean distance covered by a geodesic is strictly smaller than its the distance covered by a straight line. Observation~\ref{obs:monge} formally states this phenomenon. This contraction is the factor causing the bias in Riemannian Laplace approximation under the Monge metric (See Section~\ref{sec:rla}).
+The Monge metric has the property that it \emph{slows down} geodesics that start from a local mode: the Euclidean distance covered by a geodesic is strictly smaller than its the distance covered by a straight line. Observation~\ref{obs:monge} formally states this phenomenon. This contraction is the factor causing the bias in Riemannian Laplace approximation under the Monge metric (see Section~\ref{sec:rla}).
 
 \begin{observation} \label{obs:monge}
 Let $\boldsymbol{x}_0$ be the MAP estimate. Let $\boldsymbol{v}_0 \neq \boldsymbol{0}$ and let 
@@ -123,9 +123,8 @@ and rearranging gives
     \leq \|\boldsymbol{v}_0\|_2^2,
 \end{equation*}
 with equality only when $\frac{d}{dt}\ell(\boldsymbol{x}(t)) = 0$.
-Differentiating $\frac{d}{dt}\ell(\boldsymbol{x}(t)) = \nabla\ell(\boldsymbol{x}(t))^\top\dot{\boldsymbol{x}}(t)$ 
-at $t=0$ and using $\nabla\ell(\boldsymbol{x}_0)=\boldsymbol{0}$ together with the fact that the 
-geodesic acceleration vanishes at the mode, one obtains
+Differentiating $\frac{d}{dt}\ell(\boldsymbol{x}(t))$ w.r.t $t$
+and evaluating at $t=0$, and using $\nabla\ell(\boldsymbol{x}_0)=\boldsymbol{0}$ one obtains
 \begin{equation*}
     \frac{d}{dt}\Bigl[\nabla\ell(\boldsymbol{x}(t))^\top\dot{\boldsymbol{x}}(t)\Bigr]\bigg|_{t=0}
     = \boldsymbol{v}_0^\top\nabla^2\ell(\boldsymbol{x}_0)\,\boldsymbol{v}_0.
@@ -159,22 +158,22 @@ As a result, geodesic curves tend to  ``prefer'' areas where the target density 
     \begin{subfigure}[b]{0.4\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figs/paper2/geodesic_balls_generative.png}
-        \caption{generative metric}
+        \caption{Generative metric.}
     \end{subfigure}
     \begin{subfigure}[b]{0.4\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figs/paper2/geodesic_balls_monge.png}
-        \caption{Monge metric}
+        \caption{Monge metric.}
     \end{subfigure}
     \begin{subfigure}[b]{0.4\linewidth}
         \centering
         \includegraphics[width=0.8\linewidth]{figs/paper2/geodesic_inverse_generative.png}
-        \caption{inverse generative metric}
+        \caption{Inverse generative metric.}
     \end{subfigure}    
     \begin{subfigure}[b]{0.4\linewidth}
         \centering
         \includegraphics[width=0.8\linewidth]{figs/paper2/geodesic_inverse_monge.png}
-        \caption{inverse Monge metric}
+        \caption{Inverse Monge metric.}
     \end{subfigure}    
     \caption{Visualization of the generative, inverse generative, Monge and inverse Monge metrics. \textbf{Top:} geodesic balls of varying radii centered at $\star$. \textbf{Bottom:} geodesics originating at $\star$ with different initial velocities (yellow indicates higher speed). The Monge metric deviates more from the Euclidean geometry than the generative metric, while the generative metric accelerates more in low-density regions.
    }
@@ -215,16 +214,16 @@ This weighted average results in geodesics that have a tradeoff between higher d
 
 
 \paragraph{The inverse metrics}
-The metric choices we have presented until now (Fisher, Monge and generative) were proposed by others. We propose using the inverse metric to sample multimodal distributions. In general, any Riemannian tensor that is positive definite and full rank is mathematically valid. In particular, the inverse of the metrics is also positive definite and defines a valid metric tensor. This motivates defining the inverse metric
+We have now introduced the metric Fisher, Monge and generative metrics. Now, we propose using the inverse metric to sample multimodal distributions. In general, any Riemannian tensor that is positive definite and full rank is mathematically valid. In particular, the inverse of the metrics is also positive definite and defines a valid metric tensor. This motivates defining the inverse metric
 \begin{equation}
 \boxed{
-    \mathbf{G}_{\mathrm{inv}}(\boldsymbol{x}) = \mathbf{G}^{-1}(\boldsymbol{x})
+    \mathbf{G}_{\mathrm{inv}}(\boldsymbol{x}) = \mathbf{G}^{-1}(\boldsymbol{x}).
 }
 \end{equation}
 The determinant is $\det \mathbf{G}_{\mathrm{inv}}(\boldsymbol{x})  = 1/\det \mathbf{G}(\boldsymbol{x})$. The Christoffel symbols are analytic and computable with automatic differentiation for the Monge and generative metrics. 
 
 By Observations~\ref{obs:monge} and~\ref{obs:generative} the Monge and Generative metrics induce geodesics that tend to stay within regions of high density. By using the inverse metric we hope to ``revert"" this property. In regions of low density, both the generative and Monge metrics assign larger Euclidean metric values, so their inverses effectively ``speed up'' motion.
-As a result, geodesics can cover larger Euclidean distances over the same amount of geodesic time. This behavior is formalized in Observations~{\ref{obs:invgen}} and~{\ref{obs:invmonge}}. Figure~\ref{fig:metric_visualization} illustrates the properties of the inverse generative and inverse Monge metrics on a bimodal distribution. Although this does not guarantee that a geodesic will move from one mode to another in dimensions $D\geq 2$, we empirically observe in Section~\ref{sec:geodesic_slice} that the geodesics under the inverse Monge metric are capable of traversing between modes of multimodal distributions. 
+As a result, geodesics can cover larger Euclidean distances over the same amount of geodesic time. This behavior is formalized in Observations~{\ref{obs:invmonge}} and~{\ref{obs:invgen}}. Figure~\ref{fig:metric_visualization} illustrates the properties of the inverse generative and inverse Monge metrics on a bimodal distribution. Although this does not guarantee that a geodesic will move from one mode to another in dimensions $D\geq 2$, we empirically observe in Section~\ref{sec:geodesic_slice} that the geodesics under the inverse Monge metric are capable of traversing between modes of multimodal distributions. 
 
 \begin{observation}[Paper II]
 \emph{
@@ -290,12 +289,12 @@ That is, the Hausdorff density removes the Jacobian volume factor and gets the d
 
 
 \subsection{Numerical computation of geodesics}
-For the Euclidean metric we can easily compute the exponential and logarithmic maps as in Eqs.~\ref{eq:Euclidean_exp_log}, but for the other metric choices we solve the geodesic equations numerically.  Let $\boldsymbol{x}(t)$ denote the geodesic trajectory and $\boldsymbol{v}(t)=  \boldsymbol{\dot x}(t)$ velocity respectively, Equation~\ref{eq:geodesic_equations} is rewritten as
+For the Euclidean metric we can easily compute the exponential and logarithmic maps as in Equation.~\ref{eq:Euclidean_exp_log}, but for the other metric choices we solve the geodesic equations numerically.  Let $\boldsymbol{x}(t)$ denote the geodesic trajectory and $\boldsymbol{v}(t)=  \boldsymbol{\dot x}(t)$ velocity respectively, Equation~\ref{eq:geodesic_equations} is rewritten as
 \begin{align}
       \boldsymbol{ \dot x}(t)  &= \boldsymbol{v}(t), \nonumber \\
-    \dot v_k(t) &= - \boldsymbol{v}(t)^\top\Gamma^k(\boldsymbol{x}(t))  \boldsymbol{v}(t), \quad  k = 1, \ldots, D. \label{eq:geoeqs}
+    \dot v_k(t) &= - \boldsymbol{v}(t)^\top\Gamma^k(\boldsymbol{x}(t))  \boldsymbol{v}(t), \quad  k = 1, \ldots, D, \label{eq:geoeqs}
 \end{align}
-where $\Gamma^k(\boldsymbol{x})\in\mathbb{R}^{D\times D}$ is the matrix with the Christoffel symbols (Eq.~\ref{eq:christoffel_symbols}). 
+where $\Gamma^k(\boldsymbol{x})\in\mathbb{R}^{D\times D}$ is the matrix with the Christoffel symbols (Equation~\ref{eq:christoffel_symbols}). 
 The main computational bottleneck comes from the Christoffel symbols, since they involve the inverse metric and derivatives of the metric. The Fisher metric in general has $\mathcal{O}(D^3)$ complexity, the Monge and inverse Monge metrics have the complexity of Hessian-vector products, and the generative and inverse generative metrics have the complexity of gradient computations.
 
 The choice of numerical solver affects accuracy and runtime \citep{kidger2022neural}. Fixed step-size, adaptive and higher order solvers introduce tradeoffs between stability, numerical error and computational cost. We conduct empirical studies on the choice of numerical solver for different metric choices in Section~\ref{sec:geodesic_slice}.
@@ -305,8 +304,9 @@ The choice of numerical solver affects accuracy and runtime \citep{kidger2022neu
 \begin{table}[t]
 \centering
 \footnotesize
-\begin{tabular}
-{lccc}
+\setlength{\tabcolsep}{4pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{@{}lccc@{}}
 \toprule
  & \textbf{Funnel} & \textbf{Rosenbrock} & \textbf{Squiggle} \\
 \midrule
@@ -360,6 +360,7 @@ $\begin{aligned}
 \includegraphics[width=0.32\linewidth]{figs/extra/squiggle_contour.png} \\
 % \bottomrule 
 \end{tabular}
+\end{adjustbox}
 \caption{Three benchmark distributions with strong curvature used in the experiments.}
 \label{tab:curved_distributions}
 \end{table}
@@ -380,9 +381,7 @@ The bijection $\varphi$ allows the generation of samples for benchmarking. The p
 
 \section{Case study I: Riemannian Laplace approximation} \label{sec:rla}
 
-We apply the geometric tools we have described above in the construction of Riemannian Laplace approximation (RLA) \citep{Bergamin2024}.
-
-We first use a second order Taylor approximation to motivate placing a Gaussian distribution in the tangent space at the mode. Sampling is then done by drawing Gaussian velocities in this tangent space, and pushing them forward with the exponential map. RLA can be viewed as an exponential wrapped Gaussian approximation where the geometry is determined by the chosen metric tensor (see Fig.~\ref{fig:rla}).
+We apply the geometric tools we have described above in the construction of Riemannian Laplace approximation (RLA) \citep{Bergamin2024}. We first use a second order Taylor approximation to motivate placing a Gaussian distribution in the tangent space at the mode. Sampling is then done by drawing Gaussian velocities in this tangent space, and pushing them forward with the exponential map. RLA can be viewed as an exponential wrapped Gaussian approximation where the geometry is determined by the chosen metric tensor (see Figure~\ref{fig:rla}).
 \begin{figure}
     \centering
     \includegraphics[width=0.3\linewidth]{figs/paper1/metrics.png}
@@ -391,7 +390,7 @@ We first use a second order Taylor approximation to motivate placing a Gaussian 
     \label{fig:rla}
 \end{figure}
 
-Let $f$ be a scalar output function defined on the manifold and $c(t)$ a curve on the manifold such that $c(0)= \boldsymbol{x}$, the second order Taylor approximation is \citep{Boumal2023}[Section 5.9, Eq.~5.26]
+Let $f$ be a scalar output function defined on the manifold and $c(t)$ a curve on the manifold such that $c(0)= \boldsymbol{x}$. As given in Section~5.9, Equation~(5.26), of \citet{Boumal2023}, the second-order Taylor approximation is
 \begin{equation} \label{eq:taylor_mfd}
     \begin{aligned}
     f(c(t)) = f(\boldsymbol{x})
@@ -402,7 +401,7 @@ Let $f$ be a scalar output function defined on the manifold and $c(t)$ a curve o
     \end{aligned}
 \end{equation}
 Let $\ell$ be the target logdensity (Euclidean or Hausdorff) and $\hat{\boldsymbol{x}}$ a local maximum of $\ell$. 
-At the mode $\hat{\boldsymbol{x}}$, both Euclidean and Riemannian gradients vanish, and a second order Taylor expansion of $\ell$ along geodesics (Eq.~\ref{eq:taylor_mfd})  simplifies to
+At the mode $\hat{\boldsymbol{x}}$, both Euclidean and Riemannian gradients vanish, and a second order Taylor expansion of $\ell$ along geodesics (Equation~\ref{eq:taylor_mfd})  simplifies to
 \begin{equation}\label{eq:riemlap}
 \ell\big(\operatorname{Exp}_{\hat{\boldsymbol{x}}}(\boldsymbol{v})\big)
 \approx \ell(\hat{\boldsymbol{x}})
@@ -413,12 +412,12 @@ At the mode $\hat{\boldsymbol{x}}$, both Euclidean and Riemannian gradients vani
 \right\rangle_{\mathbf{G}(\boldsymbol{\hat{x}})},
 \end{equation}
 where $t$ is absorbed into $\boldsymbol{v}\gets t \boldsymbol{v}$. 
-Furthermore, the Riemannian Hessian components (Eq.~\ref{eq:riem_hessian}) simplify to
+Furthermore, the Riemannian Hessian components (Equation~\ref{eq:riem_hessian}) simplify to
 \begin{equation*}
  \mathrm{Hess}_{\mathbf{G}} \ell(\boldsymbol{\hat{x}}) [\boldsymbol{v}] = \mathbf{G}^{-1}(\boldsymbol{\hat{x}})\nabla^2\ell ({\boldsymbol{\hat{x}}}) \boldsymbol{v},
 \end{equation*}
 since $\nabla \ell(\hat{\boldsymbol{x}}) = \boldsymbol{0}$ \footnote{personal communication with Marcelo Hartmann}.
-Thus, the quadratic term in Eq.~\ref{eq:riemlap} is 
+Thus, the quadratic term in Equation~\ref{eq:riemlap} is 
 $\boldsymbol{v}^{\top}\nabla^2\ell(\hat{\boldsymbol{x}})\boldsymbol{v}$
 , which motivates a tangent space Gaussian density
 \begin{equation*}
@@ -430,7 +429,7 @@ Samples that approximate the target are generated by mapping the exponential map
     \boldsymbol{x}=\operatorname{Exp}_{\hat{\boldsymbol{x}}}(\boldsymbol{v}), \quad \boldsymbol{v}\sim \mathcal{N}(\boldsymbol{0}, \mathbf\Sigma).
     }
 \end{equation}
-We can compute the RLA logdensity associated to the samples in the tangent space radius where the exponential map is injective,  \citep{chevallier2022exponential}.
+We can compute the RLA logdensity associated to the samples in the tangent space radius where the exponential map is injective  \citep{chevallier2022exponential}.
 The push-forward density of the tangent Gaussian
 with respect to the Riemannian volume is given by the exponential-wrapped change of variables
 \begin{equation*}
@@ -461,9 +460,9 @@ where $\boldsymbol{x}=\operatorname{Exp}_{\hat{\boldsymbol{x}}}(\boldsymbol{v})$
 
 Paper I proposes two improvements that correct this behavior:
 \begin{itemize}
-    \item Apply a logarithm map before to correct the magnitude of the velocities. Namely, replace step 3 in Algorithm~\ref{alg:rla} with 
+    \item Apply a logarithm map before to correct the magnitude of the velocities. Namely, replace Step~3 in Algorithm~\ref{alg:rla} with 
     \begin{align*}
-	\tilde{\boldsymbol{x}}^{(n)} &\sim \mathcal{N}\!\left(\hat{\boldsymbol{x}}, (-\nabla^2 \ell(\hat{\boldsymbol{x}}))^{-1}\right), \\
+	\tilde{\boldsymbol{x}}^{(n)} &\sim \mathcal{N}\!\left(\hat{\boldsymbol{x}}, (-\nabla^2 \ell(\hat{\boldsymbol{x}}))^{-1}\right), \text{ and} \\
 	\boldsymbol{v}^{(n)} &= \operatorname{Log}_{\mathcal{P},\hat{\boldsymbol{x}}}(\tilde{\boldsymbol{x}}^{(n)}),
 	\end{align*}    
     where $\operatorname{Log}_{\mathcal{P},\hat{\boldsymbol{x}}}$ is computed with respect to the Monge metric induced by the density $\mathcal{N}\!\left(\hat{\boldsymbol{x}}, (-\nabla^2 \ell(\hat{\boldsymbol{x}}))^{-1}\right)$, we refer to this variant as RLA-BLog.
@@ -490,20 +489,20 @@ The takeaway message is that Euclidean Laplace approximation does not capture th
 
 \begin{figure}
     \centering    
-    \begin{tabular}{rcc} 
+    \begin{tabular}{@{}rcc@{}} 
         & Euclidean MAP & Hausdorff MAP \\
         ELA &
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/h_banana_euclidean.png} & 
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_euclidean.png} \\
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/h_banana_euclidean.png} & 
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_euclidean.png} \\
         RLA-B &
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/h_banana_bergamin.png} & 
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_bergamin.png} \\
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/h_banana_bergamin.png} & 
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_bergamin.png} \\
         RLA-BLog &
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/h_banana_monge.png} & 
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_monge.png} \\
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/h_banana_monge.png} & 
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_monge.png} \\
         RLA-F &
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/h_banana_fisher.png} & 
-        \includegraphics[width=0.4\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_fisher.png}         
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/h_banana_fisher.png} & 
+        \includegraphics[width=0.38\textwidth, valign=m]{figs/paper1/f_banana_hausdorff_fisher.png}         
     \end{tabular}
     \caption{Comparison of Euclidean and Hausdorff MAP estimates. The red points are the Euclidean or Hausdorff MAP, and samples are scatter points in blue. The Euclidean metric (ELA) does not capture the geometry. The Monge metric is narrow without the logarithm map adjustment (RLA-B). The Fisher metric(RLA-F) is the most accurate with Hausdorff MAP. }
     \label{fig:banana}
@@ -511,7 +510,7 @@ The takeaway message is that Euclidean Laplace approximation does not capture th
 
 
 \paragraph{Efficiency of the approximation}
-The second experiment considers Bayesian logistic regression on several benchmark data sets, both with standardized inputs and with raw inputs. The Fisher metric includes the Hessian of the prior as in Eq.~\ref{eq:fisher_w_prior}. Table~\ref{tbl:lr} reports the Wasserstein distance to reference samples obtained with NUTS and the number of average number of log-density evaluations per sample.  The main takeaway is that 
+The second experiment considers Bayesian logistic regression on several benchmark data sets, both with standardized inputs and with raw inputs. The Fisher metric includes the Hessian of the prior as in Equation~\ref{eq:fisher_w_prior}. Table~\ref{tbl:lr} reports the Wasserstein distance to reference samples obtained with NUTS and the number of average number of log-density evaluations per sample.  The main takeaway is that 
 RLA-F is more efficient in integration steps (geodesics are easier to integrate) and is more accurate than the Euclidean and Monge metric variants. 
 \begin{table*}
 	\centering
@@ -559,12 +558,12 @@ This case study uses the geometric tools from Section~\ref{sec:geometric_tools} 
 Our method builds on \citet{durmus2026geodesic}, who introduced geodesic slice sampling  over manifolds with closed form geodesics (e.g the sphere, torus, hyperbolic space,...). Paper~II extends this method to distributions defined on $\mathbb{R}^D$ with generic metric tensors $\mathbf{G}(\boldsymbol{x})$. Our method is metric-agnostic geodesic slice sampling (MAGSS).
 
 In Euclidean hit-and-run slice sampling one first samples a random velocity $\boldsymbol{v}$ and performs univariate slice sampling on the straight line passing through the current state $\boldsymbol{x}$. Our method replaces the straight line 
-$\boldsymbol{x} + t \boldsymbol{v}$ with the geodesic generated by the exponential map $\operatorname{Exp}_{\boldsymbol{x}}(t\boldsymbol{v})$, the target density $p(\boldsymbol{x})$ with the Hausdorff density $p_{\mathcal{H}}(\boldsymbol{x})$ and the Euclidean sphere $\mathbb{S}^{D-1}$ with the Riemannian sphere $\mathbb{S}^{D-1}_{\mathbf{G}}$  (See Table~\ref{tab:slice_compare}). Denote by  $\hat{\gamma}_{\boldsymbol{x},\boldsymbol{v}}(t)$ the numerical solution of the geodesic equations with initial conditions $\boldsymbol{x},\boldsymbol{v}$ for time $t$. Algorithm~\ref{alg:gss} shows the Geodesic Slice Sampling procedure.
+$\boldsymbol{x} + t \boldsymbol{v}$ with the geodesic generated by the exponential map $\operatorname{Exp}_{\boldsymbol{x}}(t\boldsymbol{v})$, the target density $p(\boldsymbol{x})$ with the Hausdorff density $p_{\mathcal{H}}(\boldsymbol{x})$ and the Euclidean sphere $\mathbb{S}^{D-1}$ with the Riemannian sphere $\mathbb{S}^{D-1}_{\mathbf{G}}$  (see Table~\ref{tab:slice_compare}). Denote by  $\hat{\gamma}_{\boldsymbol{x},\boldsymbol{v}}(t)$ the numerical solution of the geodesic equations with initial conditions $\boldsymbol{x},\boldsymbol{v}$ for time $t$. Algorithm~\ref{alg:gss} shows the Geodesic Slice Sampling procedure.
 
 \paragraph{Choice of metric}
 Similar to Riemannian Laplace, the main modeling decision is the choice of Riemannian metric. For targets with strong local curvature, the Fisher, Monge and generative metrics can make geodesics better aligned with the shape of the density, with tradeoffs in the computational speed.
 
-For multimodal targets, the inverse Monge and inverse generative metrics play a different role: they increase Euclidean speed in low-density regions and might be able to bridge between different modes, as discussed in Observations~\ref{obs:invmonge} and~\ref{obs:invgen}. In this sense, the same sampler can be adapted either to local geometry or to global mode exploration by changing only the metric tensor (as shown in Fig.~\ref{fig:metric_visualization}). 
+For multimodal targets, the inverse Monge and inverse generative metrics play a different role: they increase Euclidean speed in low-density regions and might be able to bridge between different modes, as discussed in Observations~\ref{obs:invmonge} and~\ref{obs:invgen}. In this sense, the same sampler can be adapted either to local geometry or to global mode exploration by changing only the metric tensor (as shown in Figure~\ref{fig:metric_visualization}). 
 The Monge and generative metrics depend on hyperparameters. 
 A limitation of our method, is that there is no default value for these metric-parameters, some problems might allow for computation of a validation statistic for selection but no general value is
 optimal.
@@ -620,15 +619,13 @@ Slice sampling on
 
 
 \subsection*{Empirical evaluation}
-The empirical evaluation compares parallel tempering \citep{Latuszynski2025} (PT), diffusion Gibbs sampler \citep{Chen2024} (DiGS) and metric-agnostic geodesic slice sampling (MAGSS). 
-
-We highlight here some of the experiments from Paper~II. The objective of the experiments is to study our method on curved distributions and multimodal distributions, comparing the accuracy and running time against the alternatives. 
+The empirical evaluation compares parallel tempering (PT; \citealp{Latuszynski2025}), the diffusion Gibbs sampler (DiGS; \citealp{Chen2024}), and metric-agnostic geodesic slice sampling (MAGSS). We highlight some of the experiments from Paper~II. The objective of the experiments is to study our method on curved distributions and multimodal distributions, comparing the accuracy and running time against the alternatives. 
 
 The first experiment shows MAGSS performance on curved target distributions. The second experiment compares the mode exploration of the methods on a highly multimodal target distribution modeling the Allen-Cahn field system. The third experiment studies the effect of the numerical integrator on our method. Paper~II gives the full description of the experimental setup and further analysis. 
 
 
 \paragraph{Curved target distributions}
-We consider the  target distributions with strong curvature from Section~\ref{sec:curved} (Funnel, Rosenbrock and Squiggle). Figure~\ref{fig:toydistdims} shows the empirical 1-Wasserstein distance to reference samples from the distributions for dimensions $2,4,..2^8$. The Fisher metric produces the highest quality samples, but becomes computationally too expensive as can be seen by the cut-off in the lines, the Monge metric produces good results on Rosenbrock and Squiggle distributions. DiGS, PT and NUTS struggle exploring the curved regions of the space and are less accurate, note that DiGS use the local MCMC  Metropolis-adjusted Langevin algorithm (MALA), a Riemannian version could be use instead to enhance exploration of the curved regions as an improvement to the method. The values of the hyperparameters of the Monge and generative metrics are $\alpha^2, \lambda=1$. 
+We consider the  Funnel, Rosenbrock and Squiggle target distributions with strong curvature from Section~\ref{sec:curved}. Figure~\ref{fig:toydistdims} shows the empirical 1-Wasserstein distance to reference samples from the distributions for dimensions $2,4,..2^8$. The Fisher metric produces the highest quality samples, but becomes computationally too expensive as can be seen by the cut-off in the lines, the Monge metric produces good results on Rosenbrock and Squiggle distributions. DiGS, PT and NUTS struggle exploring the curved regions of the space and are less accurate, note that DiGS use the local MCMC  Metropolis-adjusted Langevin algorithm (MALA), a Riemannian version could be use instead to enhance exploration of the curved regions as an improvement to the method. The values of the hyperparameters of the Monge and generative metrics are $\alpha^2, \lambda=1$. 
 We use the step-size value $w = 3$ and max iterations $m = 8$ in MAGSS.
 DiGS uses a single noise scale of $1$ and NUTS and MALA (inside DiGS) use a stepsize of $0.1$. 
 
@@ -663,7 +660,7 @@ PT used $200$ temperatures on a geometric scale, with the smallest inverse tempe
 
 \begin{table}[t]
     \centering
-    \caption{Allen-Cahn system model}
+    \caption{Allen-Cahn system model.}
 \begin{tabular}{lllll}
 \toprule
 sampler &  KSD V-stat & $x_8>0$ & t(s) \\

@@ -286,10 +286,7 @@ This case study combines Flow Matching introduced in Section~\ref{sec:discrete_d
 
 Unlike Statistical Flow Matching \citep{Cheng2024, Davis2024}, which uses the Fisher geometry of the simplex and performs Riemannian flow matching on the sphere, our method does not learn the flow on a curved manifold. Instead, we map the problem to $\mathbb{R}^D$, where Euclidean conditional flow matching is applied. This removes the need for Riemannian operations such as the exponential and logarithm maps during training and sampling.
 
-\paragraph{Simplex-to-Euclidean Flow Matching (FM-$\mathring\Delta$)}
-Algorithm~\ref{alg:train} details the training procedure of our method. If the data is in the interior of the simplex then the bijection is enough, but if the data is discrete on the boundary, we first use the stochastic interpolation to move the data to the interior and then apply the bijection $\varphi$ and train the Euclidean flow. During sampling the $\arg\max$ converts the continuous process to discrete predictions.
-Sampling is done with the procedure specified in Algorithm~\ref{alg:sample_sfm} with an additional $\arg\max$ operator if the generated data is discrete. Any of the simplex-to-Euclidean bijections can be used within the method, and the accuracy is affected by this choice. These include additive logratio, multiplicative log ratio, stick-breaking, and isometric logratio.
-Note that using conditional flow matching is a design choice, the procedure is valid for any continuous Euclidean generative model, for example diffusion models \citep{song2021score, Karras2024}.
+
 
 \begin{algorithm}
 \caption{Training of Simplex-to-Euclidean Flow Matching.}
@@ -317,6 +314,12 @@ coupling $\pi$ (indep. or minibatch OT), isDiscrete
 \EndFor
 \end{algorithmic}
 \end{algorithm}
+
+\paragraph{Simplex-to-Euclidean Flow Matching (FM-$\mathring\Delta$)}
+Algorithm~\ref{alg:train} details the training procedure of our method. If the data is in the interior of the simplex then the bijection is enough, but if the data is discrete on the boundary, we first use the stochastic interpolation to move the data to the interior and then apply the bijection $\varphi$ and train the Euclidean flow. During sampling the $\arg\max$ converts the continuous process to discrete predictions.
+Sampling is done with the procedure specified in Algorithm~\ref{alg:sample_sfm} with an additional $\arg\max$ operator if the generated data is discrete. Any of the simplex-to-Euclidean bijections can be used within the method, and the accuracy is affected by this choice. These include additive logratio, multiplicative log ratio, stick-breaking, and isometric logratio.
+Note that using conditional flow matching is a design choice, the procedure is valid for any continuous Euclidean generative model, for example diffusion models \citep{song2021score, Karras2024}.
+
 
 Proposition~\ref{prop:cat_prob_tv} justifies the correctness of FM-$\mathring\Delta$ for categorical data, it states that if the learned flow model matches the distribution of the interpolated data with the stochastic interpolation, then the true unknown probabilities are recovered by the model's $\arg\max$ estimations. 
 

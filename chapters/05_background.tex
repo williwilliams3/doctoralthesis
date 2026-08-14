@@ -5,7 +5,7 @@
 This chapter introduces the background needed for the methods developed in Chapters~\ref{ch:mcmc} and \ref{ch:simplex}.  We start by giving a brief introduction to Riemannian geometry, then introducing methods for approximate Bayesian inference and finally approaches for modeling discrete data. 
 
 \section{Basic notions in Riemannian Geometry} \label{sec:riemannian_background}
-For a formal and rigorous introduction to Riemannian geometry we refer the reader to \citet{do1992riemannian} and \citet{Lee2018}. Here we introduce the only the concepts needed later in the thesis, under simplified settings that cover our examples. We consider manifolds that admit a global chart, a subset of which are  smooth embedded submanifolds of Euclidean space. This allows us to write the coordinates globally, and avoid dealing with local coordinates patches. When the space has a boundary (e.g. the simplex) we consider the differential geometric objects only on the interior of the space. 
+For a formal and rigorous introduction to Riemannian geometry we refer the reader to \citet{do1992riemannian} and \citet{Lee2018}. Here we introduce only the concepts needed later in the thesis, under simplified settings that cover our examples. We consider manifolds that admit a global chart, a subset of which are  smooth embedded submanifolds of Euclidean space. This allows us to write the coordinates globally, and avoid dealing with local coordinates patches. When the space has a boundary (e.g. the simplex) we consider the differential geometric objects only on the interior of the space. 
 
 \subsection{Riemannian manifolds}
 
@@ -42,9 +42,9 @@ which implies linear independence, so $\left\{\frac{\partial}{\partial z^i}\righ
 
 \paragraph{Riemannian metric}
 For two tangent vectors  $\boldsymbol{u},\boldsymbol{v}\in T_{\boldsymbol{x}}\mathcal{M}$, we write $\boldsymbol{u}=\sum_{i=1}^D u^i \frac{\partial}{\partial z^i},
-\boldsymbol{v}=\sum_{i=1}^D v^i \frac{\partial}{\partial z^i}.$
+\boldsymbol{v}=\sum_{i=1}^D v^i \frac{\partial}{\partial z^i}$.
 The Riemannian metric defines for each $\boldsymbol{x}\in\mathcal{M}$ an inner product on the tangent space $g:T_{\boldsymbol{x}}\mathcal{M} \times T_{\boldsymbol{x}}\mathcal{M} \to \mathbb{R}$.
-We represent it with a symmetric positive define matrix $\mathbf{G}(\boldsymbol{x})$ 
+We represent it with a symmetric positive definite matrix $\mathbf{G}(\boldsymbol{x})$ 
 with $G_{ij}(\boldsymbol{x}) = g_{\boldsymbol{x}}(\partial/\partial z^i,\partial/\partial z^j)$,
 such that 
 \begin{equation*}
@@ -128,7 +128,7 @@ $\Theta:=\{\boldsymbol{x}\in\mathbb{R}^{D}:p_{\mathcal{Y}\mid\mathcal{X}}(\bolds
 Custom \\
 \bottomrule
 \end{tabular}
-\caption{Summary of the manifolds considered in the thesis. In the case of the simplex and statistical manifolds we equip the space with custom choices metric tensors presented in Chapters~\ref{ch:mcmc} and~\ref{ch:simplex}. }
+\caption{Summary of the manifolds considered in the thesis. In the case of the simplex and statistical manifolds we equip the space with custom choices of metric tensors presented in Chapters~\ref{ch:mcmc} and~\ref{ch:simplex}. }
 \label{tab:manifolds}
 \end{table}
 
@@ -192,14 +192,14 @@ A geodesic $\gamma$ has vanishing covariant acceleration, $\nabla^{\mathbf{G}}_{
 where we used 
 $ \left( \sum_{i=1}^D \dot{\gamma}^{i}(t) \partial_i \right) \dot\gamma^k(t) = \dv[]{}{t} \dot\gamma^k(t) = \ddot{\gamma}^{k}(t)$.
 
-For $\boldsymbol{x}\in\mathcal{M}$ and $\boldsymbol{v}\in T_{\boldsymbol{x}}\mathcal{M}$, let $\gamma_{\boldsymbol{x}, \boldsymbol{v}}$ be geodesic with initial conditions $\gamma_{\boldsymbol{x}, \boldsymbol{v}}(0) = \boldsymbol{x}\in \mathcal{M}$ and $\dot \gamma_{\boldsymbol{x}, \boldsymbol{v}} =\boldsymbol{v}\in T_{\boldsymbol{x}}\mathcal{M}$. The exponential map is defined as 
+For $\boldsymbol{x}\in\mathcal{M}$ and $\boldsymbol{v}\in T_{\boldsymbol{x}}\mathcal{M}$, let $\gamma_{\boldsymbol{x}, \boldsymbol{v}}$ be a geodesic with initial conditions $\gamma_{\boldsymbol{x}, \boldsymbol{v}}(0) = \boldsymbol{x}\in \mathcal{M}$ and $\dot \gamma_{\boldsymbol{x}, \boldsymbol{v}} =\boldsymbol{v}\in T_{\boldsymbol{x}}\mathcal{M}$. The exponential map is defined as 
 \begin{equation*}
  \operatorname{Exp}_{\boldsymbol{x}}(t\boldsymbol{v}) = \gamma_{\boldsymbol{x}, \boldsymbol{v}}(t).
 \end{equation*}
 If the system does not have an analytical solution, the  exponential map is computed with numerical integration using standard ordinary differential equation solvers, such as Euler, or Dormand-Prince's method \citep{kidger2022neural}.
 
 \paragraph{Logarithm map}
-The logarithm map is the inverse of the exponential map, given two close enough positions $\boldsymbol{x}_0, \boldsymbol{x}_1 \in \mathcal{M}$ that the inverse is well defined, then  velocity that generates the geodesic connecting them. This a boundary value problem whose solution gives 
+The logarithm map is the inverse of the exponential map. Given two sufficiently close positions $\boldsymbol{x}_0, \boldsymbol{x}_1 \in \mathcal{M}$ for which the inverse is well defined, it returns the velocity that generates the geodesic connecting them. This is a boundary value problem whose solution gives 
 \begin{equation*}
     \boldsymbol{v} =\operatorname{Log}_{\boldsymbol{x}_0}(\boldsymbol{x}_1)\in T_{\boldsymbol{x}_0}\mathcal{M},
 \end{equation*}
@@ -210,17 +210,17 @@ The main computational bottleneck comes from the computation of the Christoffel 
 
 
 \subsection{Riemannian gradient and Hessian}
-The notions of gradients, Hessian  are modified such that they are consistent with the geometry introduced by  $\mathbf{G}(\boldsymbol{x})$. These quantities are introduced here and useful in Chapter~\ref{ch:mcmc}. 
+The notion of gradient and Hessian are modified such that they are consistent with the geometry introduced by  $\mathbf{G}(\boldsymbol{x})$. These quantities are introduced here and useful in Chapter~\ref{ch:mcmc}. 
 
 \paragraph{Riemannian gradient}
-Let $f:\mathcal{M}\to\mathbb{R}$ be a smooth function. The Riemannian gradient $\nabla_{\mathbf{G}}f(\boldsymbol{x})\in T_{\boldsymbol{x}}\mathcal{M}$ is tangent vector  which satisfies the identity
+Let $f:\mathcal{M}\to\mathbb{R}$ be a smooth function. The Riemannian gradient $\nabla_{\mathbf{G}}f(\boldsymbol{x})\in T_{\boldsymbol{x}}\mathcal{M}$ is a tangent vector which satisfies the identity
 \begin{equation*}
     \langle \nabla_{\mathbf{G}} f(\boldsymbol{x}), \boldsymbol{v}\rangle_{\mathbf{G}(\boldsymbol{x})}
 =
 \mathrm{d}f_{\boldsymbol{x}}(\boldsymbol{v}),
 \qquad \forall\, \boldsymbol{v}\in T_{\boldsymbol{x}}\mathbb{R}^D,
 \end{equation*}
-where the differential $\mathrm{d}f_{\boldsymbol{x}}:T_{\boldsymbol{x}}\mathbb{R}^D\to\mathbb{R}$ such that $\mathrm{d}f_{\boldsymbol{x}}(\boldsymbol v)
+where the differential $\mathrm{d}f_{\boldsymbol{x}}:T_{\boldsymbol{x}}\mathbb{R}^D\to\mathbb{R}$ is such that $\mathrm{d}f_{\boldsymbol{x}}(\boldsymbol v)
 =
 \sum_{i=1}^D \frac{\partial f}{\partial z^i}(\boldsymbol{x})\, v^i$.
 Solving for $\nabla_{\mathbf{G}}$, the Riemannian gradient has the components
@@ -231,7 +231,7 @@ Solving for $\nabla_{\mathbf{G}}$, the Riemannian gradient has the components
 \label{eq:riemannian_gradient}
 \end{equation}
 where $\mathrm{G}^{ij}$ are the components of $\mathbf{G}^{-1}(\boldsymbol{x})$. 
-If $f$ has support on $\mathcal{M}\subset\mathbb{R}^D$, the components are the Euclidean gradient scaled by the inverse metric. This quantity is sometimes referred as the natural gradient \citep{amari1998natural}, in this case we can collect the components into the vector
+If $f$ has support on $\mathcal{M}\subset\mathbb{R}^D$, the components are the Euclidean gradient scaled by the inverse metric. This quantity is sometimes referred to as the natural gradient \citep{amari1998natural}, in this case we can collect the components into the vector
 \begin{equation*}
     \mathbf{G}(\boldsymbol{x})^{-1}\nabla_{\boldsymbol{x}}f, 
 \end{equation*}
@@ -286,7 +286,7 @@ When the posterior falls on the same parametric family as the prior, the model i
 \begin{equation}
     p(\boldsymbol{x}) := p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})\,p_{\mathcal{X}}(\boldsymbol{x}).
 \end{equation}
-Approximate Bayesian inference then relies on $p(\boldsymbol{x})$ or on its log-density $\ell(\boldsymbol{x}) := \log p(\boldsymbol{x})$ to form approximations of the posterior in Equation \ref{eq:posterior}.
+Approximate Bayesian inference then relies on $p(\boldsymbol{x})$ or on its log-density $\ell(\boldsymbol{x}) := \log p(\boldsymbol{x})$ to form approximations of the posterior in Equation~\ref{eq:posterior}.
 
 In this thesis, the practical objective is to draw samples from the posterior distribution. Since the target density is proportional to the posterior up to a constant, sampling from either yields the same distribution. Given a set of samples we can estimate posterior quantities by Monte Carlo, for example,  if $\{\boldsymbol{x}^{(s)}\}_{s=1}^S$ are samples distributed according to the target distribution, then for a measurable function $h$ we can estimate expectations by
 \begin{equation}
@@ -302,13 +302,11 @@ Distributional approximations replace $p_{\mathcal{X}|\mathcal{Y}}(\boldsymbol{x
 The idea behind the Laplace approximation is to approximate the log-target distribution around its mode \citep{mackay2003information}. 
 Assume that the target density has its mode at value $\hat{\boldsymbol{x}}$ and take $\ell(\boldsymbol{x})= \log p(\boldsymbol{x})$, then a second order Taylor expansion of $\ell(\boldsymbol{x})$ at the mode gives
 \begin{equation}
-\boxed{
     \ell(\boldsymbol{x})
     = \ell(\hat{\boldsymbol{x}})    
     + \inp{ \nabla\ell(\hat{\boldsymbol{x}})}{\boldsymbol{x}-\hat{\boldsymbol{x}}}
     + \frac{1}{2}\norm{\boldsymbol{x}-\hat{\boldsymbol{x}} }^2_{\nabla^2 \ell(\hat{\boldsymbol{x}})}    
     + \mathcal{O}\!\left(\|\boldsymbol{x}-\hat{\boldsymbol{x}}\|^3\right).
-}
 \end{equation}
 At the mode $\nabla\ell(\hat{\boldsymbol{x}})=0$ and the
  inner product term vanishes, therefore the posterior is approximated by an unnormalized  Gaussian
@@ -451,12 +449,12 @@ Next we describe the standard MCMC methods that are later extended, and briefly 
 \begin{equation}
     \{(\boldsymbol{x},s)\in \mathbb{R}^{D}\times\mathbb{R}_{+} : 0 < s < p(\boldsymbol{x})\} \subset \mathbb{R}^{D+1}.
 \end{equation}
-Uniform sampling from this set can be carried out by alternating between  sampling  $\boldsymbol{x}$ and $s$, and this procedure targets the correct distribution \citep{Neal2003}. For a fixed level $s$, define the slice $L_{\boldsymbol{x}}(s) := \{ \boldsymbol{x}\in \mathbb{R}^D : p(\boldsymbol{x}) > s \}$, one idealized iteration consists of the following two steps
+Uniform sampling from this set can be carried out by alternating between  sampling  $\boldsymbol{x}$ and $s$, and this procedure targets the correct distribution \citep{Neal2003}. For a fixed level $s$, define the slice $L(s) := \{ \boldsymbol{x}\in \mathbb{R}^D : p(\boldsymbol{x}) > s \}$, one idealized iteration consists of the following two steps:
 \begin{enumerate}
-    \item Sample $s \sim \mathrm{Unif}(0, p(\boldsymbol{x}))$.
-    \item Sample $\boldsymbol{x} \sim \mathrm{Unif}( L_{\boldsymbol{x}}(s) )$.
+    \item sample $s \sim \mathrm{Unif}(0, p(\boldsymbol{x}))$, and
+    \item sample $\boldsymbol{x} \sim \mathrm{Unif}( L(s) )$.
 \end{enumerate}
-Computing $L_{\boldsymbol{x}}(s)$ is possible, for example, in settings where the the distribution is log-concave or rotationally invariant, in general we approximate the slice set with  step-out and shrinkage procedures. We first describe the one-dimensional case and later the hit-and-run extension to higher dimensions.  Assume the current state is $x\in\mathbb{R}$ and a value of $s$ is drawn from $\mathrm{Unif}(0, p({x}))$ and define $\gamma_x(t) = x + t$. 
+Computing $L(s)$ is possible, for example, in settings where the distribution is log-concave or rotationally invariant, in general we approximate the slice set with  step-out and shrinkage procedures. We first describe the one-dimensional case and later the hit-and-run extension to higher dimensions.  Assume the current state is $x\in\mathbb{R}$ and a value of $s$ is drawn from $\mathrm{Unif}(0, p({x}))$ and define $\gamma_x(t) = x + t$. 
 
 \paragraph{Step-out procedure}
 This procedure computes an open interval by expanding to the sides of the current position. 
@@ -465,7 +463,7 @@ Given the expansion width $w\in\mathbb{R}$ and the maximum number of expansions 
     \item Right side: At most $\iota$ times expand as $r = r + w$ until the condition $p(\gamma_x(r )) < s$ is met.
     \item Left side: At most $m+1-\iota$ times expand $\ell = \ell - w$ until the condition $p(\gamma_x(\ell )) < s$ is met.
 \end{itemize}
-The interval $(x+\ell, x+r)$ is an wide approximation of $L_{\boldsymbol{x}}(s)$. A visualization of the step-out procedure is provided in Figure~\ref{fig:stepout}.
+The interval $(x+\ell, x+r)$ is a wide approximation of $L(s)$. A visualization of the step-out procedure is provided in Figure~\ref{fig:stepout}.
 
 
 \begin{figure}
@@ -539,14 +537,14 @@ The interval $(x+\ell, x+r)$ is an wide approximation of $L_{\boldsymbol{x}}(s)$
 
     \end{tikzpicture}
 
-    \caption{Visualization of the step-out procedure. The shaded gray area shows the region $L_{\boldsymbol{x}}(s)$, the step-out procedure took two steps to the left and one step to the right until stoppage. For a multimodal distribution the step-out procedure misses the second mode if the step-size $w$ is not large enough.}
+    \caption{Visualization of the step-out procedure. The shaded gray area shows the region $L(s)$, the step-out procedure took two steps to the left and one step to the right until stoppage. For a multimodal distribution the step-out procedure misses the second mode if the step-size $w$ is not large enough.}
     \label{fig:stepout}
 \end{figure}
 
 
 
 \paragraph{Shrinkage procedure} 
-Given the interval $(l,r)$ the shrinkage procedure draws a valid proposal by iteratively reducing the interval until a proposal falls in the intersection with the slice $L_{\boldsymbol{x}}(s)$. We follow the presentation of \citet{durmus2026geodesic} which differs slightly from the original formulation of \citet{Neal2003}. The procedure works as follows. Let $J = (\ell,r)$ and sample $a\sim \mathrm{Unif}(J)$, if $\gamma_x(a)\in L_{\boldsymbol{x}}(s)$ the proposal is $\gamma_x(a) = x+a$. If not, sample  $b\sim \mathrm{Unif}(J)$, if $\gamma_x(b)\in L_{\boldsymbol{x}}(s)$ the proposal is $\gamma_x(b) = x+b$. Otherwise shrink the interval $J$ by
+Given the interval $(l,r)$ the shrinkage procedure draws a valid proposal by iteratively reducing the interval until a proposal falls in the intersection with the slice $L(s)$. We follow the presentation of \citet{durmus2026geodesic} which differs slightly from the original formulation of \citet{Neal2003}. The procedure works as follows. Let $J = (\ell,r)$ and sample $a\sim \mathrm{Unif}(J)$, if $\gamma_x(a)\in L(s)$ the proposal is $\gamma_x(a) = x+a$. If not, sample  $b\sim \mathrm{Unif}(J)$, if $\gamma_x(b)\in L(s)$ the proposal is $\gamma_x(b) = x+b$. Otherwise shrink the interval $J$ by
 \begin{itemize}    
     \item Update $J$ as
     \begin{equation*}
@@ -559,7 +557,7 @@ Given the interval $(l,r)$ the shrinkage procedure draws a valid proposal by ite
         \end{cases}        
     \end{equation*}    
     \item Set $a\gets b$ and  sample $b\sim \mathrm{Unif}(J)$.  
-    \item Repeat until $\gamma_x(b) \in L_{\boldsymbol{x}}(s)$.
+    \item Repeat until $\gamma_x(b) \in L(s)$.
 \end{itemize}
 
 
@@ -569,7 +567,7 @@ There are multiple ways of extending slice sampling to multivariate distribution
     \item Sample direction $\boldsymbol{v}\sim \mathrm{Unif}(\mathbb{S}^{D-1}(\boldsymbol{x}))$.
     \item Define $\gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)  = \boldsymbol{x} + t \boldsymbol{v}$ and apply one dimensional slice sampling on $t \mapsto \gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)$.
 \end{itemize}
-Since the straight line $\gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)$ defines a univariate distribution, slice sampling is directly applicable. Concretely, one transition of hit-and-run slice sampling consist of the following steps: Sample $s\sim \mathrm{Unif}(0, p(\boldsymbol{x}))$, then the step-out procedure returns the interval 
+Since the straight line $\gamma_{(\boldsymbol{x},\boldsymbol{v})}(t)$ defines a univariate distribution, slice sampling is directly applicable. Concretely, one transition of hit-and-run slice sampling consists of the following steps: Sample $s\sim \mathrm{Unif}(0, p(\boldsymbol{x}))$, then the step-out procedure returns the interval 
 $$\ell,r = \text{Step-out}_{w,m}(s, \gamma_{(\boldsymbol{x},\boldsymbol{v})}),$$
 and the shrinkage procedure gives the proposal
 $$t^* = \text{Shrink}_{\ell,r}(s, \gamma_{(\boldsymbol{x},\boldsymbol{v})}).$$ 
@@ -587,7 +585,7 @@ By geometric MCMC we refer to MCMC methods that incorporate a Riemannian tensor 
 The main benefit is the adaptation to local curvature, but the introduction of a non-flat geometry results in higher computational cost. 
 Recall that 
 \begin{equation*}
- \mathbf{G}(\cdot):\mathbb{R}^D\to \mathbb{R}^D\times \mathbb{R}^D   
+ \mathbf{G}(\cdot):\mathbb{R}^D\to \mathbb{R}^D\times \mathbb{R}^D,   
 \end{equation*}
 is the matrix  that holds the components of a metric tensor (see Section~\ref{sec:riemannian_background}). 
 Next we describe some geometric MCMC methods and their computational cost.
@@ -605,7 +603,7 @@ where $\phi(\boldsymbol{x})=-\ell(\boldsymbol{x})+ \frac{1}{2}\log\det \mathbf{G
 \begin{equation}
     \dot{\boldsymbol{x}} = \mathbf{G}(\boldsymbol{x})^{-1}\boldsymbol{p},
     \quad
-    \dot{\boldsymbol{p}} = - \nabla_{\boldsymbol{x}} \mathcal{H}(\boldsymbol{x},\boldsymbol{p}),
+    \dot{\boldsymbol{p}} = - \nabla_{\boldsymbol{x}} \mathcal{H}(\boldsymbol{x},\boldsymbol{p}).
     \label{eq:rmhmc}
 \end{equation}
 The numerical integration of Equation~\ref{eq:rmhmc} relies on fixed point iteration \citep{Girolami2011}. Each step iterates until a specified tolerance is reached to generate a proposal, increasing the runtime. With a full rank metric tensor the resulting computations are of order $\mathcal{O}(D^3)$ at each iteration,  which limits its scalability to high dimensional problems.
@@ -618,8 +616,8 @@ The numerical integration of Equation~\ref{eq:rmhmc} relies on fixed point itera
     \dot{\boldsymbol{v}} = -\boldsymbol{\eta}(\boldsymbol{x},\boldsymbol{v}) - \mathbf{G}(\boldsymbol{x})^{-1}\nabla_{\boldsymbol{x}}\phi(\boldsymbol{x}),
     \label{eqsLMC}
 \end{equation}
-where $[\boldsymbol{\eta}(\boldsymbol{x},\boldsymbol{v})]_k=\sum_{i,j}\Gamma^k_{ij}(\boldsymbol{x})\,v_i v_j$, and the Christoffel symbols  $\Gamma_{ij}^k$ (see Equation~\ref{eq:christoffel_symbols}). 
-The authors proposed a numerical integrator that is explicit and does not rely on fixed point iterations, improving the running time over RMHMC. Each step still computes inverses of the metric tensor and is $\mathcal{O}(D^3)$ in complexity which again limits its scalability to higher dimensions. One way of reducing the complexity of the numerical integrators are metrics with closed form inverse and determinant \citep{Hartmann2022}. Some metric choices are presented in Chapter~\ref{ch:mcmc}.
+where $[\boldsymbol{\eta}(\boldsymbol{x},\boldsymbol{v})]_k=\sum_{i,j}\Gamma^k_{ij}(\boldsymbol{x})\,v_i v_j$, and the Christoffel symbols $\Gamma_{ij}^k$ are defined in Equation~\ref{eq:christoffel_symbols}. 
+The authors proposed a numerical integrator that is explicit and does not rely on fixed point iterations, improving the running time over RMHMC. Each step still computes inverses of the metric tensor and is $\mathcal{O}(D^3)$ in complexity which again limits its scalability to higher dimensions. One way of reducing the complexity of the numerical integrators is to use metrics with closed form inverses and determinants \citep{Hartmann2022}. Some metric choices are presented in Chapter~\ref{ch:mcmc}.
 Additionally, the numerical integrator introduces two hyperparameters, the step-size and the number of steps, with several strategies available for selecting a value. \citet{williams2024geometric} discuss the choice of metric, numerical integrator, and hyperparameter adaptation in RMHMC and LMC. 
 
 \section{Modeling discrete data} \label{sec:discrete_data}
@@ -630,7 +628,7 @@ We first review flow-based models and a Riemannian flow matching approach used f
 \subsection{Discrete data generation}
 
 
-We first two discuss continuous generative modes that are building blocks: conditional flow matching which operates in the Euclidean space, then  Riemannian flow matching which operates on  manifolds. Then we present a method for discrete data generation which operates on the simplex and uses the Fisher geometry. 
+We first discuss two continuous generative models that are building blocks: conditional flow matching which operates in the Euclidean space, then Riemannian flow matching which operates on manifolds. Then we present a method for discrete data generation which operates on the simplex and uses the Fisher geometry. 
 
 \paragraph{Conditional flow matching (CFM)}
 Conditional flow matching is a generative model for continuous data in the Euclidean space \citep{Albergo2023,Lipman2023,liu2023flow}. 
@@ -657,7 +655,7 @@ which yields the constant conditional velocity
 \boldsymbol{u}_t(\boldsymbol{x}_t\mid\boldsymbol{x}_0,\boldsymbol{x}_1)=\dot{\boldsymbol{x}}_t=\boldsymbol{x}_1-\boldsymbol{x}_0.
 \]
 Two common options for the joint density of $\boldsymbol{x}_0,\boldsymbol{x}_1$ are the independent coupling $\pi(\boldsymbol{x}_0,\boldsymbol{x}_1)=p_0(\boldsymbol{x}_0)p_1(\boldsymbol{x}_1)$ and optimal-transport coupling.
-The optimal transport coupling is approximated with mini-batch optimal transport and typically improves optimization stability wile reducing the number of function evaluations needed at sampling time \citep{Tong2024}.
+The optimal transport coupling is approximated with mini-batch optimal transport and typically improves optimization stability while reducing the number of function evaluations needed at sampling time \citep{Tong2024}.
 
 
 \paragraph{Riemannian conditional flow matching (RCFM)}
@@ -797,7 +795,7 @@ The geodesics in the sphere are the outer rings, the exponential and  logarithm 
 The diffeomorphism in Equation~\ref{eq:bij_sfm} is an isomorphism between $(\Delta^D  , \mathbf{G}_F)$  and $(\mathbb{S}_{+}^{D}, \mathbf{G})$ up to a factor of $\frac{1}{4}$.
 \end{proposition}
 \begin{proof}
-    The proof consists on showing
+    The proof consists of showing
     $
     \frac{1}{4}\inp{\boldsymbol{u}}{\boldsymbol{v}}_{\mathbf{G}_F(\boldsymbol{x})}
     =
@@ -906,7 +904,7 @@ f^{(d)}(\boldsymbol{x}_*)
 \right),
 \end{equation*}
 where the covariance entries are given by
-$[\mathbf{K}_N]_{ij} = k_\theta(\boldsymbol{x}_i,\boldsymbol{x}_j)$ $[\mathbf{k}_*]_i = k_\theta(\boldsymbol{x}_i,\boldsymbol{x}_*)$, and $k_{**} = k_\theta(\boldsymbol{x}_*,\boldsymbol{x}_*)$.
+$[\mathbf{K}_N]_{ij} = k_\theta(\boldsymbol{x}_i,\boldsymbol{x}_j)$, $[\mathbf{k}_*]_i = k_\theta(\boldsymbol{x}_i,\boldsymbol{x}_*)$, and $k_{**} = k_\theta(\boldsymbol{x}_*,\boldsymbol{x}_*)$.
 The standard predictive posterior is obtained by conditioning on the observations  \citep{williams2006gaussian}, it is distributed as
 $f^{(d)}(\boldsymbol{x}_*) \mid \boldsymbol{z}^{(d)}
 \sim
@@ -920,7 +918,7 @@ $f^{(d)}(\boldsymbol{x}_*) \mid \boldsymbol{z}^{(d)}
 \end{equation}
 We can write it compactly in a single expression
 \begin{equation*}
- \mathbf f_*\mid\mathcal D\sim\mathcal N(\boldsymbol\mu_*,\boldsymbol\Sigma_*)   
+ \mathbf f_*\mid\mathcal D\sim\mathcal N(\boldsymbol\mu_*,\boldsymbol\Sigma_*),   
 \end{equation*}
 with $\boldsymbol\mu_*:=(\mu_*^{(1)},\ldots,\mu_*^{(D)})^\top$ and $\boldsymbol\Sigma_*:=\sigma_*^2\mathbf I_D$. The marginal log-likelihood is used to learn the kernel hyperparameters. Since the likelihood is Gaussian and the output dimensions are assumed independent, it takes the form 
 \begin{equation}
@@ -982,7 +980,7 @@ The \emph{collapsed} bound is obtained by observing that the variational paramet
 \right),
 \label{eq:lower_bound_collapsed}
 \end{equation}
-where $\mathbf Q_{N} = \mathbf K_{NM}\mathbf K_{M}^{-1}\mathbf K_{MN}$ is the low rank covariance matrix given by the inducing points, and $\mathbf K_{NM}$ denotes the covariance between training and inducing inputs. The first term is the log-likelihood of a Gaussian proceses with $\mathbf{Q}_N$ replacing $\mathbf{K}_N$, while the second term penalizes the discrepancy between $\mathbf K_{N}$ and $\mathbf Q_{N}$. The complexity of the collapsed method is $\mathcal{O}(NM^2)$. If the inducing points are the training points then $\mathbf{K}_N = \mathbf{Q}_N$ and the objective is exact and coincides with the marginal log-likelihood. 
+where $\mathbf Q_{N} = \mathbf K_{NM}\mathbf K_{M}^{-1}\mathbf K_{MN}$ is the low rank covariance matrix given by the inducing points, and $\mathbf K_{NM}$ denotes the covariance between training and inducing inputs. The first term is the log-likelihood of a Gaussian process with $\mathbf{Q}_N$ replacing $\mathbf{K}_N$, while the second term penalizes the discrepancy between $\mathbf K_{N}$ and $\mathbf Q_{N}$. The complexity of the collapsed method is $\mathcal{O}(NM^2)$. If the inducing points are the training points then $\mathbf{K}_N = \mathbf{Q}_N$ and the objective is exact and coincides with the marginal log-likelihood. 
 
 The predictions over a new data point $\boldsymbol{x}_*$ are obtained by the predictive distribution given by the inducing variables
 \begin{equation*}

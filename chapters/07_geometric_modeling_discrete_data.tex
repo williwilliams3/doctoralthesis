@@ -5,7 +5,7 @@ In this chapter we propose using the Aitchison geometry of the simplex space for
 We first introduce the Aitchison geometry and the simplex-to-Euclidean bijections that are used through the chapter. We then present stochastic interpolations that move discrete data from the boundary of the simplex to the interior, and provide theoretical guarantees for the recovery of the original discrete values. In the interior of the space we can use the bijections for modeling continuously in Euclidean coordinates, making the modeling compatible with Euclidean continuous methods. These ingredients are combined in two case studies: Simplex-to-Euclidean Flow Matching for generation of discrete data and Isometric Logratio Gaussian Processes for multiclass classification.
 
 
-\paragraph{Motivation} We find that the Aitchison geometry provides for the  simplex, a geometry-aware representation that, combined with the stochastic interpolations, connects discrete modeling to known Euclidean methods. This makes existing Euclidean methods applicable to these tasks (generation and classification), providing a unified modeling framework that is exact and compatible with state-of-the-art Euclidean models while respecting the geometry of log proportions.
+\paragraph{Motivation} We find that the Aitchison geometry provides the simplex with a geometry-aware representation that, combined with the stochastic interpolations, connects discrete modeling to known Euclidean methods. This makes existing Euclidean methods applicable to these tasks (generation and classification), providing a unified modeling framework that is exact and compatible with state-of-the-art Euclidean models while respecting the geometry of log proportions.
 
 \section{Simplex-to-Euclidean Bijections}
 
@@ -23,7 +23,7 @@ The simplex and the open simplex are defined as
     \mathring{\Delta}^{D}:=\{\boldsymbol{x}\in\mathbb{R}_{> 0}^{K}:\;\sum_{k=1}^{K}x_k=1\},
 \end{equation*}
 where only $D=K-1$ components are free, since one arbitrary component (for example the last one) is determined by the others as $x_K = 1-\sum_{d=1}^D x_d$.
-The usual Euclidean operators are not closed on the simplex, for example the Euclidean sum of two vectors may fall outside the space. For this reason, \cite{Aitchison1986} defines perturbation (vector addition) and powering (scalar multiplication) that make the simplex a vector space. Define the normalization operation $\mathcal{C}(\boldsymbol{x}) := \boldsymbol{x}/\sum_{k=1}^{K} x_k$. For $\boldsymbol{x}, \boldsymbol{y}\in\mathring\Delta^D$ and $\lambda\in \mathbb{R}$, define
+The usual Euclidean operators are not closed on the simplex, for example, the Euclidean sum of two vectors may fall outside the space. For this reason, \cite{Aitchison1986} defines perturbation (vector addition) and powering (scalar multiplication) that make the simplex a vector space. Define the normalization operation $\mathcal{C}(\boldsymbol{x}) := \boldsymbol{x}/\sum_{k=1}^{K} x_k$. For $\boldsymbol{x}, \boldsymbol{y}\in\mathring\Delta^D$ and $\lambda\in \mathbb{R}$, define
 \begin{align*}
 \textbf{perturbation} \quad
 &\boldsymbol{x} \oplus \boldsymbol{y}
@@ -89,7 +89,7 @@ The CLR map gives the simplex the Aitchison geometry, but the image of the map s
 \begin{equation*}
     \varphi(\boldsymbol{x}) = \mathbf{H} \, \operatorname{clr}(\boldsymbol{x}).
 \end{equation*}
-The Helmert matrix has the property that $\mathbf{H}\boldsymbol{1} = \boldsymbol{0}$, then 
+The Helmert matrix has the property that $\mathbf{H}\boldsymbol{1} = \boldsymbol{0}$. Therefore,
 \begin{equation*}
 \mathbf{H} \, \operatorname{clr}(\boldsymbol{x})
 =
@@ -143,11 +143,11 @@ The Aitchison geodesic between $\boldsymbol{x}$ and $\boldsymbol{y}$ is computed
     \label{eq:alr}
 \end{align}
 Note that these maps, unlike ILR, depend on the order of the input and are not isometric to Euclidean space. They produce a different map for permutations of the entries.
-Nevertheless, these maps are useful for reparametrization, for example the logistic-normal distribution \citep{Aitchison1980} is the push-forward distribution of a Gaussian over the additive logratio map.
+Nevertheless, these maps are useful for reparametrization, for example, the logistic-normal distribution \citep{Aitchison1980} is the push-forward distribution of a Gaussian over the additive logratio map.
 
 \paragraph{Stick-breaking transform}
 A simple centering adjustment improves MLR. MLR is not centered at the vector $\tfrac{1}{K}\boldsymbol{1} \in \Delta^D$, so it does not map the zero vector in $\mathbb{R}^D$ to $\tfrac{1}{K}\boldsymbol{1}$.
-The stick-breaking (SB) fixes this by shifting the MLR map
+The stick-breaking transform (SB) fixes this by shifting the MLR map
 \begin{equation}\label{eq:sb}
 \begin{aligned}
 \varphi : \mathring{\Delta}^{D} &\to \mathbb{R}^{D}, \quad
@@ -164,7 +164,7 @@ y_k = z_k + \log\!\left(\frac{1}{K - k}\right).
 Unlike ILR, stick-breaking remains order-dependent and is not an isometry, but it is simple, numerically stable, and widely used in probabilistic modeling \citep{Carpenter2017}.
 
 \subsection{Simplex stochastic interpolations}
-The Aitchison geometry is defined  on the open simplex, but discrete observations lie on the boundary of the space. We therefore construct stochastic interpolations that move discrete labels into the interior during modeling while still allowing us to recover the original categories afterwards. Dirichlet based Gaussian process classification presented in Section~\ref{sec:gp}, use a deterministic interpolation in the simplex on the parameters of the Dirichlet distribution of the form $\lambda \boldsymbol{e}_k + (1-\lambda) \tfrac{1}{K}\boldsymbol 1$, for $\lambda\in (0,1)$. 
+The Aitchison geometry is defined  on the open simplex, but discrete observations lie on the boundary of the space. We therefore construct stochastic interpolations that move discrete labels into the interior during modeling while still allowing us to recover the original categories afterwards. Dirichlet-based Gaussian process classification presented in Section~\ref{sec:gp} uses a deterministic interpolation in the simplex on the parameters of the Dirichlet distribution of the form $\lambda \boldsymbol{e}_k + (1-\lambda) \tfrac{1}{K}\boldsymbol 1$, for $\lambda\in (0,1)$. 
 
 \paragraph{Dirichlet interpolation}
 We first construct stochastic interpolations where the noise process is distributed in the simplex itself. Define the distinct $\arg\max$ regions
@@ -270,7 +270,7 @@ For any $\varepsilon\in(0,1)$, if
 \qquad z_{q}:=\Phi^{-1}(q),
 \end{equation}
 where $\Phi$ is the standard normal CDF,
-then for every $\boldsymbol{x}\in \mathring\Delta^D$ and every $k\in\{1,..,K\}$, the probability of miss-classification is bounded by $\varepsilon$,
+then for every $\boldsymbol{x}\in \mathring\Delta^D$ and every $k\in\{1,..,K\}$, the probability of misclassification is bounded by $\varepsilon$,
 \[
 \mathbb P\!\big(\boldsymbol Z\notin \mathcal V_k \,\big|\, C=k,\boldsymbol{x}\big)\;\le\;\varepsilon,
 \]
@@ -288,7 +288,7 @@ Unlike Statistical Flow Matching \citep{Cheng2024, Davis2024}, which uses the Fi
 
 
 
-\begin{algorithm}
+\begin{algorithm}[t]
 \caption{Training of Simplex-to-Euclidean Flow Matching.}
 \label{alg:train}
 \begin{algorithmic}[1]
@@ -329,9 +329,9 @@ Proposition~\ref{prop:cat_prob_tv} justifies the correctness of FM-$\mathring\De
 Let $\lambda \ge \tfrac{1}{2}$ so that the Dirichlet-interpolated mixture
 $q_\lambda(\boldsymbol{x})=\sum_{k=1}^{K} \pi_k\, q_\lambda(\boldsymbol{x}\mid \boldsymbol{e}_k)$ 
 has a.s. disjoint component supports contained in the strict $\arg\max$ regions
-$\mathcal{R}_k := \{ \boldsymbol{x}\in \mathring \Delta^{D} : x_k > x_j\ \forall j\neq k\}.$
+$\mathcal{R}_k := \{ \boldsymbol{x}\in \mathring \Delta^{D} : x_k > x_j\ \forall j\neq k\}$.
 For any density $\tilde q$ on $\mathring \Delta^D$ define the induced (generated) categorical probabilities
-$\hat \pi_k := \int_{\mathcal{R}_k} \tilde q(\boldsymbol{x})\,d\boldsymbol{x}.$
+$\hat \pi_k := \int_{\mathcal{R}_k} \tilde q(\boldsymbol{x})\,d\boldsymbol{x}$.
 Then the total variation between the true and generated categorical laws is bounded by the $L^1$ distance between the distributions:
 \begin{equation*}
 \mathrm{TV}(\boldsymbol{\pi},\hat{ \boldsymbol{\pi}})= \tfrac{1}{2}\sum_{k=1}^{K} | \hat \pi_k - \pi_k |
@@ -425,7 +425,7 @@ Denote the training data as $\{(\boldsymbol r_i,c_i)\}_{i=1}^N$, where $\boldsym
 \begin{align*}
 \boldsymbol\mu^{(k)}&=\lambda\,\boldsymbol e_k + (1-\lambda)\tfrac{1}{K}\boldsymbol 1, 
 \end{align*}
-and then mapped to Euclidean space with the ILR bijection (Equation~\ref{eq:ilr}) $\varphi$ giving the latent $\boldsymbol m^{(k)}=\varphi(\boldsymbol\mu^{(k)})$. The latent Gaussian likelihood (Equation~\ref{eq:lik}) together with the misclassification probability bound (Proposition~\ref{prop:sigma_bound}), turns classification into GP regression in $\mathbb{R}^D$. The model is
+and then mapped to Euclidean space with the ILR bijection (Equation~\ref{eq:ilr}) $\varphi$ giving the latent $\boldsymbol m^{(k)}=\varphi(\boldsymbol\mu^{(k)})$. The latent Gaussian likelihood (Equation~\ref{eq:lik}) together with the misclassification probability bound (Proposition~\ref{prop:sigma_bound}) turns classification into GP regression in $\mathbb{R}^D$. The model is
 \begin{equation}
 \boxed{
 \mathbf f(\cdot) \sim \mathcal{GP}(\mathbf 0, K_{\theta}),

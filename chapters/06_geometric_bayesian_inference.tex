@@ -12,7 +12,7 @@ Equipping the space with a non Euclidean geometry increases computational comple
 We consider a target density $p(\boldsymbol{x})$ defined over $\mathbb{R}^D$ with respect to the Lebesgue measure. We give the Euclidean space the Riemannian metric $\mathbf{G}(\boldsymbol{x})$. Once the metric is fixed it determines the local geometry of the space and determines the geometric objects used in this chapter such as geodesics, logarithm map and volume elements.
 
 \subsection{Riemannian metrics}
-The Riemannian metrics we consider in this chapter depend on the probabilistic model, through the log density $\log p(\boldsymbol{x})$, and each of them leads to a different geometry. Next we introduce the metric choices,  and give the corresponding inverse, determinant and Christoffel symbols needed geodesic computations.
+The Riemannian metrics we consider in this chapter depend on the probabilistic model, through the log density $\log p(\boldsymbol{x})$, and each of them leads to a different geometry. Next we introduce the metric choices,  and give the corresponding inverse, determinant and Christoffel symbols needed for geodesic computations.
 
 
 \paragraph{Euclidean metric}
@@ -24,7 +24,7 @@ The Christoffel symbols vanish $\Gamma_{ij}^k=0$ for all $i,j,k=1,\ldots,D$ and 
 \begin{equation}\label{eq:Euclidean_exp_log}
 \begin{aligned}
 \operatorname{Exp}_{\boldsymbol{x}}(t\boldsymbol{v}) &= \boldsymbol{x} + t\boldsymbol{v}, \text{ and}\\
-\operatorname{Log}_{\boldsymbol{x}}(\boldsymbol{y}) &= \boldsymbol{y} - \boldsymbol{x}
+\operatorname{Log}_{\boldsymbol{x}}(\boldsymbol{y}) &= \boldsymbol{y} - \boldsymbol{x}.
 \end{aligned}
 \end{equation}
 The volume measure is the usual Lebesgue measure, geodesics are straight lines and all operations are available in closed form. The inverse metric $\mathbf{G}^{-1}$ is again the identity, and the determinant is one. In other words, we obtain the usual properties of the Euclidean metric.
@@ -55,9 +55,9 @@ $\mathbf{G}(\boldsymbol{x}) = \mathbb{E}_{\mathcal{Y}|\mathcal{X}}\left[ -\nabla
 Hence, the Fisher metric captures the local geometry of the likelihood under the KL-divergence.
 A remarkable property of the Fisher information is given by \v{C}encov's theorem \citep{vcencov1982statistical}. It states that the Fisher information metric is the unique Riemannian metric up to a rescaling constant that is invariant under sufficient statistical mappings. 
 
-Some downsides of the Fisher metric are computational. It depends on the probabilistic model and the expectation with respect to $\mathcal{Y}\mid\mathcal{X}$ might be intractable for some models, for example, if the likelihood is a Gaussian mixture. Another difficulty is that the metric is usually full-rank, meaning computation of the inverse $\mathbf{G}^{-1}(\boldsymbol{x})$ and the determinant have cubic complexity on $D$. If the exponential map computation requires numerical integration, then each integration step has cubic complexity because the Christoffel symbols (Equation~\ref{eq:christoffel_symbols}) use the metrics inverse.
+Some downsides of the Fisher metric are computational. It depends on the probabilistic model and the expectation with respect to $\mathcal{Y}\mid\mathcal{X}$ might be intractable for some models, for example, if the likelihood is a Gaussian mixture. Another difficulty is that the metric is usually full-rank, meaning computation of the inverse $\mathbf{G}^{-1}(\boldsymbol{x})$ and the determinant have cubic complexity on $D$. If the exponential map computation requires numerical integration, then each integration step has cubic complexity because the Christoffel symbols (Equation~\ref{eq:christoffel_symbols}) use the metric's inverse.
 
-The Fisher information metric (Equation \ref{eq:fisher_information_metric}) is defined in terms of the likelihood. However, in Bayesian inference one is interested in the posterior distribution, which depends on both $p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})$ and the prior $p_{\mathcal{X}}(\boldsymbol{x})$. In this case, the Fisher information incorporates both terms, by adding the Hessian of the log-prior \citep{Girolami2011},
+The Fisher information metric (Equation~\ref{eq:fisher_information_metric}) is defined in terms of the likelihood. However, in Bayesian inference one is interested in the posterior distribution, which depends on both $p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})$ and the prior $p_{\mathcal{X}}(\boldsymbol{x})$. In this case, the Fisher information incorporates both terms, by adding the Hessian of the log-prior \citep{Girolami2011},
 \begin{equation}
  \mathbf{G}(\boldsymbol{x}) = \mathbb{E}_{\mathcal{Y}|\mathcal{X}}\left[ \nabla_{\boldsymbol{x}} \log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x})
  \nabla_{\boldsymbol{x}} \log p_{\mathcal{Y}|\mathcal{X}}(\boldsymbol{y}\mid\boldsymbol{x}) ^\top
@@ -83,7 +83,7 @@ This is a $D$ dimensional manifold embedded in $\mathbb{R}^{D+1}$ (see Section~\
 \begin{equation*}
     \mathbf{G}(\boldsymbol{x}) = \mathbf{I}_D + \alpha^2 \nabla \ell(\boldsymbol{x})\nabla \ell(\boldsymbol{x})^\top.
 \end{equation*}
-This metric is more efficient than the Fisher metric because the inverse, determinant and Christoffel symbols are computable and depend on first and second order derivatives of the log-density which are computed efficiently with automatic differentiation (hessian vector products) and enables the metric to be used in higher dimensional problems such as Bayesian neural networks \citep{Bergamin2024, yu2023scalable}
+This metric is more efficient than the Fisher metric because the inverse, determinant and Christoffel symbols are computable and depend on first and second order derivatives of the log-density which are computed efficiently with automatic differentiation (hessian vector products) and enables the metric to be used in higher dimensional problems such as Bayesian neural networks \citep{Bergamin2024, yu2023scalable}.
 
 The inverse metric and square-root metric are obtained by the Sherman-Morrison lemma
 \begin{align*}
@@ -96,7 +96,7 @@ The determinant is $\det \mathbf{G}(\boldsymbol{x}) = 1 + \alpha^2\|\nabla \ell(
     \Gamma^{k}(\boldsymbol{x}) = \frac{\alpha^2 \partial_k \ell(\boldsymbol{x})}{1+\alpha^2\norm{\nabla\ell(\boldsymbol{x})}^2}\nabla^2\ell(\boldsymbol{x}). 
     \label{eq:christoffel_symbols_monge}
 \end{equation}
-The Monge metric has the property that it \emph{slows down} geodesics that start from a local mode: the Euclidean distance covered by a geodesic is strictly smaller than its the distance covered by a straight line. Observation~\ref{obs:monge} formally states this phenomenon. This contraction is the factor causing the bias in Riemannian Laplace approximation under the Monge metric (see Section~\ref{sec:rla}).
+The Monge metric has the property that it \emph{slows down} geodesics that start from a local mode: the Euclidean distance covered by a geodesic is strictly smaller than the distance covered by a straight line. Observation~\ref{obs:monge} formally states this phenomenon. This contraction is the factor causing the bias in Riemannian Laplace approximation under the Monge metric (see Section~\ref{sec:rla}).
 
 \begin{observation} \label{obs:monge}
 Let $\boldsymbol{x}_0$ be the MAP estimate. Let $\boldsymbol{v}_0 \neq \boldsymbol{0}$ and let 
@@ -214,7 +214,7 @@ This weighted average results in geodesics that have a tradeoff between higher d
 
 
 \paragraph{The inverse metrics}
-We have now introduced the metric Fisher, Monge and generative metrics. Now, we propose using the inverse metric to sample multimodal distributions. In general, any Riemannian tensor that is positive definite and full rank is mathematically valid. In particular, the inverse of the metrics is also positive definite and defines a valid metric tensor. This motivates defining the inverse metric
+We have now introduced the Fisher, Monge and generative metrics. Now, we propose using the inverse metric to sample multimodal distributions. In general, any Riemannian tensor that is positive definite and full rank is mathematically valid. In particular, the inverse of the metrics is also positive definite and defines a valid metric tensor. This motivates defining the inverse metric
 \begin{equation}
 \boxed{
     \mathbf{G}_{\mathrm{inv}}(\boldsymbol{x}) = \mathbf{G}^{-1}(\boldsymbol{x}).
@@ -222,7 +222,7 @@ We have now introduced the metric Fisher, Monge and generative metrics. Now, we 
 \end{equation}
 The determinant is $\det \mathbf{G}_{\mathrm{inv}}(\boldsymbol{x})  = 1/\det \mathbf{G}(\boldsymbol{x})$. The Christoffel symbols are analytic and computable with automatic differentiation for the Monge and generative metrics. 
 
-By Observations~\ref{obs:monge} and~\ref{obs:generative} the Monge and Generative metrics induce geodesics that tend to stay within regions of high density. By using the inverse metric we hope to ``revert"" this property. In regions of low density, both the generative and Monge metrics assign larger Euclidean metric values, so their inverses effectively ``speed up'' motion.
+By Observations~\ref{obs:monge} and~\ref{obs:generative} the Monge and generative metrics induce geodesics that tend to stay within regions of high density. By using the inverse metric we hope to ``revert'' this property. In regions of low density, both the generative and Monge metrics assign larger Euclidean metric values, so their inverses effectively ``speed up'' motion.
 As a result, geodesics can cover larger Euclidean distances over the same amount of geodesic time. This behavior is formalized in Observations~{\ref{obs:invmonge}} and~{\ref{obs:invgen}}. Figure~\ref{fig:metric_visualization} illustrates the properties of the inverse generative and inverse Monge metrics on a bimodal distribution. Although this does not guarantee that a geodesic will move from one mode to another in dimensions $D\geq 2$, we empirically observe in Section~\ref{sec:geodesic_slice} that the geodesics under the inverse Monge metric are capable of traversing between modes of multimodal distributions. 
 
 \begin{observation}[Paper II]
@@ -289,7 +289,7 @@ That is, the Hausdorff density removes the Jacobian volume factor and gets the d
 
 
 \subsection{Numerical computation of geodesics}
-For the Euclidean metric we can easily compute the exponential and logarithmic maps as in Equation.~\ref{eq:Euclidean_exp_log}, but for the other metric choices we solve the geodesic equations numerically.  Let $\boldsymbol{x}(t)$ denote the geodesic trajectory and $\boldsymbol{v}(t)=  \boldsymbol{\dot x}(t)$ velocity respectively, Equation~\ref{eq:geodesic_equations} is rewritten as
+For the Euclidean metric we can easily compute the exponential and logarithmic maps as in Equation~\ref{eq:Euclidean_exp_log}, but for the other metric choices we solve the geodesic equations numerically. Let $\boldsymbol{x}(t)$ denote the geodesic trajectory and $\boldsymbol{v}(t)=\boldsymbol{\dot x}(t)$ its velocity. Equation~\ref{eq:geodesic_equations} is rewritten as
 \begin{align}
       \boldsymbol{ \dot x}(t)  &= \boldsymbol{v}(t), \nonumber \\
     \dot v_k(t) &= - \boldsymbol{v}(t)^\top\Gamma^k(\boldsymbol{x}(t))  \boldsymbol{v}(t), \quad  k = 1, \ldots, D, \label{eq:geoeqs}
@@ -366,7 +366,7 @@ $\begin{aligned}
 \end{table}
 
 \subsection{Target distributions with strong curvature} \label{sec:curved}
-The need for a non-Euclidean metric is most pronounced in regions of the parameter space that are narrow along certain directions but still carry significant probability mass. For evaluation of these methods we hence consider three distributions with strong curvature that are constructed from a diffeomorphism of a standard Gaussian. They are the Funnel, Hybrid Rosenbrock and Squiggle distributions. Here we present a simpler version of the Hybrid Rosenbrock, the $D$-dimensional is given in \citet{Pagani2022}. Table~\ref{tab:curved_distributions} shows the distributions, summarizes the transformations and the corresponding target densities.
+The need for a non-Euclidean metric is most pronounced in regions of the parameter space that are narrow along certain directions but still carry significant probability mass. For evaluation of these methods we hence consider three distributions with strong curvature that are constructed from a diffeomorphism of a standard Gaussian. They are the Funnel, Hybrid Rosenbrock and Squiggle distributions. Here we present a simpler version of the Hybrid Rosenbrock, the $D$-dimensional version is given in \citet{Pagani2022}. Table~\ref{tab:curved_distributions} shows the distributions, summarizes the transformations and the corresponding target densities.
 
 The latent value is distributed  $\boldsymbol{z}\sim \mathcal{N}(\boldsymbol{\mu},\mathbf{\Sigma})$ and $\boldsymbol{x}=\varphi(\boldsymbol{z})$.
 The bijection $\varphi$ allows the generation of samples for benchmarking. The pullback metric follows from the transformation rule of Riemannian tensors,
@@ -390,7 +390,7 @@ We apply the geometric tools we have described above in the construction of Riem
     \label{fig:rla}
 \end{figure}
 
-Let $f$ be a scalar output function defined on the manifold and $c(t)$ a curve on the manifold such that $c(0)= \boldsymbol{x}$. As given in Section~5.9, Equation~(5.26), of \citet{Boumal2023}, the second-order Taylor approximation is
+Let $f$ be a scalar output function defined on the manifold and $c(t)$ a curve on the manifold such that $c(0)= \boldsymbol{x}$. As given in Section~5.9, Equation~5.26, of \citet{Boumal2023}, the second-order Taylor approximation is
 \begin{equation} \label{eq:taylor_mfd}
     \begin{aligned}
     f(c(t)) = f(\boldsymbol{x})
@@ -460,7 +460,7 @@ where $\boldsymbol{x}=\operatorname{Exp}_{\hat{\boldsymbol{x}}}(\boldsymbol{v})$
 
 Paper I proposes two improvements that correct this behavior:
 \begin{itemize}
-    \item Apply a logarithm map before to correct the magnitude of the velocities. Namely, replace Step~3 in Algorithm~\ref{alg:rla} with 
+    \item Apply a logarithm map to correct the magnitude of the velocities. Namely, replace Step~3 in Algorithm~\ref{alg:rla} with 
     \begin{align*}
 	\tilde{\boldsymbol{x}}^{(n)} &\sim \mathcal{N}\!\left(\hat{\boldsymbol{x}}, (-\nabla^2 \ell(\hat{\boldsymbol{x}}))^{-1}\right), \text{ and} \\
 	\boldsymbol{v}^{(n)} &= \operatorname{Log}_{\mathcal{P},\hat{\boldsymbol{x}}}(\tilde{\boldsymbol{x}}^{(n)}),
@@ -469,8 +469,8 @@ Paper I proposes two improvements that correct this behavior:
     \item Use the Fisher information metric in Riemannian Laplace approximation, denoted RLA-F.
 \end{itemize}
 
-Additionally, Paper~I studies practical choices: wether the approximation should be centered at the Euclidean MAP or at the Hausdorff MAP and wether the $\mathbf{\Sigma}=(-\nabla^2\ell(\boldsymbol{\hat{x}}))^{-1}$ or $\mathbf{\Sigma}=\mathbf{G}^{-1}(\boldsymbol{\hat{x}})$.
-Paper~I also provides theoretical advantages for the Fisher metric. It is exact for Gaussian targets, asymptotically for targets that are Gaussian on the limit of infinite data, and it is  exact for targets that are diffeomorphic to a Gaussian. Theorem~\ref{thm:invariant-exact} states the exactness of RLA-F for Gaussian diffeomorphism. 
+Additionally, Paper~I studies practical choices: whether the approximation should be centered at the Euclidean MAP or at the Hausdorff MAP and whether $\mathbf{\Sigma}=(-\nabla^2\ell(\boldsymbol{\hat{x}}))^{-1}$ or $\mathbf{\Sigma}=\mathbf{G}^{-1}(\boldsymbol{\hat{x}})$ should be used.
+Paper~I also provides theoretical advantages for the Fisher metric. It is exact for Gaussian targets, asymptotically for targets that are Gaussian in the limit of infinite data, and it is  exact for targets that are diffeomorphic to a Gaussian. Theorem~\ref{thm:invariant-exact} states the exactness of RLA-F for Gaussian diffeomorphism. 
 
 \begin{theorem}[\textbf{Paper I - Theorem 3}]
     With an invariant prior, e.g. Jeffreys prior, 
@@ -481,7 +481,7 @@ Paper~I also provides theoretical advantages for the Fisher metric. It is exact 
 
 \subsection*{Empirical evaluation}
 The empirical study compares Euclidean Laplace approximation (ELA), the Monge-based approximation (RLA-B), the logarithm-map corrected Monge variant (RLA-BLog), and the Fisher variant (RLA-F).
-Here we include two of the experiments from Paper~I, the objective of the first experiment is to visually illustrate each of the methods and the effect of the Hausdorff MAP. The second experiment shows that even though RLA-F is more expensive than Monge due to the cubic complexity, it can be more efficient in the number of steps needed by an adaptive numerical integrator which makes the RLA-F the recommended choice for problems where the Fisher is computable and with tens to low hundred of dimensions. Since all Riemannian variants require solving geodesic equations numerically, in all experiments we use the same Dopri5 adaptive integrator \citep{kidger2022neural}.
+Here we include two of the experiments from Paper~I, the objective of the first experiment is to visually illustrate each of the methods and the effect of the Hausdorff MAP. The second experiment shows that even though RLA-F is more expensive than Monge due to the cubic complexity, it can be more efficient in the number of steps needed by an adaptive numerical integrator which makes the RLA-F the recommended choice for problems where the Fisher is computable and with tens to low hundreds of dimensions. Since all Riemannian variants require solving geodesic equations numerically, in all experiments we use the same Dopri5 adaptive integrator \citep{kidger2022neural}.
 
 \paragraph{Visual illustration of Riemannian Laplace}
 The first experiment is a visual comparison on the Banana distribution. Figure~\ref{fig:banana} shows the approximations obtained from both the Euclidean target density (first column) and the corresponding Hausdorff density (second column).
@@ -510,7 +510,7 @@ The takeaway message is that Euclidean Laplace approximation does not capture th
 
 
 \paragraph{Efficiency of the approximation}
-The second experiment considers Bayesian logistic regression on several benchmark data sets, both with standardized inputs and with raw inputs. The Fisher metric includes the Hessian of the prior as in Equation~\ref{eq:fisher_w_prior}. Table~\ref{tbl:lr} reports the Wasserstein distance to reference samples obtained with NUTS and the number of average number of log-density evaluations per sample.  The main takeaway is that 
+The second experiment considers Bayesian logistic regression on several benchmark data sets, both with standardized inputs and with raw inputs. The Fisher metric includes the Hessian of the prior as in Equation~\ref{eq:fisher_w_prior}. Table~\ref{tbl:lr} reports the Wasserstein distance to reference samples obtained with NUTS and the average number of log-density evaluations per sample.  The main takeaway is that 
 RLA-F is more efficient in integration steps (geodesics are easier to integrate) and is more accurate than the Euclidean and Monge metric variants. 
 \begin{table*}
 	\centering
@@ -565,8 +565,7 @@ Similar to Riemannian Laplace, the main modeling decision is the choice of Riema
 
 For multimodal targets, the inverse Monge and inverse generative metrics play a different role: they increase Euclidean speed in low-density regions and might be able to bridge between different modes, as discussed in Observations~\ref{obs:invmonge} and~\ref{obs:invgen}. In this sense, the same sampler can be adapted either to local geometry or to global mode exploration by changing only the metric tensor (as shown in Figure~\ref{fig:metric_visualization}). 
 The Monge and generative metrics depend on hyperparameters. 
-A limitation of our method, is that there is no default value for these metric-parameters, some problems might allow for computation of a validation statistic for selection but no general value is
-optimal.
+A limitation of our method is that there is no default value for these metric-parameters, some problems might allow for computation of a validation statistic for selection but no general value is optimal.
 
 
 \paragraph{Meta-sampler} Paper II also considers a simple meta-sampler that alternates between geodesic slice sampling moves and local MCMC updates (e.g. MALA). The purpose of this combination is to use MAGSS with the inverse metrics for global transitions and the local Markov chain for exploration within each mode. This is particularly useful when the target is both multimodal and locally has high curvature. This is denoted by Meta-MAGSS. 
@@ -625,7 +624,7 @@ The first experiment shows MAGSS performance on curved target distributions. The
 
 
 \paragraph{Curved target distributions}
-We consider the  Funnel, Rosenbrock and Squiggle target distributions with strong curvature from Section~\ref{sec:curved}. Figure~\ref{fig:toydistdims} shows the empirical 1-Wasserstein distance to reference samples from the distributions for dimensions $2,4,..2^8$. The Fisher metric produces the highest quality samples, but becomes computationally too expensive as can be seen by the cut-off in the lines, the Monge metric produces good results on Rosenbrock and Squiggle distributions. DiGS, PT and NUTS struggle exploring the curved regions of the space and are less accurate, note that DiGS use the local MCMC  Metropolis-adjusted Langevin algorithm (MALA), a Riemannian version could be use instead to enhance exploration of the curved regions as an improvement to the method. The values of the hyperparameters of the Monge and generative metrics are $\alpha^2, \lambda=1$. 
+We consider the  Funnel, Rosenbrock and Squiggle target distributions with strong curvature from Section~\ref{sec:curved}. Figure~\ref{fig:toydistdims} shows the empirical 1-Wasserstein distance to reference samples from the distributions for dimensions $2,4,..2^8$. The Fisher metric produces the highest quality samples, but becomes computationally too expensive as can be seen by the cut-off in the lines, the Monge metric produces good results on Rosenbrock and Squiggle distributions. DiGS, PT and NUTS struggle exploring the curved regions of the space and are less accurate, note that DiGS uses the local MCMC  Metropolis-adjusted Langevin algorithm (MALA), a Riemannian version could be used instead to enhance exploration of the curved regions as an improvement to the method. The values of the hyperparameters of the Monge and generative metrics are $\alpha^2, \lambda=1$. 
 We use the step-size value $w = 3$ and max iterations $m = 8$ in MAGSS.
 DiGS uses a single noise scale of $1$ and NUTS and MALA (inside DiGS) use a stepsize of $0.1$. 
 
@@ -653,9 +652,9 @@ DiGS uses a single noise scale of $1$ and NUTS and MALA (inside DiGS) use a step
 \end{figure}
 
 \paragraph{Highly multimodal target}
-We consider the Allen-Cahn field system which has $2^D$ modes with $D=16$. This model has two global modes at $\boldsymbol{x} = \pm\boldsymbol{1}$, and multiple local modes at values $\boldsymbol{x} = (\pm 1,.., \pm 1)$. Table~\ref{tab:phifour} shows the results of the different sampling method. 
+We consider the Allen-Cahn field system which has $2^D$ modes with $D=16$. This model has two global modes at $\boldsymbol{x} = \pm\boldsymbol{1}$, and multiple local modes at values $\boldsymbol{x} = (\pm 1,.., \pm 1)$. Table~\ref{tab:phifour} shows the results of the different sampling methods. 
 Since there is no access to reference samples, we compute the Kernel Stein Discrepancy, but it is not trustworthy since it does not account for multimodality, the table also reports the percentage of samples such that $x_8\geq 0$ to see if the method was stuck on a single mode and the running time in seconds. MAGSS and DiGS are one order of magnitude slower than PT since they both rely on numerical integration.
-Figure~\ref{fig:fieldsystem} shows that MAGSS explores the global and local modes, jumping the most frequently in between, while PT explores only the global modes and DiGS collapses to a single mode. A log-10 grid of  parameters $\alpha^2, \lambda$ were tried, selecting the value based on the jump percentage. The inner sampler MALA stepsize was tuned to obtain an acceptance rate of approximately $60\%$. DiGS used $1000$ interpolation levels, ranging from $10^{-5}$ to $1-10^{-5}$. 
+Figure~\ref{fig:fieldsystem} shows that MAGSS explores the global and local modes, jumping the most frequently in between, while PT explores only the global modes and DiGS collapses to a single mode. A log-10 grid of parameters $\alpha^2, \lambda$ was tried, selecting the value based on the jump percentage. The inner sampler MALA stepsize was tuned to obtain an acceptance rate of approximately $60\%$. DiGS used $1000$ interpolation levels, ranging from $10^{-5}$ to $1-10^{-5}$. 
 PT used $200$ temperatures on a geometric scale, with the smallest inverse temperature set to $10^{-5}$.
 
 \begin{table}[t]
@@ -698,8 +697,8 @@ Meta-MAGSS  & $2.98\pm0.7$ & $0.33$ & 32 \\
 
 
 \paragraph{Sensitivity to the numerical integrator}
-Here we study the effect of the choice numerical integrator on a two dimensional 40-mode Gaussian  multimodal target for different values of $\alpha^2$ and $\lambda$ on a log-10 scale. We test integrators that are adaptive or fixed step-size and integrators with different order accurate solutions (see Figure~\ref{fig:gmm40}). 
-The general trend as the inverse Monge and inverse generative diverge from the Euclidean ($\alpha^2$ grows, $\lambda$ reduces) the system is more stiff and takes longer to numerical integrate. For the inverse Monge metric higher order and adaptive integrators work better, in practice we used Dopri5 in the other experiments because it has a good balance between the two. 
+Here we study the effect of the choice of numerical integrator on a two dimensional 40-mode Gaussian  multimodal target for different values of $\alpha^2$ and $\lambda$ on a log-10 scale. We test integrators that are adaptive or fixed step-size and integrators with different order accurate solutions (see Figure~\ref{fig:gmm40}). 
+The general trend is that as the inverse Monge and inverse generative metrics diverge from the Euclidean metric ($\alpha^2$ grows, $\lambda$ decreases), the system becomes stiffer and takes longer to integrate numerically. For the inverse Monge metric higher order and adaptive integrators work better, in practice we used Dopri5 in the other experiments because it has a good balance between the two. 
 \begin{figure}[t]
     \centering
     \begin{minipage}{0.45\linewidth}
